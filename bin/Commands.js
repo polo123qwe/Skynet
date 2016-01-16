@@ -1,7 +1,4 @@
-//STORE ALL THE COMMANDS
-var Action = require("./Action");
-
-var commands = [];
+var commands = new Map();
 
 module.exports = Commands;
 
@@ -12,29 +9,24 @@ function Commands() {
 Commands.prototype = {
 	constructor: Commands,
 	
-	//Add a command to the array of commands
+	//Add a command to the array of commands <String str, function()>
 	add: function(str, argument){
 		
-		if(this.find(str)==null){
-			var action = new Action(str, argument);
-			commands.push(action);
+		if(!commands.has(str)){
+			commands.set(str, argument);
 			return true;
-		}
-		return false;		
+		} else return false;
 	},
 	
-	//Find a command in the array
-	find: function(str){
-	
-		for(var i = 0; i < commands.length; i++){
-			if(commands[i].name == str) return commands[i];
-		}
-		return null;
+	//Find a command in the array <String str>
+	get: function(str){
+		if(commands.has(str))
+			return commands.get(str);
+		else return null;
 	},
 	
-	amount: function(){
-		return commands.length;
-	},
-	
+	getKeys: function(){
+		return commands.keys();
+	}
 }
 
