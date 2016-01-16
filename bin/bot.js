@@ -1,5 +1,4 @@
 var Discord = require('discord.js');
-var Action = require("./Action");
 var Commands = require('./Commands.js');
 
 var mybot = new Discord.Client();
