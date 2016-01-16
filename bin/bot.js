@@ -10,6 +10,7 @@ setup();
 function setup(){
 	
 	console.log('Setting up');
+	//ADD A COMMAND HERE
 	cmds.add("help",help);
 	cmds.add("ping",ping);
 	console.log('All set up');
@@ -17,14 +18,6 @@ function setup(){
 }
 mybot.on("message", function(message){
 
-    /*if(message.content === "ping")
-       mybot.reply(message, "pong");
-	
-    if(message.content === "test"){
-		// var a = cmds.find("test");
-		//mybot.reply(message, a);
-	}*/
-	
 	var splitted = message.content.split(" ");
 	
 	var command = splitted[0];
@@ -39,7 +32,7 @@ mybot.on("message", function(message){
 mybot.login("bernausergi@gmail.com", "123qwe");
 
 //FUNCTIONS OF THE COMMANDS//
-
+//ADD THE FUNCTION OF THE COMMAND HERE
 //ping
 function ping(){
 	return "pong";
