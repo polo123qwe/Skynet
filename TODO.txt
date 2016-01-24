@@ -1,0 +1,3 @@
+- Save members to file
+- Add commands to give ranks to members
+- Assign roles to members

@@ -1,21 +1,27 @@
 var Discord = require('discord.js');
 var Commands = require('./Commands.js');
+var Ranks = require('./Ranks.js');
+var Members = require('./Member.js');
+var data = require('./data.js');
+
+var data = new data();
 
 var mybot = new Discord.Client();
 
-var cmds = new Commands();
+var cmds = data.cStartup();
 
-setup();
+var ranks = data.rStartup();
 
-function setup(){
+var membs = new Members();
+
+var defaultCommands = data.getDefaultCommands();
+
+mybot.on("ready", function(){
+	membs.addMember("131905565466034176", ["Admin"]);
+	membs.addMember("112947635555463168", ["Admin"]);
 	
-	console.log('Setting up');
-	//ADD A COMMAND HERE
-	cmds.add("help",help);
-	cmds.add("ping",ping);
-	console.log('All set up');
-	
-}
+});
+
 mybot.on("message", function(message){
 
 	var splitted = message.content.split(" ");
@@ -25,36 +31,21 @@ mybot.on("message", function(message){
 	var func = cmds.get(command);
 	
 	if(func != null){
-		mybot.sendMessage(message.channel, func(splitted));
+		var r = membs.getRank(message.author.id);
+		if(r != null){
+			for(var i = 0; i < r.length; i++){
+				if(ranks.canDo(r[i], command)){
+					mybot.sendMessage(message.channel, func(message, splitted));
+					break;
+				}
+			}
+		}
 	}	
+});
+
+mybot.on("serverNewMember", function(server, user){
+	membs.addMember(user.id, defaultCommands);
 });
 
 mybot.login("bernausergi@gmail.com", "123qwe");
 
-//FUNCTIONS OF THE COMMANDS//
-//ADD THE FUNCTION OF THE COMMAND HERE
-//ping
-function ping(){
-	return "pong";
-}
-//help
-function help(){
-	
-	var iterator = cmds.getKeys();
-	var result = "Commands Available:\n";
-	
-	var col = iterator.next();	
-	while(!col.done){
-		result = result + "> " + col.value + "\n";
-		col = iterator.next();
-	}
-	
-	return result;
-}
-//
-
-
-
-
-
-/////////////////////////////

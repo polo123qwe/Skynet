@@ -1,5 +1,5 @@
 var commands = new Map();
-
+//THIS MAP CONTAINS A STRING AS KEY AND A FUNCTION AS VALUE
 module.exports = Commands;
 
 function Commands() {
@@ -9,7 +9,7 @@ function Commands() {
 Commands.prototype = {
 	constructor: Commands,
 	
-	//Add a command to the array of commands <String str, function()>
+	//Add a command to the set of commands <String str, function()>
 	add: function(str, argument){
 		
 		if(!commands.has(str)){
@@ -20,8 +20,9 @@ Commands.prototype = {
 	
 	//Find a command in the array <String str>
 	get: function(str){
-		if(commands.has(str))
-			return commands.get(str);
+		var c = commands.get(str);
+		if(c != null)
+			return c;
 		else return null;
 	},
 	
