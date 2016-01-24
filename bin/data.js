@@ -2,40 +2,44 @@ var Commands = require('./Commands.js');
 var Ranks = require('./Ranks.js');
 
 var cmds = new Commands();
-
 var ranks = new Ranks();
 
 module.exports = data;
 
 function data(){
-	
+
 }
 
 data.prototype = {
 	constructor: data,
 	
 	//RANKS
-	rStartup: function(){
+	rankStartup: function(){
 		var def = this.getDefaultCommands()
+
 		ranks.addRank("Default", def);
 		def.push("bestCommand!");
+
 		ranks.addRank("TestSubject", def);
 		def.push("assignRank!");
+
 		ranks.addRank("Admin", def);
 		return ranks;
 	},
 
 	//COMMANDS
-	cStartup: function(){
-		console.log('Setting up');
+	cmdStartup: function(){
+		console.log('Initializing <Skynet>');
 		//ADD A COMMAND HERE
-		cmds.add("help!",this.help);
-		cmds.add("!",this.help);
-		cmds.add("ping!",this.ping);
-		cmds.add("id!",this.id);
-		cmds.add("bestCommand!",this.bestCommand);
-		cmds.add("assignRank!",this.assignRank);
-		console.log('All set up');	
+
+		cmds.add("help!", this.help);
+		cmds.add("ping!", this.ping);
+		cmds.add("getMyID!", this.getMyID);
+		cmds.add("bestCommand!", this.bestCommand);
+		cmds.add("assignRank!", this.assignRank);
+
+		console.log('Ready to operate.');
+
 		return cmds;
 	},
 	
@@ -64,8 +68,8 @@ data.prototype = {
 		return result;
 	},
 	//id
-	id: function(message){
-		return message.author.mention()+", your id is: "+message.author.id;
+	getMyID: function(message){
+		return message.author.mention()+", your ID is: "+message.author.id;
 	},
 	//bestCommand
 	bestCommand: function(){
@@ -76,10 +80,4 @@ data.prototype = {
 		if(argument[1]
 		return argument.toString();
 	}*/
-	
-
-
-
-
-	/////////////////////////////
 }
