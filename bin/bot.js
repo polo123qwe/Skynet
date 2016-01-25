@@ -5,13 +5,13 @@ var readline = require('readline');
 
 var data = new data();
 var mybot = new Discord.Client();
+var botID = "133331859387056128"
 var cmds;
 
 login();
 
 // On Ready
 mybot.on("ready", function(){
-	//.get("id","132490115137142784")
 	var server = mybot.servers.get("id", "132490115137142784");
 	cmds = data.cmdStartup(server.roles);
 	console.log('<Skynet> ready to operate!');
@@ -29,19 +29,12 @@ mybot.on("message", function(message){
 					+message.channel.server.name+", #"+message.channel.name+"]")
 
 		var result = func(message, splitted, mybot);
-		// the or operator handles errors
+
 		if(result != null){
 			mybot.sendMessage(message.channel, result);
+			/*|| "CMD ["+message.content+"] by ["+message.author.mention()+", "+message.channel.server.name+", <#"+message.channel.id+">] denied.")*/
 		}
-		
-		//If they can't use the command don't spam the chat with this message, just ignore it
-		/*||
-			"CMD ["+message.content+"] by ["+message.author.mention()+", "
-			+message.channel.server.name+", <#"+message.channel.id+">] denied.")*/
-		//TO BE REMOVED ^
-
 	}
-	
 });
 
 function login(){
@@ -56,5 +49,3 @@ function login(){
 		});
 	});
 }
-
-
