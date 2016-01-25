@@ -1,4 +1,5 @@
-var ranks = new Map();
+//TO BE REMOVED
+/*var ranks = new Map();
 //THIS MAP CONTAINS A STRING AS KEY AND A STRING ARRAY AS VALUE
 module.exports = Ranks;
 
@@ -68,4 +69,4 @@ Ranks.prototype = {
 			return r;
 		else return null;
 	},
-}
+}*/

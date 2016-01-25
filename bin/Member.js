@@ -1,4 +1,6 @@
 var members = new Map();
+//TO BE REMOVED
+/*
 //THIS MAP CONTAINS A STRING AS KEY AND A STRING ARRAY AS VALUE
 module.exports = Members;
 
@@ -9,7 +11,7 @@ function Members() {
 Members.prototype = {
 	constructor: Members,
 	
-	//Add a member to the map <userID userID, String[] rs>
+	//Add a member to the map <UserID userID, String[] rs>
 	addMember: function(userID, rs){
 		if(rs==null) rs = [];
 		if(!members.has(userID)){
@@ -48,4 +50,4 @@ Members.prototype = {
 			return m;
 		else return null;
 	},
-}
+}*/

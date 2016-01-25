@@ -1,5 +1,6 @@
 var commands = new Map();
-//THIS MAP CONTAINS A STRING AS KEY AND A FUNCTION AS VALUE
+//This is a Map<String, function()> where String is the name of the command and function is 
+//the function that runs when said command is executed 
 module.exports = Commands;
 
 function Commands() {
