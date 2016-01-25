@@ -63,8 +63,9 @@ mybot.on("message", function(message){
 // // }*/
 
 function login(){
+	console.log('Initializing <Skynet>');
 	var rl = readline.createInterface(process.stdin, process.stdout);
-	rl.setPrompt('Type password: ');
+	rl.setPrompt('Enter password: ');
 	rl.prompt();
 	rl.on('line', function(line) {
 		mybot.login("bernausergi@gmail.com", line, function(error){

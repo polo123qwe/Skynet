@@ -15,7 +15,6 @@ data.prototype = {
 
 	//COMMANDS
 	cmdStartup: function(allRoles){
-		console.log('Initializing <Skynet>');
 		//ADD A COMMAND HERE
 
 		cmds.add("help!", this.help);
@@ -72,7 +71,7 @@ data.prototype = {
 		return "<#"+id+">'s ID is: `"+id+"`";
 	},
 
-	//adminOnlyCommand //usage: ???
+	//adminOnlyCommand //usage: adminOnly!
 	adminOnly: function(message, splitted){
 		var allRoles = message.channel.server.roles;
 		for(var i = 0; i < roles.length; i++){
@@ -90,26 +89,21 @@ data.prototype = {
 		for(var i = 0; i < roles.length; i++){
 			if(roles[i].name == "Operator" || "Moderator"){
 				//gets positions of the warned person's ID
-				
-				//v1
-				/*var startName = message.content.search("<@")
-				var endName = message.content.search(">")
-				var warnedID = message.content.substring(startName + 2, endName - 1)
-				console.log("<@"+message.author.name+"> warned somebody in ["+message.channel.server.name+", "+message.channel.name+"]")
+				var warnedID = splitted[1];
+				warnedID = warnedID.replace(/<|@|>/ig,"");
 
 				// make reason
-				var reason = ""
-				for(var k = 2; k < splitted.length; k++){
-					reason = reason + " " + splitted[k]
-				}*/
-				
-				//v2 by Sergi
+				// var reason = ""
+				// for(var k = 2; k < splitted.length; k++){
+				// 	reason = reason + " " + splitted[k]
+				// }
+				// This doesn't work m8
 				var warnedID = splitted[1];
-				warnedID = person.replace(/<|@|>/ig,"");
-				var reason = splitted.slice();
-				reason = reason.splice(2, reason.length);
-				reason = reason.toString().replaceAll(",", " ");
-				
+                warnedID = warnedID.replace(/|@|/ig,"");
+                var reason = splitted.slice();
+                reason = reason.splice(2, reason.length);
+                reason = reason.toString().replaceAll(",", " ");
+
 				client.addMemberToRole(warnedID, warnRole)
 				//Don't send a message if the function returns something to be sent, 
 				//it doesn't make any sense
