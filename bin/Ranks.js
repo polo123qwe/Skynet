@@ -20,16 +20,19 @@ Ranks.prototype = {
 	
 	//
 	canDo: function(rank, command){
-		
-		var r = ranks.get(rank);
-		if(r != null){
-			for(var i = 0; i < r.length; i++) {
-				if(r[i] == command) {
-					return true;
-				}
-			}
-		}
-		return false;
+		// yeah this needs to be worked over
+
+		// var r = ranks.get(rank);
+		// if(r != null){
+		// 	for(var i = 0; i < r.length; i++) {
+		// 		if(r[i] == command) {
+		// 			return true;
+		// 		}
+		// 	}
+		// }
+		// return false;
+
+		return true;
 	},
 	
 	//Add a command to the rank <String rank, String command>
