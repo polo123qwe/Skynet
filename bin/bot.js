@@ -30,8 +30,8 @@ mybot.on("message", function(message){
 
 		var result = func(message, splitted, mybot);
 		// the or operator handles errors
-		if(result!= null){
-		mybot.sendMessage(message.channel, result);
+		if(result != null){
+			mybot.sendMessage(message.channel, result);
 		}
 		
 		//If they can't use the command don't spam the chat with this message, just ignore it
@@ -43,24 +43,6 @@ mybot.on("message", function(message){
 	}
 	
 });
-
-/* We need another system for this
-// mybot.on("serverNewMember", function(server, user){
-// 	members.addMember(user.id, defaultCommands);
-// });
-
-// Ugly block of code. Ignore
-// prompt.start();
-
-// prompt.get(['password'], function (err, result) {
-// 	if (err) { return onErr(err); }
-// 	password = result.password;
-// });
-
-// // function onErr(err) {
-// // 	console.log(err);
-// // 	return 1;
-// // }*/
 
 function login(){
 	console.log('Initializing <Skynet>');

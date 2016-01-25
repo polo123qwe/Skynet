@@ -89,8 +89,8 @@ data.prototype = {
 		for(var i = 0; i < roles.length; i++){
 			if(roles[i].name == "Operator" || "Moderator"){
 				//gets positions of the warned person's ID
-				var warnedID = splitted[1];
-				warnedID = warnedID.replace(/<|@|>/ig,"");
+				// var warnedID = splitted[1];
+				// warnedID = warnedID.replace(/<|@|>/ig,"");
 
 				// make reason
 				// var reason = ""
@@ -98,11 +98,12 @@ data.prototype = {
 				// 	reason = reason + " " + splitted[k]
 				// }
 				// This doesn't work m8
+				if(splitted[1] == null || splitted[2] == null) return "Incorrect/not enough parameters, type warn! @name reason"; 
 				var warnedID = splitted[1];
                 warnedID = warnedID.replace(/|@|/ig,"");
                 var reason = splitted.slice();
                 reason = reason.splice(2, reason.length);
-                reason = reason.toString().replaceAll(",", " ");
+				reason = reason.toString().split(",").join(" ");
 
 				client.addMemberToRole(warnedID, warnRole)
 				//Don't send a message if the function returns something to be sent, 
