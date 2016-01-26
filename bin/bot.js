@@ -10,6 +10,8 @@ var cmds;
 
 login();
 
+		var date = new Date(Date.now());
+		console.log(date.toUTCString());	
 // On Ready
 mybot.on("ready", function(){
 	var server = mybot.servers.get("id", "132490115137142784");
