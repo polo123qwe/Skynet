@@ -22,8 +22,10 @@ data.prototype = {
 		cmds.add("ping!", this.ping);
 		cmds.add("getMyID!", this.getMyID);
 		cmds.add("getChannelID!", this.getChannelID);
-		cmds.add("warn!", this.warn)
-		cmds.add("report!", this.report)
+		cmds.add("warn!", this.warn);
+		cmds.add("report!", this.report);
+		cmds.add("urban!", this.define);
+		cmds.add("time!", this.time);
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -112,15 +114,66 @@ data.prototype = {
 		}
 
 		//ID
-		var reporterID = message.author.id
-		var reportedID = splitted[1].replace(/<|@|>/ig,"")
+		var reporterID = message.author.id;
+		var reportedID = splitted[1].replace(/<|@|>/ig,"");
 
 		//reason
 		var reason = splitted.slice();
 		reason = reason.splice(2, reason.length);
 		reason = reason.toString().split(",").join(" ");
 
-		client.sendMessage("139913811451838464", "<@"+reporterID+"> reported <@"+reportedID+"> on: `"+reason+"` ["+message.channel.server.name+", "+message.channel.name+"]")
+		client.sendMessage("139913811451838464", "<@"+reporterID
+		+"> reported <@"+reportedID+"> on: `"+reason
+		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
 		return "Your report has been taken into account!"
-	}
+	},
+	
+	//urban //usage: urban! something
+	urban: function(message, splitted){
+		
+		var result = splitted.slice();
+		result = result.splice(1, result.length);
+		result = result.toString().split(",").join("+");
+		
+		return "http://www.urbandictionary.com/define.php?term="+result;
+		
+	},
+	
+	//time //usage: time! timezone
+	time: function(message, splitted){
+	
+		var date = new Date(Date.now());
+		
+		var time = splitted[1];
+		var utc;
+		
+		if(time != null){
+			utc = time.substring(0,4).toUpperCase();
+			
+			if(utc != "UTC+" && utc != "UTC-" && utc != "UTC") return "Incorrect use, eg `time! utc+1`";
+			var offset = parseInt(time.substring(4,6));
+			
+			if(utc.charAt(3) == "+")
+				date = new Date(date.getTime()+(offset*3600000));
+			else date = new Date(date.getTime()-(offset*3600000));
+			
+		} else time = "UTC";
+		
+		var h = date.getUTCHours();
+		h = (h < 10 ? "0" : "") + h;
+		var m  = date.getUTCMinutes();
+		m = (m < 10 ? "0" : "") + m;
+		var s  = date.getUTCSeconds();
+		s = (s < 10 ? "0" : "") + s;
+		var Y = date.getUTCFullYear();
+		var M = date.getUTCMonth() + 1;
+		M = (M < 10 ? "0" : "") + M;
+		var D  = date.getUTCDate();
+		D = (D < 10 ? "0" : "") + D;
+		
+		return time.toUpperCase()+" standard time: "+M+"/"+D+"/"+Y+" "+h+":"+m+":"+s;
+	},
+	
+	//
+	
 }
