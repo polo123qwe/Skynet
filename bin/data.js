@@ -24,7 +24,7 @@ data.prototype = {
 		cmds.add("getChannelID!", this.getChannelID);
 		cmds.add("warn!", this.warn);
 		cmds.add("report!", this.report);
-		cmds.add("urban!", this.define);
+		cmds.add("urban!", this.urban);
 		cmds.add("time!", this.time);
 
 		for (var i = 0; i < allRoles.length; i++){
@@ -132,6 +132,9 @@ data.prototype = {
 	urban: function(message, splitted){
 		
 		var result = splitted.slice();
+		
+		if (result == null) return "Incorrect use, eg `urban! word`";
+		
 		result = result.splice(1, result.length);
 		result = result.toString().split(",").join("+");
 		

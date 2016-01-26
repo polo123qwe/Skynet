@@ -10,15 +10,12 @@ var cmds;
 
 login();
 
-		var date = new Date(Date.now());
-		console.log(date.toUTCString());	
 // On Ready
 mybot.on("ready", function(){
 	var server = mybot.servers.get("id", "132490115137142784");
 	cmds = data.cmdStartup(server.roles);
 	console.log('<Skynet> ready to operate!');
 	// mybot.sendMessage("132490115137142784", "<@"+botID+"> is ready to operate.")
-
 });
 
 // On Message
