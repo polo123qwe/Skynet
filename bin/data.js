@@ -23,6 +23,7 @@ data.prototype = {
 		cmds.add("getMyID!", this.getMyID);
 		cmds.add("getChannelID!", this.getChannelID);
 		cmds.add("warn!", this.warn)
+		cmds.add("report!", this.report)
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -102,4 +103,24 @@ data.prototype = {
 		}
 		return null;
 	},
+
+	//report //usage: report! @user reason
+	report: function(message, splitted, client){
+		//error handling
+		if(splitted[1] == null || splitted[2] == null){
+			return "Incorrect/Faulty Parameters, `usage: report! @name reason`";
+		}
+
+		//ID
+		var reporterID = message.author.id
+		var reportedID = splitted[1].replace(/<|@|>/ig,"")
+
+		//reason
+		var reason = splitted.slice();
+		reason = reason.splice(2, reason.length);
+		reason = reason.toString().split(",").join(" ");
+
+		client.sendMessage("139913811451838464", "<@"+reporterID+"> reported <@"+reportedID+"> on: `"+reason+"` ["+message.channel.server.name+", "+message.channel.name+"]")
+		return "Your report has been taken into account!"
+	}
 }
