@@ -1,3 +1,4 @@
+var print = console.log
 var Discord = require('discord.js');
 var Commands = require('./Commands.js');
 var data = require('./data.js');
@@ -22,17 +23,32 @@ mybot.on("ready", function(){
 mybot.on("message", function(message){
 	var splitted = message.content.split(" ");
 	var command = splitted[0];
-	var func = cmds.get(command);
+	var func
+	var result
 
-	if(func != null){
-		console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "
-					+message.channel.server.name+", #"+message.channel.name+"]")
+	// ugly thing
+	var roles = message.channel.server.rolesOfUser(message.author);
 
-		var result = func(message, splitted, mybot);
+	// this doesn't work..
+	for(var i = 0; i < roles.length; i++){
+		if(roles[i].name == "Warning"){
+			command = "asdfadf";
+		}
+	}
 
-		if(result != null){
+	if(command.substr(-1, 1) == "!"){
+		func = cmds.get(command);
+
+		if(func != null){
+			console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")
+			result = func(message, splitted, mybot);
+		}
+
+		if(result == null){
+			mybot.sendMessage(message.channel, "Command `["+message.content+"]` by ["+message.author.mention()+", *"+message.channel.server.name+"*, <#"+message.channel.id+">] is an invalid command, has invalid/incomplete parameters and/or has been denied.")
+			return
+		}else{
 			mybot.sendMessage(message.channel, result);
-			/*|| "CMD ["+message.content+"] by ["+message.author.mention()+", "+message.channel.server.name+", <#"+message.channel.id+">] denied.")*/
 		}
 	}
 });

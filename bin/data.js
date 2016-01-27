@@ -18,13 +18,13 @@ data.prototype = {
 		//ADD A COMMAND HERE
 
 		cmds.add("help!", this.help);
-		cmds.add("about!", this.about);
 		cmds.add("ping!", this.ping);
 		cmds.add("getMyID!", this.getMyID);
 		cmds.add("getChannelID!", this.getChannelID);
 		cmds.add("warn!", this.warn);
 		cmds.add("report!", this.report);
 		cmds.add("urban!", this.urban);
+		cmds.add("malProfile!", this.malProfile)
 		cmds.add("time!", this.time);
 
 		for (var i = 0; i < allRoles.length; i++){
@@ -51,6 +51,7 @@ data.prototype = {
 	//help //usage: help!
 	help: function(){
 		
+
 		var iterator = cmds.getKeys();
 		var result = "Commands Available:\n";
 		
@@ -61,12 +62,6 @@ data.prototype = {
 		}
 		
 		return result;
-	},
-
-	//about //usage: about!
-	about: function(){
-		var string =    "<@"+botID+"> was developed by: ***polo123qwe*** and ***Soso***"+
-						""
 	},
 
 	//id //usage: getMyID!
@@ -87,7 +82,7 @@ data.prototype = {
 		for(var i = 0; i < roles.length; i++){
 			if(roles[i].name == "Operator" || "Moderator"){
 				if(splitted[1] == null || splitted[2] == null){
-					return "Incorrect/Faulty Parameters, `usage: warn! @name reason`";
+					return null;
 				}
 
 				var warnedID = splitted[1];
@@ -110,7 +105,7 @@ data.prototype = {
 	report: function(message, splitted, client){
 		//error handling
 		if(splitted[1] == null || splitted[2] == null){
-			return "Incorrect/Faulty Parameters, `usage: report! @name reason`";
+			return null;
 		}
 
 		//ID
@@ -133,15 +128,23 @@ data.prototype = {
 		
 		var result = splitted.slice();
 		
-		if (result == null) return "Incorrect use, eg `urban! word`";
+		if (result == null) return null;
 		
 		result = result.splice(1, result.length);
 		result = result.toString().split(",").join("+");
 		
 		return "http://www.urbandictionary.com/define.php?term="+result;
-		
 	},
 	
+	//mapProfile //usage: malProfile! name
+	malProfile: function(message, splitted){
+		if(splitted[1] != undefined){
+			return "http://www.myanimelist.net/profile/"+splitted[1]
+		}else{
+			return
+		}
+	},
+
 	//time //usage: time! timezone
 	time: function(message, splitted){
 	
@@ -153,7 +156,7 @@ data.prototype = {
 		if(time != null){
 			utc = time.substring(0,4).toUpperCase();
 			
-			if(utc != "UTC+" && utc != "UTC-" && utc != "UTC") return "Incorrect use, eg `time! utc+1`";
+			if(utc != "UTC+" && utc != "UTC-" && utc != "UTC") return null;
 			var offset = parseInt(time.substring(4,6));
 			
 			if(utc.charAt(3) == "+")
@@ -174,9 +177,6 @@ data.prototype = {
 		var D  = date.getUTCDate();
 		D = (D < 10 ? "0" : "") + D;
 		
-		return time.toUpperCase()+" standard time: "+M+"/"+D+"/"+Y+" "+h+":"+m+":"+s;
+		return "**"+time.toUpperCase()+"** Standard Time: `"+M+"/"+D+"/"+Y+" "+h+":"+m+":"+s+"`";
 	},
-	
-	//
-	
 }
