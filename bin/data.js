@@ -1,8 +1,7 @@
 var Commands = require('./Commands.js');
-
 var cmds = new Commands();
-
 var warnRole, mutedRole;
+var eventMessage = ""
 
 module.exports = data;
 
@@ -26,6 +25,9 @@ data.prototype = {
 		cmds.add("urban!", this.urban);
 		cmds.add("malProfile!", this.malProfile)
 		cmds.add("time!", this.time);
+		cmds.add("editEvent!", this.editEvent)
+		cmds.add("printEvent!", this.printEvent)
+		cmds.add("bestRating!", this.bestRating)
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -155,15 +157,15 @@ data.prototype = {
 		
 		if(time != null){
 			utc = time.substring(0,4).toUpperCase();
-			
-			if(utc != "UTC+" && utc != "UTC-" && utc != "UTC") return null;
+
+			if(utc != "GMT+" && utc != "GMT-" && utc != "GMT") return null;
 			var offset = parseInt(time.substring(4,6));
 			
 			if(utc.charAt(3) == "+")
 				date = new Date(date.getTime()+(offset*3600000));
 			else date = new Date(date.getTime()-(offset*3600000));
 			
-		} else time = "UTC";
+		} else time = "GMT";
 		
 		var h = date.getUTCHours();
 		h = (h < 10 ? "0" : "") + h;
@@ -177,6 +179,37 @@ data.prototype = {
 		var D  = date.getUTCDate();
 		D = (D < 10 ? "0" : "") + D;
 		
-		return "**"+time.toUpperCase()+"** Standard Time: `"+M+"/"+D+"/"+Y+" "+h+":"+m+":"+s+"`";
+		return "**"+time.toUpperCase()+"** Standard Time: `"+D+"/"+M+"/"+Y+" "+h+":"+m+":"+s+"`";
+	},
+
+	editEvent: function(message, splitted){
+		var roles = message.channel.server.rolesOfUser(message.author);
+
+		for(var i = 0; i < roles.length; i++){
+			if(roles[i].name == "Operator"){
+				if(splitted[1] == null){
+					return null;
+				}else{
+					for(var i = 1; i < splitted.length; i++){
+						eventMessage = eventMessage + splitted[i] + " "
+					}
+				}
+				return "The current event has been edited to: `"+eventMessage+"`"
+			}else{
+				return null
+			}
+		}
+	},
+
+	printEvent: function(){
+		if(eventMessage != ""){
+			return "The current event is: `"+eventMessage+"`"
+		}else{
+			return "There is currently no event going on."
+		}
+	},
+
+	bestRating: function(){
+		return "__***5/7***__"
 	},
 }
