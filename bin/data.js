@@ -1,7 +1,8 @@
 var Commands = require('./Commands.js');
 var cmds = new Commands();
 var warnRole, mutedRole;
-var eventMessage = ""
+
+var eventMessage = "";
 
 module.exports = data;
 
@@ -23,7 +24,7 @@ data.prototype = {
 		cmds.add("warn!", this.warn);
 		cmds.add("report!", this.report);
 		cmds.add("urban!", this.urban);
-		cmds.add("malProfile!", this.malProfile)
+		cmds.add("mal!", this.mal)
 		cmds.add("time!", this.time);
 		cmds.add("editEvent!", this.editEvent)
 		cmds.add("printEvent!", this.printEvent)
@@ -107,7 +108,7 @@ data.prototype = {
 	report: function(message, splitted, client){
 		//error handling
 		if(splitted[1] == null || splitted[2] == null){
-			return null;
+			return "Not enough arguments, type report! person reason";
 		}
 
 		//ID
@@ -130,7 +131,7 @@ data.prototype = {
 		
 		var result = splitted.slice();
 		
-		if (result == null) return null;
+		if (splitted [1]) return "Not enough arguments, type urban! word";
 		
 		result = result.splice(1, result.length);
 		result = result.toString().split(",").join("+");
@@ -138,12 +139,13 @@ data.prototype = {
 		return "http://www.urbandictionary.com/define.php?term="+result;
 	},
 	
-	//mapProfile //usage: malProfile! name
-	malProfile: function(message, splitted){
-		if(splitted[1] != undefined){
-			return "http://www.myanimelist.net/profile/"+splitted[1]
+	//mal //usage: mal! name
+	mal: function(message, splitted){
+		
+		if(splitted[1] != null){
+			return "http://www.myanimelist.net/profile/"+splitted[1];
 		}else{
-			return
+			return "Not enough arguments, type mal! username";
 		}
 	},
 
@@ -158,8 +160,11 @@ data.prototype = {
 		if(time != null){
 			utc = time.substring(0,4).toUpperCase();
 
-			if(utc != "GMT+" && utc != "GMT-" && utc != "GMT") return null;
+			if(utc != "GMT+" && utc != "GMT-" && utc != "GMT ") return null;
+			
 			var offset = parseInt(time.substring(4,6));
+			
+			if(offset>12) offset = 12;
 			
 			if(utc.charAt(3) == "+")
 				date = new Date(date.getTime()+(offset*3600000));
@@ -189,14 +194,14 @@ data.prototype = {
 			if(roles[i].name == "Operator"){
 				if(splitted[1] == null){
 					return null;
-				}else{
+				}else {
 					for(var i = 1; i < splitted.length; i++){
-						eventMessage = eventMessage + splitted[i] + " "
+						eventMessage += splitted[i] + " ";
 					}
 				}
-				return "The current event has been edited to: `"+eventMessage+"`"
-			}else{
-				return null
+				return "The current event has been edited to: `"+eventMessage+"`";
+			}else {
+				return null;
 			}
 		}
 	},
@@ -210,6 +215,7 @@ data.prototype = {
 	},
 
 	bestRating: function(){
-		return "__***5/7***__"
+		return "Soso sucks";
+		return "__***5/7***__";
 	},
 }

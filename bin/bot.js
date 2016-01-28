@@ -45,12 +45,12 @@ mybot.on("message", function(message){
 			result = func(message, splitted, mybot);
 		}
 
-		if(result == null){
-			mybot.sendMessage(message.channel, "Command `["+message.content+"]` by ["+message.author.mention()+", *"+message.channel.server.name+"*, <#"+message.channel.id+">] is an invalid command, has invalid/incomplete parameters and/or has been denied.")
-			return
-		}else{
+		// if(result == null){
+			// mybot.sendMessage(message.channel, "Command `["+message.content+"]` by ["+message.author.mention()+", *"+message.channel.server.name+"*, <#"+message.channel.id+">] is an invalid command, has invalid/incomplete parameters and/or has been denied.")
+			// return
+		// }else{
 			mybot.sendMessage(message.channel, result);
-		}
+		// }
 	}
 });
 
