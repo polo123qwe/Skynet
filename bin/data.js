@@ -1,6 +1,6 @@
 var Commands = require('./Commands.js');
 var cmds = new Commands();
-var warnRole, mutedRole;
+var warnRole, mutedRole, memberRole;
 
 var eventMessage = "";
 
@@ -27,8 +27,10 @@ data.prototype = {
 		cmds.add("mal!", this.mal)
 		cmds.add("time!", this.time);
 		cmds.add("editEvent!", this.editEvent)
-		cmds.add("printEvent!", this.printEvent)
+		cmds.add("showEvent!", this.showEvent)
 		cmds.add("bestRating!", this.bestRating)
+		cmds.add("lennyface!", this.lennyface)
+		// cmds.add("enroll!", this.enroll)
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -37,6 +39,10 @@ data.prototype = {
 			}
 			if(allRoles[i].name == "Muted"){
 				mutedRole = allRoles[i];
+				break;
+			}
+			if(allRoles[i].name == "Member"){
+				memberRole = allRoles[i];
 				break;
 			}
 		}
@@ -206,7 +212,7 @@ data.prototype = {
 		}
 	},
 
-	printEvent: function(){
+	showEvent: function(){
 		if(eventMessage != ""){
 			return "The current event is: `"+eventMessage+"`"
 		}else{
@@ -215,7 +221,47 @@ data.prototype = {
 	},
 
 	bestRating: function(){
-		return "Soso sucks";
+		// return "Soso sucks";
 		return "__***5/7***__";
+	},
+
+	lennyface: function(){
+		return "( ͡° ͜ʖ ͡°)"
+	},
+
+	//enroll! //usage: enroll! timezone(GMT) 
+	enroll: function(message, splitted, client){
+		var roles = message.channel.server.rolesOfUser(message.author);
+
+		// prevents double enroll
+		for(var i = 0; i < roles.length; i++){
+			if(roles[i].name == "Member"){
+				console.log("Is already a member.")
+				return null
+			}
+		}
+
+		if(splitted[1].substring(0, 3).toLowerCase() == "gmt" && parseInt(splitted[1].substring(3)) < 12 && parseInt(splitted[1].substring(3)) > -12){
+			roles = message.channel.server.roles
+
+			var foundTimezone
+			for (var i = 0; i < roles.length; i++){
+				if(roles[i].name == "GMT"+splitted[1].substring(3)){
+					console.log(roles[i].name, splitted[1].substring(3))
+					client.addMemberToRole(message.author, roles[i])
+					foundTimezone = true
+				}
+			}
+
+			if(!foundTimezone){
+				return "Your timezone doesn't exist in the list. Please contact one of the OPs and ask them to add a *Timezone Role*."
+			}
+			
+			console.log(memberRole.name)
+			client.addMemberToRole(message.author, memberRole)
+			return "You've been given membership to **Anime Discord**! `Timezone: ["+splitted[1]+"]`"
+		}else{
+			console.log("nope", splitted[1].substring(0, 3).toLowerCase(), parseInt(splitted[1].substring(3)), typeof(parseInt(splitted[1].substring(3))), parseInt(splitted[1].substring(3)) < 12)
+		}
 	},
 }

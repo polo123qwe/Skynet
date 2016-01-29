@@ -60,17 +60,17 @@ mybot.on("serverNewMember", function(server, user){
 })
 
 // On Status Change
-mybot.on("presence", function(user, oldStatus, oldGameID){
-	for(var i = 0; i < server.members.length; i++){
-		// checks if user is in the server
-		if (server.members[i].username == user.username) {
-			console.log(oldStatus, user.status, user.name)
-			if (oldStatus != user.status & user.status == "online"){
-				console.log("User ["+user.name+"] logged in!")
-			}
-		}
-	}
-})
+// mybot.on("presence", function(userOld, userNew){
+// 	if(server.members.get("username", userNew.username)){
+// 		console.log(userOld.status, userNew.status, userNew.username)
+// 	}
+// })
+	// for(var i = 0; i < server.members.length; i++){
+	// 	// checks if user is in the server
+	// 	if (server.members[i].username == userNew.username) {
+	// 		console.log(userOld.status, userNew.status)
+	// 	}
+	// }
 
 function login(){
 	console.log('Initializing <Skynet>');
