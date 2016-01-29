@@ -30,7 +30,8 @@ data.prototype = {
 		cmds.add("showEvent!", this.showEvent)
 		cmds.add("bestRating!", this.bestRating)
 		cmds.add("lennyface!", this.lennyface)
-		// cmds.add("enroll!", this.enroll)
+		cmds.add("getMembership!", this.getMembership)
+		cmds.add("enroll!", this.enroll)
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -59,16 +60,36 @@ data.prototype = {
 
 	//help //usage: help!
 	help: function(){
-		
+		var result = ""+
+		"__**Skynet**__ was developed by: *polo123qwe* and *Soso*"+
+		"\n`https://github.com/polo123qwe/Skynet`"+
+		"\n"+
+		"\n***Dank Stuff***"+
+		"\n    `urban! <term>` Gives the term of `<term>` in *Urban Dictionary*."+
+		"\n    `mal! <username>` Gives the *MyAnimeList* profile of `<username>`."+
+		"\n    `bestRating!` Gives the best possible rating of any rating scale ever."+
+		"\n    `lennyface!` ( ͡° ͜ʖ ͡°)"+
+		"\n"+
+		"\n***Other***"+
+		"\n    `getMyID!` Gives your Discord ID."+
+		"\n    `getChannelID` Gives current channel's ID."+
+		"\n    `ping!` pong!"+
+		"\n    `help!` Shows this menu."+
+		"\n    `time! GMT<timezone>` Shows current time for `GMT<timezone>`."+
+		"\n    `getMembership!` Gives `<user>` membership."+
+		"\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
+		"\n"+
+		"\n***Management Related***"+
+		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."
 
-		var iterator = cmds.getKeys();
-		var result = "Commands Available:\n";
+		// var iterator = cmds.getKeys();
+		// var result = "Commands Available:\n";
 		
-		var col = iterator.next();	
-		while(!col.done){
-			result = result + "> " + col.value + "\n";
-			col = iterator.next();
-		}
+		// var col = iterator.next();	
+		// while(!col.done){
+		// 	result = result + "> " + col.value + "\n";
+		// 	col = iterator.next();
+		// }
 		
 		return result;
 	},
@@ -229,39 +250,71 @@ data.prototype = {
 		return "( ͡° ͜ʖ ͡°)"
 	},
 
+	//getMembership //usage getMembership!
+	getMembership: function(message, splitted, client){
+		// prevents double membership
+		var allRoles = message.channel.server.roles
+		var userRoles = message.channel.server.rolesOfUser(message.author);
+		var memberRole
+
+		// gets member role
+		for(var i = 0; i < allRoles.length; i++){
+			if(allRoles[i].name == "Member"){
+				memberRole = allRoles[i]
+			}
+		}
+
+		// prevents double membership
+		for(var i = 0; i < userRoles.length; i++){
+			if(userRoles[i].name == "Member"){
+				return message.author.mention()+" is already a member of **Anime Discord**"
+			}
+		}
+		
+		client.addMemberToRole(message.author, memberRole)
+		return message.author.mention()+", you've been given membership for **Anime Discord**. If you want to participate in future elections, make sure to enter your timezone using enroll!"
+	},
+
 	//enroll! //usage: enroll! timezone(GMT) 
 	enroll: function(message, splitted, client){
 		var roles = message.channel.server.rolesOfUser(message.author);
 
-		// prevents double enroll
-		for(var i = 0; i < roles.length; i++){
-			if(roles[i].name == "Member"){
-				console.log("Is already a member.")
-				return null
-			}
+		if(splitted[1] == undefined){
+			return "Incorrect usage of `enroll!`. `ex.) enroll! GMT+1`"
 		}
 
 		if(splitted[1].substring(0, 3).toLowerCase() == "gmt" && parseInt(splitted[1].substring(3)) < 12 && parseInt(splitted[1].substring(3)) > -12){
+			// prevent not-members from enrolling
+			var isMember = false
+			for(var i = 0; i < roles.length; i++){
+				if(roles[i].name == "Member"){
+					isMember = true
+				}
+			}
+
+			if(!isMember){
+				return message.author.mention()+" is not a member of **Anime Discord** yet.";
+			}
+
+			// prevents double enroll
+			for(var i = 0; i < roles.length; i++){
+				if(roles[i].name.substring(0, 3) == "GMT"){
+					return message.author.mention()+" is already a enrolled for future elections of **Anime Discord**"
+				}
+			}
+
+			// just messy code
 			roles = message.channel.server.roles
 
-			var foundTimezone
 			for (var i = 0; i < roles.length; i++){
 				if(roles[i].name == "GMT"+splitted[1].substring(3)){
 					console.log(roles[i].name, splitted[1].substring(3))
 					client.addMemberToRole(message.author, roles[i])
-					foundTimezone = true
+					return message.author.mention()+" is now enrolled for future elections of **Anime Discord**"
 				}
 			}
 
-			if(!foundTimezone){
-				return "Your timezone doesn't exist in the list. Please contact one of the OPs and ask them to add a *Timezone Role*."
-			}
-			
-			console.log(memberRole.name)
-			client.addMemberToRole(message.author, memberRole)
-			return "You've been given membership to **Anime Discord**! `Timezone: ["+splitted[1]+"]`"
-		}else{
-			console.log("nope", splitted[1].substring(0, 3).toLowerCase(), parseInt(splitted[1].substring(3)), typeof(parseInt(splitted[1].substring(3))), parseInt(splitted[1].substring(3)) < 12)
+			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*"
 		}
 	},
 }
