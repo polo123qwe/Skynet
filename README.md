@@ -4,7 +4,7 @@
   </a>
 </p>
     
-<b>Skynet</b> is a Discord Bot based off discord.js. It's currently being developed by members of the MAL Central Club on MyAnimeList for their Discord Chat.
+<b>Skynet</b> is a Discord Bot based off discord.js. It's currently being developed by members of the Anime Discord server.
 
 ### Installation
 
