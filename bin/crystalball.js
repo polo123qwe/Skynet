@@ -1,4 +1,5 @@
-var array = [
+module.exports = {
+	arr: [
 	'As I see it, yes.',
 	'Better not tell you now.',
 	'Cannot predict now.',
@@ -22,6 +23,6 @@ var array = [
 	'No, never.',
 	'Impossible.',
 	'When life gives you lemons, don\'t make lemonade.'
-];
+	],
+}
 
-return array
