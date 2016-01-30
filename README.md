@@ -4,13 +4,26 @@
   </a>
 </p>
     
-<b>Skynet</b> is a Discord Bot based off discord.js. It's currently being developed by members of the Anime Discord server.
+<b>Skynet</b> is a Discord Bot based off discord.js. It's currently being developed by members of the Anime Discord server. It's currently a Work in Progress, but we'll get there eventually.
 
-### Installation
+### Current functions
+<b>Dank Stuff</b>
+    <strong>urban! <term></strong> Gives the term of <term> in Urban Dictionary.
+    <strong>mal! <username></strong> Gives the MyAnimeList profile of <username>.
+    <strong>bestRating!</strong> Gives the best possible rating of any rating scale ever.
+    <strong>lennyface!</strong> ( ͡° ͜ʖ ͡°)
 
-**Requires node 0.12+**
+<b>Other</b>
+    <strong>getMyID!</strong> Gives your Discord ID.
+    <strong>getChannelID!</strong> Gives current channel's ID.
+    <strong>ping!</strong> pong!
+    <strong>help!</strong> Shows this menu.
+    <strong>time!</strong> GMT<timezone> Shows current time for GMT<timezone>.
+    <strong>getMembership!</strong> Gives <user> membership.
+    <strong>enroll!</strong> GMT<timezone> Enrolls <user> for future elections.
 
-`npm install --save discord.js`
+<b>Management Related</b>
+    <strong>report! <@user> <reason></strong> Reports <@user> for <reason>.
 
 ---
 
@@ -19,5 +32,4 @@
 
 **[Map] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)**
 
-**
 ---
