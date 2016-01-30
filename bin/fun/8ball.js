@@ -21,5 +21,5 @@ export default [
   'You can\'t handle the truth.',
   'No, never.',
   'Impossible.',
-  'When life gives you lemons, don't make lemonade.'
+  'When life gives you lemons, don\'t make lemonade.'
 ];
