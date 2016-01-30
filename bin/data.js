@@ -4,6 +4,13 @@ var warnRole, mutedRole, memberRole;
 
 var eventMessage = "";
 
+//vote related
+var votes = new Map();
+var voteinInProgress = false;
+var output = "";
+var voted = [];
+//
+
 module.exports = data;
 
 function data(){
@@ -32,6 +39,11 @@ data.prototype = {
 		cmds.add("lennyface!", this.lennyface)
 		cmds.add("getMembership!", this.getMembership)
 		cmds.add("enroll!", this.enroll)
+		cmds.add("vote!", this.vote)
+		cmds.add("startVote!", this.startVote)
+		cmds.add("endVote!", this.endVote)
+		cmds.add("wiki!", this.wiki)
+		
 
 		for (var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Warning"){
@@ -53,6 +65,7 @@ data.prototype = {
 
 //FUNCTIONS OF THE COMMANDS//
 //ADD THE FUNCTION OF THE COMMAND HERE
+
 	//ping //usage: ping!
 	ping: function(){
 		return "pong!";
@@ -240,15 +253,108 @@ data.prototype = {
 			return "There is currently no event going on."
 		}
 	},
+	
+	//startVote //startVote! option1 option2 option3 ...
+	startVote: function(message, splitted){
+			
+		if(!isAllowed(message.author, "Operator", message.channel.server)) return "Access denied";
 
-	bestRating: function(){
-		// return "Soso sucks";
-		return "__***5/7***__";
+		output = "";
+		voted = [];
+	
+		if(splitted[1] == null) return "Error, usage: startVote! option1 option2 option3";
+		
+		voteinInProgress = true;
+		
+		for(var i = 1; i < splitted.length; i++){
+			votes.set(splitted[i], 0);
+		}
+		console.log(votes);
+		return "Vote started";
+	},
+	//vote //vote! option
+	vote: function(message, splitted){
+		
+		if(voteinInProgress){	
+			if(splitted[1] == null){
+				return getOptions();
+			}
+			var id = message.author.id;
+			if(contains(id)){
+				return "Already voted";
+			} else {
+				voted.push(id);
+			}
+			var count = votes.get(splitted[1]);
+			if(count == undefined) return "Failed to vote.\n"+getOptions();
+			else {
+				votes.set(splitted[1], count+1);
+				return "Voted added Successfully";
+			}
+		} else return "Not a vote in progress";
+		
+		////getOptions
+		function getOptions(){
+			var iterator = votes.keys();
+			var result = "Votes available:\n";
+
+			var col = iterator.next();	
+			while(!col.done){
+				result += "> " + col.value + "\n";
+				col = iterator.next();
+			}
+			return result;
+		}
+		function contains(id) {
+			for (var i = 0; i < voted.length; i++) {
+				if (voted[i] == id) {
+					return true;
+				}
+			}
+			return false;
+		}
+	},
+	
+	//endVote //endVote!
+	endVote: function(message){
+		
+		if(!isAllowed(message.author, "Operator", message.channel.server)) return "Access denied";
+		
+		if(!voteinInProgress) return "Not a vote in progress";	
+		
+		votes.forEach(printVotes)
+		
+		votes.clear();
+		
+		voteinInProgress = false;
+		
+		return "Vote ended, results:\n"+output;
+		
+		////printVotes
+		function printVotes(val, key, map){
+			output += "\t> "+key+": "+val+"\n";
+		}
 	},
 
+
+	//
 	lennyface: function(){
 		return "( ͡° ͜ʖ ͡°)"
 	},
+	
+	//wiki: Looks up something in the English Wikipedia. -Amery
+    wiki: function(message, splitted) {
+		
+        if (splitted[1] == null) {
+            return "Not enough arguments. Correct usage is: `wiki! <search terms separated by spaces>`;"
+        }
+		
+		var result = splitted.splice(1, splitted.length);
+		console.log(result);
+		result = result.toString().split(",").join("_");
+		
+        return "http://en.wikipedia.org/wiki/" + result;
+    },
 
 	//getMembership //usage getMembership!
 	getMembership: function(message, splitted, client){
@@ -279,7 +385,7 @@ data.prototype = {
 	enroll: function(message, splitted, client){
 		var roles = message.channel.server.rolesOfUser(message.author);
 
-		if(splitted[1] == undefined){
+		if(splitted[1] == null){
 			return "Incorrect usage of `enroll!`. `ex.) enroll! GMT+1`"
 		}
 
@@ -317,4 +423,14 @@ data.prototype = {
 			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*"
 		}
 	},
+}
+
+function isAllowed(user, rank, server){
+	var userRoles = server.rolesOfUser(user);
+	for(var i = 0; i < userRoles.length; i++){
+		if(userRoles[i].name == rank){
+			return true;
+		}
+	}
+	return false;
 }
