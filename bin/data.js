@@ -11,6 +11,9 @@ var output = "";
 var voted = [];
 //
 
+// Import Stuff
+import { 8ball } from '/fun/';
+
 module.exports = data;
 
 function data(){
@@ -31,18 +34,19 @@ data.prototype = {
 		cmds.add("warn!", this.warn);
 		cmds.add("report!", this.report);
 		cmds.add("urban!", this.urban);
-		cmds.add("mal!", this.mal)
+		cmds.add("mal!", this.mal);
 		cmds.add("time!", this.time);
-		cmds.add("editEvent!", this.editEvent)
-		cmds.add("showEvent!", this.showEvent)
-		cmds.add("bestRating!", this.bestRating)
-		cmds.add("lennyface!", this.lennyface)
-		cmds.add("getMembership!", this.getMembership)
-		cmds.add("enroll!", this.enroll)
-		cmds.add("vote!", this.vote)
-		cmds.add("startVote!", this.startVote)
-		cmds.add("endVote!", this.endVote)
-		cmds.add("wiki!", this.wiki)
+		cmds.add("editEvent!", this.editEvent);
+		cmds.add("showEvent!", this.showEvent);
+		cmds.add("bestRating!", this.bestRating);
+		cmds.add("lennyface!", this.lennyface);
+		cmds.add("getMembership!", this.getMembership);
+		cmds.add("enroll!", this.enroll);
+		cmds.add("vote!", this.vote);
+		cmds.add("startVote!", this.startVote);
+		cmds.add("endVote!", this.endVote);
+		cmds.add("wiki!", this.wiki);
+		cmds.add("8ball!", this.8ball);
 		
 
 		for (var i = 0; i < allRoles.length; i++){
@@ -421,6 +425,16 @@ data.prototype = {
 			}
 
 			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*"
+		}
+	},
+	
+	// 8ball!: A fun function for the whole family! It guesses stuff for you :D
+	8ball: function(message) {
+		if (message == NULL) {
+			return "You didn't ask the Almighty Skynet a question.";
+		} else {
+			let rand = Math.floor(Math.random() * 8ball.length);
+			return message.author.mention() + ":crystal_ball:**${8ball[rand]}**:crystal_ball:";
 		}
 	},
 }
