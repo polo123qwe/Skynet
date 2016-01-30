@@ -35,25 +35,25 @@ Func.prototype = {
 		"\n`https://github.com/polo123qwe/Skynet`"+
 		"\n"+
 		"\n***Dank Stuff***"+
-		"\n    `urban! <term>` Gives the term of `<term>` in *Urban Dictionary*."+
-		"\n    `mal! <username>` Gives the *MyAnimeList* profile of `<username>`."+
-		"\n    `bestRating!` Gives the best possible rating of any rating scale ever."+
+		"\n    `urban! <term>` Returns the definition for the selected term from Urban Dictionary*."+
+		"\n    `mal! <username>` Returns the *MyAnimeList* profile of `<username>`."+
+		"\n    `bestRating!` Returns the best possible rating of any rating scale ever."+
 		"\n    `lennyface!` ( ͡° ͜ʖ ͡°)"+
-		"\n    `fortune! <question>` Gives you the infinite wisdom of Skynet."+
+		"\n    `fortune! <question>` Returns the infinite wisdom of Skynet."+
 		"\n"+
 		"\n***Other***"+
-		"\n    `getMyID!` Gives your Discord ID."+
-		"\n    `getChannelID` Gives current channel's ID."+
+		"\n    `getMyID!` Returns your Discord ID."+
+		"\n    `getChannelID!` Returns the current channel's ID."+
 		"\n    `ping!` pong!"+
 		"\n    `help!` Shows this menu."+
 		"\n    `time! GMT<timezone>` Shows current time for `GMT<timezone>`."+
-		"\n    `getMembership!` Gives `<user>` membership."+
+		"\n    `getMembership!` Returns `<user>` membership."+
 		"\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
 		"\n"+
 		"\n***Management Related***"+
 		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."+
 		"\n    `vote! <option>` Votes for option `<option>`."+
-		"\n    `getVoteOptions!` Gives options for the current vote."
+		"\n    `getVoteOptions!` Returns options for the current vote."
 
 		// var iterator = cmds.getKeys();
 		// var result = "Commands Available:\n";
@@ -96,9 +96,9 @@ Func.prototype = {
 				reason = reason.toString().split(",").join(" ");
 
 				client.addMemberToRole(warnedID, warnRole)
-				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
+				client.sendMessage("139913811451838464", message.author.mention()+" warned <@";
 				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
-				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get banned. If this warning is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your warn."			
+				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get banned. If this warning is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your warn.";		
 			}
 		}
 		return null;
@@ -120,10 +120,10 @@ Func.prototype = {
 		reason = reason.splice(2, reason.length);
 		reason = reason.toString().split(",").join(" ");
 
-		client.sendMessage("139913811451838464", "<@"+reporterID
-		+"> reported <@"+reportedID+"> on: `"+reason
+		client.sendMessage("139913811451838464", "<@"+reporterID;
+		+"> reported <@"+reportedID+"> on: `"+reason;
 		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
-		return "Your report has been taken into account!"
+		return "Your report has been taken into account!";
 	},
 	
 	//urban //usage: urban! something
@@ -131,12 +131,13 @@ Func.prototype = {
 		
 		var result = splitted.slice();
 		
-		if (splitted [1]) return "Not enough arguments, type urban! word";
-		
-		result = result.splice(1, result.length);
-		result = result.toString().split(",").join("+");
-		
-		return "http://www.urbandictionary.com/define.php?term="+result;
+		if (splitted[1] == null){
+			return "Not enough arguments, type urban! word";
+		} else {
+			result = result.splice(1, result.length);
+			result = result.toString().split(",").join("+");
+			return "http://www.urbandictionary.com/define.php?term="+result;
+		}
 	},
 	
 	//mal //usage: mal! name
@@ -187,6 +188,7 @@ Func.prototype = {
 		return "**"+time.toUpperCase()+"** Standard Time: `"+D+"/"+M+"/"+Y+" "+h+":"+m+":"+s+"`";
 	},
 
+	// editEvent: lets op edit the current event.
 	editEvent: function(message, splitted){
 		var roles = message.channel.server.rolesOfUser(message.author);
 
@@ -206,11 +208,12 @@ Func.prototype = {
 		}
 	},
 
+	//showEvent: shows the current event, previously set by an OP, or an error message.
 	showEvent: function(){
 		if(eventMessage != ""){
-			return "The current event is: `"+eventMessage+"`"
-		}else{
-			return "There is currently no event going on."
+			return "The current event is: `"+eventMessage+"`";
+		} else {
+			return "There is currently no event going on.";
 		}
 	},
 	
@@ -218,7 +221,7 @@ Func.prototype = {
 	startVote: function(message, splitted){
 		if(!isAllowed(message.author, "Operator", message.channel.server)){
 			if(!isAllowed(message.author, "Moderator", message.channel.server)){
-				return "Access Denied."
+				return "Access Denied.";
 			}
 		}
 
@@ -228,7 +231,7 @@ Func.prototype = {
 		
 		votes.set(splitted[1], actualVote);
 	
-		console.log("Voting started! ["+message.author.username+", "+message.channel.name+", "+actualVote.getOptions()+"]")
+		console.log("Voting started! ["+message.author.username+", "+message.channel.name+", "+actualVote.getOptions()+"]");
 		return "Voting started! "+actualVote.getOptions();
 	},
 
@@ -274,14 +277,14 @@ Func.prototype = {
 
 	//
 	lennyface: function(){
-		return "( ͡° ͜ʖ ͡°)"
+		return "( ͡° ͜ʖ ͡°)";
 	},
 	
 	//wiki: Looks up something in the English Wikipedia. -Amery
     wiki: function(message, splitted) {
 		
         if (splitted[1] == null) {
-            return "Not enough arguments. Correct usage is: `wiki! <search terms separated by spaces>`;"
+            return "Not enough arguments. Correct usage is: `wiki! <search terms separated by spaces>`";
         }
 		
 		var result = splitted.splice(1, splitted.length);
@@ -294,26 +297,26 @@ Func.prototype = {
 	//getMembership //usage getMembership!
 	getMembership: function(message, splitted, client){
 		// prevents double membership
-		var allRoles = message.channel.server.roles
+		var allRoles = message.channel.server.roles;
 		var userRoles = message.channel.server.rolesOfUser(message.author);
-		var memberRole
+		var memberRole;
 
 		// gets member role
 		for(var i = 0; i < allRoles.length; i++){
 			if(allRoles[i].name == "Member"){
-				memberRole = allRoles[i]
+				memberRole = allRoles[i];
 			}
 		}
 
 		// prevents double membership
 		for(var i = 0; i < userRoles.length; i++){
 			if(userRoles[i].name == "Member"){
-				return message.author.mention()+" is already a member of **Anime Discord**"
+				return message.author.mention()+" is already a member of **Anime Discord**";
 			}
 		}
 		
 		client.addMemberToRole(message.author, memberRole)
-		return message.author.mention()+", you've been given membership for **Anime Discord**. If you want to participate in future elections, make sure to enter your timezone using enroll!"
+		return message.author.mention()+", you've been given membership for **Anime Discord**. If you want to participate in future elections, make sure to enter your timezone using enroll!";
 	},
 
 	//enroll! //usage: enroll! timezone(GMT) 
@@ -329,7 +332,7 @@ Func.prototype = {
 			var isMember = false
 			for(var i = 0; i < roles.length; i++){
 				if(roles[i].name == "Member"){
-					isMember = true
+					isMember = true;
 				}
 			}
 
@@ -340,7 +343,7 @@ Func.prototype = {
 			// prevents double enroll
 			for(var i = 0; i < roles.length; i++){
 				if(roles[i].name.substring(0, 3) == "GMT"){
-					return message.author.mention()+" is already a enrolled for future elections of **Anime Discord**"
+					return message.author.mention()+" is already a enrolled for future elections of **Anime Discord**";
 				}
 			}
 
@@ -351,11 +354,11 @@ Func.prototype = {
 				if(roles[i].name == "GMT"+splitted[1].substring(3)){
 					console.log(roles[i].name, splitted[1].substring(3))
 					client.addMemberToRole(message.author, roles[i])
-					return message.author.mention()+" is now enrolled for future elections of **Anime Discord**"
+					return message.author.mention()+" is now enrolled for future elections of **Anime Discord**";
 				}
 			}
 
-			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*"
+			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*";
 		}
 	},
 	
@@ -365,7 +368,7 @@ Func.prototype = {
 			return "You didn't ask the Almighty Skynet a question.";
 		} else {
 			var random = Math.floor((Math.random() * fa.arr.length));
-			return message.author.mention() + ":crystal_ball:**"+fa.arr[random]+"**:crystal_ball:";
+			return message.author.mention() + ":crystal_ball:*"+fa.arr[random]+"*:crystal_ball:";
 		}
 	},
 }
@@ -382,8 +385,8 @@ function isAllowed(user, rank, server){
 
 function isOnChannel(channel, wantedChannel){
 	if(channel.id == wantedChannel){
-		return true
-	}else{
+		return true;
+	} else {
 		return false;
 	}
 }
