@@ -12,7 +12,7 @@ var voted = [];
 //
 
 // Import Stuff
-import { 8ball } from '/fun/';
+import { crystalball } from '/fun/';
 
 module.exports = data;
 
@@ -46,7 +46,7 @@ data.prototype = {
 		cmds.add("startVote!", this.startVote);
 		cmds.add("endVote!", this.endVote);
 		cmds.add("wiki!", this.wiki);
-		cmds.add("8ball!", this.8ball);
+		cmds.add("fortune!", this.fortune);
 		
 
 		for (var i = 0; i < allRoles.length; i++){
@@ -428,13 +428,13 @@ data.prototype = {
 		}
 	},
 	
-	// 8ball!: A fun function for the whole family! It guesses stuff for you :D
-	8ball: function(message) {
-		if (message == NULL) {
+	// fortune!: Ask a question, get the fortune!
+	fortune: function(message, splitted) {
+		if (splitted[1] == null) {
 			return "You didn't ask the Almighty Skynet a question.";
 		} else {
-			let rand = Math.floor(Math.random() * 8ball.length);
-			return message.author.mention() + ":crystal_ball:**${8ball[rand]}**:crystal_ball:";
+			let rand = Math.floor(Math.random() * crystalball.length);
+			return message.author.mention() + ":crystal_ball:**${crystalball[rand]}**:crystal_ball:";
 		}
 	},
 }
