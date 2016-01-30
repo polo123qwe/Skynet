@@ -111,6 +111,7 @@ data.prototype = {
 		"\n    `mal! <username>` Gives the *MyAnimeList* profile of `<username>`."+
 		"\n    `bestRating!` Gives the best possible rating of any rating scale ever."+
 		"\n    `lennyface!` ( ͡° ͜ʖ ͡°)"+
+		"\n    `fortune! <question>` Gives you the infinite wisdom of Skynet."+
 		"\n"+
 		"\n***Other***"+
 		"\n    `getMyID!` Gives your Discord ID."+
@@ -122,7 +123,9 @@ data.prototype = {
 		"\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
 		"\n"+
 		"\n***Management Related***"+
-		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."
+		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."+
+		"\n    `vote! <option>` Votes for option `<option>`."+
+		"\n    `getVoteOptions!` Gives options for the current vote."
 
 		// var iterator = cmds.getKeys();
 		// var result = "Commands Available:\n";
