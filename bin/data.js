@@ -9,10 +9,34 @@ var votes = new Map();
 var voteinInProgress = false;
 var output = "";
 var voted = [];
-//
 
-// Import Stuff
-import { crystalball } from '/fun/';
+//make this better somehow pls.
+var fortuneArray = [
+	'As I see it, yes.',
+	'Better not tell you now.',
+	'Cannot predict now.',
+	'Don\'t count on it.',
+	'In your dreams.',
+	'It is certain.',
+	'Most likely.',
+	'My CPU is saying no.',
+	'My CPU is saying yes.',
+	'My CPU is saying there is a very slim chance.',
+	'Out of psychic coverage range.',
+	'Signs point to yes.',
+	'Sure, sure.',
+	'Very doubtful.',
+	'Without a doubt.',
+	'Wow, Much no, very yes, so maybe.',
+	'Yes, definitely.',
+	'Yes, unless you run out of memes.',
+	'You are doomed.',
+	'You can\'t handle the truth.',
+	'No, never.',
+	'Impossible.',
+	'When life gives you lemons, don\'t make lemonade.'
+];
+
 
 module.exports = data;
 
@@ -45,6 +69,7 @@ data.prototype = {
 		cmds.add("vote!", this.vote);
 		cmds.add("startVote!", this.startVote);
 		cmds.add("endVote!", this.endVote);
+		cmds.add("getVoteOptions!", this.getVoteOptions);
 		cmds.add("wiki!", this.wiki);
 		cmds.add("fortune!", this.fortune);
 		
@@ -78,7 +103,7 @@ data.prototype = {
 	//help //usage: help!
 	help: function(){
 		var result = ""+
-		"__**Skynet**__ was developed by: *polo123qwe* and *Soso*"+
+		"__**Skynet**__ was developed by: *polo123qwe*, *Soso*, and *Amery*."+
 		"\n`https://github.com/polo123qwe/Skynet`"+
 		"\n"+
 		"\n***Dank Stuff***"+
@@ -260,55 +285,77 @@ data.prototype = {
 	
 	//startVote //startVote! option1 option2 option3 ...
 	startVote: function(message, splitted){
-			
-		if(!isAllowed(message.author, "Operator", message.channel.server)) return "Access denied";
+		if(!isAllowed(message.author, "Operator", message.channel.server)){
+			if(!isAllowed(message.author, "Moderator", message.channel.server)){
+				return "Access Denied."
+			}
+		}
 
 		output = "";
 		voted = [];
 	
-		if(splitted[1] == null) return "Error, usage: startVote! option1 option2 option3";
+		// changed to 2 since votes with only 1 option don't make sense
+		if(splitted[2] == null) return "Not enough parameters. Usage: `startVote! option1 option2 option3 ...`";
 		
 		voteinInProgress = true;
 		
 		for(var i = 1; i < splitted.length; i++){
 			votes.set(splitted[i], 0);
 		}
-		console.log(votes);
-		return "Vote started";
+
+
+		var iterator = votes.keys();
+		var result = "";
+
+		var col = iterator.next();	
+		while(!col.done){
+			result += " "+col.value;
+			col = iterator.next();
+		}
+
+		console.log("Voting started! ["+message.author.username+", "+message.channel.name+", "+result+"]")
+		return "Voting started! Options: `"+result+"`";
 	},
+
 	//vote //vote! option
 	vote: function(message, splitted){
-		
 		if(voteinInProgress){	
 			if(splitted[1] == null){
 				return getOptions();
 			}
-			var id = message.author.id;
-			if(contains(id)){
-				return "Already voted";
-			} else {
-				voted.push(id);
-			}
+
+			// if options exists
 			var count = votes.get(splitted[1]);
-			if(count == undefined) return "Failed to vote.\n"+getOptions();
-			else {
+			if(count == undefined){
+				return "Failed to vote.\n"+getOptions();
+			} else {
+				var id = message.author.id;
+				// and if note voted before
+				if(contains(id)){
+					return "User <@"+id+"> already voted.";
+				} else {
+					voted.push(id);
+				}
+
 				votes.set(splitted[1], count+1);
-				return "Voted added Successfully";
+				return "Your vote `"+splitted[1]+"` was added successfully.";
 			}
-		} else return "Not a vote in progress";
+
+		} else return "There is no vote currently active.";
 		
 		////getOptions
 		function getOptions(){
 			var iterator = votes.keys();
-			var result = "Votes available:\n";
+			var result = "Votes available:\n```";
 
 			var col = iterator.next();	
 			while(!col.done){
 				result += "> " + col.value + "\n";
 				col = iterator.next();
 			}
-			return result;
+			return result+"```";
 		}
+
 		function contains(id) {
 			for (var i = 0; i < voted.length; i++) {
 				if (voted[i] == id) {
@@ -322,9 +369,13 @@ data.prototype = {
 	//endVote //endVote!
 	endVote: function(message){
 		
-		if(!isAllowed(message.author, "Operator", message.channel.server)) return "Access denied";
+		if(!isAllowed(message.author, "Operator", message.channel.server)){
+			if(!isAllowed(message.author, "Moderator", message.channel.server)){
+				return "Access denied";
+			}
+		}
 		
-		if(!voteinInProgress) return "Not a vote in progress";	
+		if(!voteinInProgress) return "There is no vote currently active.";	
 		
 		votes.forEach(printVotes)
 		
@@ -332,12 +383,24 @@ data.prototype = {
 		
 		voteinInProgress = false;
 		
-		return "Vote ended, results:\n"+output;
+		return "Vote ended, results:\n```\n"+output+"\n```";
 		
 		////printVotes
 		function printVotes(val, key, map){
-			output += "\t> "+key+": "+val+"\n";
+			output += "> "+key+": "+val+"\n";
 		}
+	},
+
+	getVoteOptions: function(){
+		var iterator = votes.keys();
+		var result = "Votes available:\n```";
+
+		var col = iterator.next();	
+		while(!col.done){
+			result += "> " + col.value + "\n";
+			col = iterator.next();
+		}
+		return result+"```";
 	},
 
 
@@ -433,8 +496,8 @@ data.prototype = {
 		if (splitted[1] == null) {
 			return "You didn't ask the Almighty Skynet a question.";
 		} else {
-			let rand = Math.floor(Math.random() * crystalball.length);
-			return message.author.mention() + ":crystal_ball:**${crystalball[rand]}**:crystal_ball:";
+			var random = Math.floor((Math.random() * fortuneArray.length));
+			return message.author.mention() + ":crystal_ball:**"+fortuneArray[random]+"**:crystal_ball:";
 		}
 	},
 }
@@ -447,4 +510,12 @@ function isAllowed(user, rank, server){
 		}
 	}
 	return false;
+}
+
+function isOnChannel(channel, wantedChannel){
+	if(channel.id == wantedChannel){
+		return true
+	}else{
+		return false;
+	}
 }
