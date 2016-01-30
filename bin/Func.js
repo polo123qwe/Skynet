@@ -229,7 +229,7 @@ Func.prototype = {
 		votes.set(splitted[1], actualVote);
 	
 		console.log("Voting started! ["+message.author.username+", "+message.channel.name+", "+actualVote.getOptions()+"]")
-		return "Voting started! Options: "+actualVote.getOptions();
+		return "Voting started! "+actualVote.getOptions();
 	},
 
 	//vote //vote! name option
@@ -239,7 +239,7 @@ Func.prototype = {
 			return "Please type the name of the vote.\n"+stringifyVotes();
 		} else {
 			var actualVote = votes.get(splitted[1]);
-			if(actualVote == undefined) return splitted[1]+" is not currently in progress";
+			if(actualVote == undefined) return splitted[1]+" is not currently in progress.\n"+stringifyVotes();
 			
 			if(splitted[2] == null) return "Error, type vote! name option";
 			
@@ -258,9 +258,13 @@ Func.prototype = {
 			}
 		}
 		
-		if(splitted[1] == null) return "Type the name of the vote to remove";
+		if(splitted[1] == null) return "Type the name of the vote to remove.\n"+stringifyVotes();
 
-		var result = "Vote ended successfully"+endVote();
+		var actualVote = votes.get(splitted[1]);
+		
+		if(actualVote == undefined) return splitted[1]+" is not currently in progress.\n"+stringifyVotes();
+		
+		var result = "Vote ended successfully.\n"+actualVote.endVote();
 		
 		votes.delete(splitted[1]);
 		

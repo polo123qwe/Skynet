@@ -48,7 +48,7 @@ Vote.prototype = {
 		var output = "";
 		votes.forEach(printVotes)
 		
-		return "Vote ended, results:\n```\n"+output+"\n```";
+		return "Results:\n```\n"+output+"\n```";
 		
 		////printVotes
 		function printVotes(val, key, map){
@@ -72,7 +72,7 @@ function contains(id) {
 }
 function getOptions(){
 	var iterator = votes.keys();
-	var result = "Votes available:\n```";
+	var result = "Options available:\n```";
 
 	var col = iterator.next();	
 	while(!col.done){
