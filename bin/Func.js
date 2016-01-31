@@ -296,10 +296,10 @@ Func.prototype = {
         return "http://en.wikipedia.org/wiki/" + result;
     },
 
-	//getMembership //usage giveMembership! @name
-	giveMembership: function(message, splitted, client){
+	//giveMembership //usage giveMembership! @name
+	giveMembership: function(message, splitted, client) {
 		// limits assignment to op or md
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)){
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
 
 			// sets up roles
 			var allRoles = message.channel.server.roles;
@@ -326,14 +326,15 @@ Func.prototype = {
 
 			// prevents double membership
 			for(var i = 0; i < userRoles.length; i++){
-				if(userRoles[i].name == "Member"){
+				if(message.channel.server.rolesOfUser(memberID) == "Member"){
 					return "<@"+memberID+"> is already a member of **Anime Discord**";
 				}
 			}
 
-			client.addMemberToRole(memberID, memberRole)
+			client.addMemberToRole(memberID, memberRole);
 			return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
-		}else{
+
+		} else {
 			return "Access denied. `giveMembership!` is an OP/MD only command."
 		}
 	},
