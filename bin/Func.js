@@ -324,13 +324,17 @@ Func.prototype = {
 				}
 			}
 
+			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
+
 			// prevents double membership
-			if(message.channel.server.rolesOfUser(memberID) == "Member") {
-				return "<@"+memberID+"> is already a member of **Anime Discord**";
-			} else {
-				client.addMemberToRole(memberID, memberRole);
-				return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
+			for(i = 0; i < requestingUserRoles.length; ++i){
+				if(requestingUserRoles[i].name == "Member") {
+					return "<@"+memberID+"> is already a member of **Anime Discord**";
+				}
 			}
+
+			client.addMemberToRole(memberID, memberRole);
+			return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
 
 		} else {
 			return "Access denied. `giveMembership!` is an OP/MD only command.";
