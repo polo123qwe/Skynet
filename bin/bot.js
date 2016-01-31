@@ -38,7 +38,8 @@ mybot.on("message", function(message){
 	}
 
 	if(command.substr(-1, 1) == "!"){
-		func = cmds.get(command)[0];
+		func = cmds.get(command);
+		if(func != null) func = func[0];
 
 		if(func != null){
 			console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")
@@ -56,7 +57,7 @@ mybot.on("message", function(message){
 
 // On New Member
 mybot.on("serverNewMember", function(server, user){
-	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+". It is highly recommended to read through the <#137105484040634368>. Remember to type `getMembership!` to be set as a member!");
+	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+".");
 })
 
 // On Status Change
