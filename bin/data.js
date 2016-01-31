@@ -90,11 +90,12 @@ data.prototype = {
 		var output = "";
 		cmds.fEach(printVotes);
 		console.log(output);
-		return "Commands available:\n\n"+output+"\n";
+		return "__**Skynet**__ was developed by: *polo123qwe*, *Soso*, and *Amery*."+
+			"\n`https://github.com/polo123qwe/Skynet`.\nCommandsAvailable:\n\n"+output+"\n";
 		
 		////printCommands
 		function printVotes(val, key, map){
-			output += "> "+key+": "+val[1]+"\n";
+			output += "> "+val[1]+"\n";
 		}
 	},
 }
@@ -114,7 +115,7 @@ function helping(command){
 		break;
 		case "report": return "`report! <@user> <reason>` Reports `<@user>` for `<reason>`.";
 		break;
-		case "urban!": return "`urban! <term>` Returns the definition for the selected term from Urban Dictionary.";
+		case "urban": return "`urban! <term>` Returns the definition for the selected term from Urban Dictionary.";
 		break;
 		case "mal": return "`mal! <username>` Returns the *MyAnimeList* profile of `<username>`.";
 		break;
@@ -136,7 +137,7 @@ function helping(command){
 		break;
 		case "endVote": return "`endVote! <name>` Ends a vote. Only OP/MD.";
 		break;
-		case "wiki": return "`urban! <term>` Returns the wikipedia page of said word.";
+		case "wiki": return "`wiki! <term>` Returns the wikipedia page of said word.";
 		break;
 		case "fortune": return "`fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom.";
 		break;
