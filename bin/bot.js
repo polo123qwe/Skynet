@@ -38,7 +38,7 @@ mybot.on("message", function(message){
 	}
 
 	if(command.substr(-1, 1) == "!"){
-		func = cmds.get(command);
+		func = cmds.get(command)[0];
 
 		if(func != null){
 			console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")

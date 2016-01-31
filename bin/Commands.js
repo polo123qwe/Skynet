@@ -29,6 +29,10 @@ Commands.prototype = {
 	
 	getKeys: function(){
 		return commands.keys();
-	}
+	},
+	
+	fEach: function(func){
+		return commands.forEach(func);
+	},
 }
 

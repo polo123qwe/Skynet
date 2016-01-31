@@ -28,47 +28,6 @@ Func.prototype = {
 		return "pong!";
 	},
 
-	//help //usage: help!
-	help: function(){
-		var result = ""+
-		"__**Skynet**__ was developed by: *polo123qwe*, *Soso*, and *Amery*."+
-		"\n`https://github.com/polo123qwe/Skynet`"+
-		"\n"+
-		"\n***Dank Stuff***"+
-		"\n    `urban! <term>` Returns the definition for the selected term from Urban Dictionary*."+
-		"\n    `mal! <username>` Returns the *MyAnimeList* profile of `<username>`."+
-		"\n    `bestRating!` Returns the best possible rating of any rating scale ever."+
-		"\n    `lennyface!` ( ͡° ͜ʖ ͡°)"+
-		"\n    `fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom."+
-		"\n"+
-		"\n***Other***"+
-		"\n    `getMyID!` Returns your Discord ID."+
-		"\n    `getChannelID!` Returns the current channel's ID."+
-		"\n    `ping!` pong!"+
-		"\n    `help!` Shows this menu."+
-		"\n    `time! GMT<timezone>` Shows current time for `GMT<timezone>`."+
-		// "\n    `getMembership!` Grants membership to the user requesting it."+
-		// "\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
-		"\n"+
-		"\n***Management Related***"+
-		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."+
-		"\n    `vote! <option>` Votes for option `<option>`."+
-		"\n    `getVoteOptions!` Returns options for the current vote."+
-		"\n    `giveMembership! <@user>` Gives <@user> membership."+
-		"\n    `proveActive! <@member>` Proves <@member> active."
-
-		// var iterator = cmds.getKeys();
-		// var result = "Commands Available:\n";
-		
-		// var col = iterator.next();	
-		// while(!col.done){
-		// 	result = result + "> " + col.value + "\n";
-		// 	col = iterator.next();
-		// }
-		
-		return result;
-	},
-
 	//id //usage: getMyID!
 	getMyID: function(message){
 		return message.author.mention()+", your ID is: `"+message.author.id+"`";
