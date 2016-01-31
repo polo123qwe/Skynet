@@ -56,7 +56,7 @@ mybot.on("message", function(message){
 
 // On New Member
 mybot.on("serverNewMember", function(server, user){
-	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+". It is highly recommended to read through the <#137105484040634368>. Remember to type `getMembership!` to be set as a member!"
+	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+". It is highly recommended to read through the <#137105484040634368>. Remember to type `getMembership!` to be set as a member!");
 })
 
 // On Status Change
