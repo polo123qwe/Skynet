@@ -39,7 +39,7 @@ Func.prototype = {
 		"\n    `mal! <username>` Returns the *MyAnimeList* profile of `<username>`."+
 		"\n    `bestRating!` Returns the best possible rating of any rating scale ever."+
 		"\n    `lennyface!` ( ͡° ͜ʖ ͡°)"+
-		"\n    `fortune! <question>` Returns the infinite wisdom of Skynet."+
+		"\n    `fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom."+
 		"\n"+
 		"\n***Other***"+
 		"\n    `getMyID!` Returns your Discord ID."+
@@ -47,7 +47,7 @@ Func.prototype = {
 		"\n    `ping!` pong!"+
 		"\n    `help!` Shows this menu."+
 		"\n    `time! GMT<timezone>` Shows current time for `GMT<timezone>`."+
-		"\n    `getMembership!` Returns `<user>` membership."+
+		"\n    `getMembership!` Grants membership to the user requesting it."+
 		"\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
 		"\n"+
 		"\n***Management Related***"+
@@ -108,7 +108,7 @@ Func.prototype = {
 	report: function(message, splitted, client){
 		//error handling
 		if(splitted[1] == null || splitted[2] == null){
-			return "Not enough arguments, type report! person reason";
+			return "Not enough arguments. Correct usage is: `report! @person reason`. Remember to use an @ in front of the person's name.";
 		}
 
 		//ID
