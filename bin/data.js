@@ -49,8 +49,9 @@ data.prototype = {
 		cmds.add("showEvent!", func.showEvent);
 		cmds.add("bestRating!", func.bestRating);
 		cmds.add("lennyface!", func.lennyface);
-		cmds.add("getMembership!", func.getMembership);
-		cmds.add("enroll!", func.enroll);
+		cmds.add("giveMembership!", func.giveMembership);
+		cmds.add("proveActive!", func.proveActive);
+		// cmds.add("enroll!", func.enroll);
 		cmds.add("vote!", func.vote);
 		cmds.add("startVote!", func.startVote);
 		cmds.add("endVote!", func.endVote);

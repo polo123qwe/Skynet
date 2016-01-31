@@ -47,13 +47,15 @@ Func.prototype = {
 		"\n    `ping!` pong!"+
 		"\n    `help!` Shows this menu."+
 		"\n    `time! GMT<timezone>` Shows current time for `GMT<timezone>`."+
-		"\n    `getMembership!` Grants membership to the user requesting it."+
-		"\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
+		// "\n    `getMembership!` Grants membership to the user requesting it."+
+		// "\n    `enroll! GMT<timezone>` Enrolls `<user>` for future elections."+
 		"\n"+
 		"\n***Management Related***"+
 		"\n    `report! <@user> <reason>` Reports `<@user>` for `<reason>`."+
 		"\n    `vote! <option>` Votes for option `<option>`."+
-		"\n    `getVoteOptions!` Returns options for the current vote."
+		"\n    `getVoteOptions!` Returns options for the current vote."+
+		"\n    `giveMembership! <@user>` Gives <@user> membership."+
+		"\n    `proveActive! <@member>` Proves <@member> active."
 
 		// var iterator = cmds.getKeys();
 		// var result = "Commands Available:\n";
@@ -294,29 +296,84 @@ Func.prototype = {
         return "http://en.wikipedia.org/wiki/" + result;
     },
 
-	//getMembership //usage getMembership!
-	getMembership: function(message, splitted, client){
-		// prevents double membership
-		var allRoles = message.channel.server.roles;
-		var userRoles = message.channel.server.rolesOfUser(message.author);
-		var memberRole;
+	//getMembership //usage giveMembership! @name
+	giveMembership: function(message, splitted, client){
+		// limits assignment to op or md
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)){
 
-		// gets member role
-		for(var i = 0; i < allRoles.length; i++){
-			if(allRoles[i].name == "Member"){
-				memberRole = allRoles[i];
-			}
-		}
+			// sets up roles
+			var allRoles = message.channel.server.roles;
+			var userRoles = message.channel.server.rolesOfUser(message.author);
+			var memberRole;
 
-		// prevents double membership
-		for(var i = 0; i < userRoles.length; i++){
-			if(userRoles[i].name == "Member"){
-				return message.author.mention()+" is already a member of **Anime Discord**";
+			// Prevents errors
+			if(!splitted[1]){
+				return "Not enough parameters. Usage: `giveMembership! <@user>"
 			}
+
+			// ID
+			var memberID = splitted[1].replace(/<|@|>/ig,"");
+			if(!wasMentioned(memberID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user."
+			}
+
+			// gets member role
+			for(var i = 0; i < allRoles.length; i++){
+				if(allRoles[i].name == "Member"){
+					memberRole = allRoles[i];
+				}
+			}
+
+			// prevents double membership
+			for(var i = 0; i < userRoles.length; i++){
+				if(userRoles[i].name == "Member"){
+					return "<@"+memberID+"> is already a member of **Anime Discord**";
+				}
+			}
+
+			client.addMemberToRole(memberID, memberRole)
+			return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
+		}else{
+			return "Access denied. `giveMembership!` is an OP/MD only command."
 		}
-		
-		client.addMemberToRole(message.author, memberRole)
-		return message.author.mention()+", you've been given membership for **Anime Discord**. If you want to participate in future elections, make sure to enter your timezone using enroll!";
+	},
+
+	proveActive: function(message, splitted, client){
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)){
+			// Prevents errors
+			if(!splitted[1]){
+				return "Not enough parameters. Usage: `proveActive! <@user>`"
+			}
+
+			// ID
+			var memberID = splitted[1].replace(/<|@|>/ig,"");
+			if(!wasMentioned(memberID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user."
+			}
+
+			// gets active role
+			var allRoles = message.channel.server.roles;
+			var userRoles = message.channel.server.rolesOfUser(message.author);
+			var activeRole
+			for(var i = 0; i < allRoles.length; i++){
+				if(allRoles[i].name == "Active"){
+					activeRole = allRoles[i];
+				}
+			}
+
+			// prevents double active..ness
+			for(var i = 0; i < userRoles.length; i++){
+				if(userRoles[i].name == "Active"){
+					return "<@"+memberID+"> is already proven to be active.";
+					break;
+				}
+			}
+
+			client.addMemberToRole(memberID, activeRole)
+			return "<@"+memberID+"> was proven active by "+message.author.mention()+".";
+		}else{
+			return "Access denied. `proveActive!` is an OP/MD only command."
+		}
 	},
 
 	//enroll! //usage: enroll! timezone(GMT) 
@@ -403,4 +460,14 @@ function stringifyVotes(){
 	}
 	
 	return result;
+}
+
+function wasMentioned(userID, message){
+	var mentions = message.mentions
+	for(var i = 0; i < mentions.length; i++){
+		if(userID == mentions[i].id){
+			return true
+		}
+	}
+	return false
 }
