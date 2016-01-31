@@ -96,7 +96,7 @@ Func.prototype = {
 				reason = reason.toString().split(",").join(" ");
 
 				client.addMemberToRole(warnedID, warnRole)
-				client.sendMessage("139913811451838464", message.author.mention()+" warned <@";
+				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
 				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
 				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get banned. If this warning is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your warn.";		
 			}
@@ -120,8 +120,8 @@ Func.prototype = {
 		reason = reason.splice(2, reason.length);
 		reason = reason.toString().split(",").join(" ");
 
-		client.sendMessage("139913811451838464", "<@"+reporterID;
-		+"> reported <@"+reportedID+"> on: `"+reason;
+		client.sendMessage("139913811451838464", "<@"+reporterID
+		+"> reported <@"+reportedID+"> on: `"+reason
 		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
 		return "Your report has been taken into account!";
 	},
