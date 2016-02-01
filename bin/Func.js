@@ -46,7 +46,7 @@ Func.prototype = {
 		for(var i = 0; i < roles.length; i++){
 			if(roles[i].name == "Operator" || "Moderator"){
 				if(splitted[1] == null || splitted[2] == null){
-					return null;
+					return "Command denied. Not enough parameters.";
 				}
 
 				var warnedID = splitted[1];
@@ -60,6 +60,34 @@ Func.prototype = {
 				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
 				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
 				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get banned. If this warning is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your warn.";		
+			}
+		}
+		return null;
+	},
+
+	mute: function(message, splitted, client){
+		var roles = message.channel.server.rolesOfUser(message.author);
+
+		for(var i = 0; i < roles.length; i++){
+			if(roles[i].name == "Operator" || "Moderator"){
+				if(splitted[1] == null || splitted[2] == null){
+					return "Command denied. Not enough parameters.";
+				}
+
+				var muteID = splitted[1];
+				muteID = muteID.replace(/<|@|>/ig,"");
+
+				var reason = splitted.slice();
+				reason = reason.splice(2, reason.length);
+				reason = reason.toString().split(",").join(" ");
+
+				var muteRole = getRole("Muted", message);
+
+				client.addMemberToRole(muteID, muteRole)
+				client.sendMessage("139913811451838464", message.author.mention()+" muted <@"
+				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
+
+				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 3 days. If this mute is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your mute.";		
 			}
 		}
 		return null;
@@ -432,4 +460,15 @@ function wasMentioned(userID, message){
 		}
 	}
 	return false
+}
+
+function getRole(rolename, message){
+	var allRoles = message.channel.server.roles;
+
+	// gets member role
+	for(var i = 0; i < allRoles.length; i++){
+		if(allRoles[i].name == rolename){
+			return allRoles[i];
+		}
+	}
 }

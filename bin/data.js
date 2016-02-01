@@ -41,6 +41,7 @@ data.prototype = {
 		cmds.add("getMyID!", [func.getMyID, helping("getMyID")]);
 		cmds.add("getChannelID!", [func.getChannelID, helping("getChannelID")]);
 		cmds.add("warn!", [func.warn, helping("warn")]);
+		cmds.add("mute!", [func.mute, helping("mute")])
 		cmds.add("report!", [func.report, helping("report")]);
 		cmds.add("urban!", [func.urban, helping("urban")]);
 		cmds.add("mal!", [func.mal, helping("mal")]);
@@ -111,7 +112,9 @@ function helping(command){
 		break;		
 		case "getChannelID": return "`getChannelID!` Returns the current Channel ID.";
 		break;
-		case "warn": return "`warn <@user>` Add a user to the warn role";
+		case "warn": return "`warn! <@user> <reason>` Warns <@user> for <reason>. Only OP/MD.";
+		break;
+		case "mute": return "`mute! <@user> <reason>` Mutes <@user> for <reason>. Only OP/MD.";
 		break;
 		case "report": return "`report! <@user> <reason>` Reports `<@user>` for `<reason>`.";
 		break;
@@ -125,7 +128,7 @@ function helping(command){
 		break;
 		case "showEvent": return "`showEvent!` Show the current event.";
 		break;
-		case "lennyface": return "`lennyface!` Lennyface.";
+		case "lennyface": return "`lennyface!` ( ͡° ͜ʖ ͡°)";
 		break;
 		case "giveMembership": return "`giveMembership! <@user>` Grants membership to the user. Only OP/MD.";
 		break;
