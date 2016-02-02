@@ -23,6 +23,12 @@ Func.prototype = {
 //FUNCTIONS OF THE COMMANDS//
 //ADD THE FUNCTION OF THE COMMAND HERE
 
+
+	//caveJohnson! Yup.
+	caveJohnson: function() {
+		return "All right, I've been thinking. When life gives you lemons, *don't make lemonade.* \nMake life take the lemons back! \n***Get mad!*** \n**I don't want your damn lemons! What am I supposed to do with these?!** \nDemand to see life's manager! \nMake life rue the day it thought it could give Cave Johnson lemons! \nDo you know who I am? \nI'm the man who's gonna burn your house down! \nWith the lemons! \nI'm gonna get my engineers to invent a combustible lemon that **burns your house down!**";
+	},
+
 	//ping //usage: ping!
 	ping: function(){
 		return "pong!";

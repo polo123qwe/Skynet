@@ -15,14 +15,17 @@ module.exports = {
 	'Sure, sure.',
 	'Very doubtful.',
 	'Without a doubt.',
-	'Wow, Much no, very yes, so maybe.',
 	'Yes, definitely.',
-	'Yes, unless you run out of memes.',
 	'You are doomed.',
 	'You can\'t handle the truth.',
 	'No, never.',
 	'Impossible.',
-	'When life gives you lemons, don\'t make lemonade.'
+	'As I see it, no.',
+	'Definitely no.',
+	'Definitely yes.',
+	'Only in your wildest dreams.',
+	'Not really.',
+	'Of course.'
 	],
 }
 
