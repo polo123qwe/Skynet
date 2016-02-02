@@ -24,18 +24,18 @@ mybot.on("ready", function(){
 mybot.on("message", function(message){
 	var splitted = message.content.split(" ");
 	var command = splitted[0];
-	var func
-	var result
+	var func;
+	var result;
 
 	// ugly thing
-	var roles = message.channel.server.rolesOfUser(message.author);
+	// var roles = message.channel.server.rolesOfUser(message.author);
 
 	// this doesn't work..
-	for(var i = 0; i < roles.length; i++){
-		if(roles[i].name == "Warning"){
-			command = "asdfadf";
-		}
-	}
+	// for(var i = 0; i < roles.length; i++){
+		// if(roles[i].name == "Warning"){
+			// command = "asdfadf";
+		// }
+	// }
 
 	if(command.substr(-1, 1) == "!"){
 		func = cmds.get(command);
