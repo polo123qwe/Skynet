@@ -480,8 +480,8 @@ Func.prototype = {
 		}
 		var cache = message.channel.server.roles;
 		var role = cache.get("name", splitted[1]);
-		if(role == null) return "Error, type an exsisting role";
-		if(splitted[2] == null || splitted[2].substring(2) != "0x" || splitted[2].length != 8) return "Error, type a valid color, eg 0xffffff";
+		if(role == null) return "Error, type an existing role";
+		if(splitted[2] == null) return "Error, type a valid color, eg 0xffffff";
 		client.updateRole(role, {color: parseInt(splitted[2])});
 		return "Color changed successfully";
 	},
