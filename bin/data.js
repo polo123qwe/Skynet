@@ -56,6 +56,8 @@ data.prototype = {
 		cmds.add("endVote!", [func.endVote, helping("endVote")]);
 		cmds.add("wiki!", [func.wiki, helping("wiki")]);
 		cmds.add("fortune!", [func.fortune, helping("fortune")]);
+		cmds.add("caveJohnson!", [func.caveJohnson, helping("caveJohnson")]);
+		cmds.add("rebel!", [func.rebel, helping("rebel")]);
 		
 		return cmds;
 	},

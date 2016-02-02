@@ -289,6 +289,51 @@ Func.prototype = {
         return "http://en.wikipedia.org/wiki/" + result;
     },
 
+	//rebel!
+	rebel: function(message, splitted, client) {
+		// limits assignment to op or md
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
+
+			// sets up roles
+			var allRoles = message.channel.server.roles;
+			var userRoles = message.channel.server.rolesOfUser(message.author);
+			var memberRole;
+
+			// Prevents errors
+			if(!splitted[1]){
+				return "Not enough parameters. Usage: `rebel! <@user>"
+			}
+
+			// ID
+			var memberID = splitted[1].replace(/<|@|>/ig,"");
+			if(!wasMentioned(memberID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user."
+			}
+
+			// gets member role
+			for(var i = 0; i < allRoles.length; i++){
+				if(allRoles[i].name == "Rebel"){
+					memberRole = allRoles[i];
+				}
+			}
+
+			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
+
+			// prevents double membership
+			for(i = 0; i < requestingUserRoles.length; ++i){
+				if(requestingUserRoles[i].name == "Rebel") {
+					return "<@"+memberID+"> is already in Chernobyl";
+				}
+			}
+
+			client.addMemberToRole(memberID, memberRole);
+			return "<@"+memberID+">, you are now allowed to enter Chernobyl, thanks to "+message.author.mention()+". If you think this is a mistake, and want the Rebel role removed, contact an Operator please.";
+
+		} else {
+			return "Access denied. `rebel!` is an OP/MD only command.";
+		}
+	},
+
 	//giveMembership //usage giveMembership! @name
 	giveMembership: function(message, splitted, client) {
 		// limits assignment to op or md
