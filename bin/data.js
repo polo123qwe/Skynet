@@ -58,6 +58,7 @@ data.prototype = {
 		cmds.add("fortune!", [func.fortune, helping("fortune")]);
 		cmds.add("caveJohnson!", [func.caveJohnson, helping("caveJohnson")]);
 		cmds.add("rebel!", [func.rebel, helping("rebel")]);
+		cmds.add("color!", [func.color, helping("color")]);
 		
 		return cmds;
 	},
@@ -145,6 +146,8 @@ function helping(command){
 		case "wiki": return "`wiki! <term>` Returns the wikipedia page of said word.";
 		break;
 		case "fortune": return "`fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom.";
+		break;
+		case "color": return "`color! <role> <#rgb>` Change color of role.";
 		break;
 	}
 	

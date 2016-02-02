@@ -446,7 +446,7 @@ Func.prototype = {
 			}
 
 			// just messy code
-			roles = message.channel.server.roles
+			roles = message.channel.server.roles;
 
 			for (var i = 0; i < roles.length; i++){
 				if(roles[i].name == "GMT"+splitted[1].substring(3)){
@@ -468,6 +468,22 @@ Func.prototype = {
 			var random = Math.floor((Math.random() * fa.arr.length));
 			return message.author.mention() + ":crystal_ball:*"+fa.arr[random]+"*:crystal_ball:";
 		}
+	},
+	
+	// color!
+	color: function(message, splitted, client) {
+		
+		if(!isAllowed(message.author, "Operator", message.channel.server)){
+			if(!isAllowed(message.author, "Moderator", message.channel.server)){
+				return "Access Denied.";
+			}
+		}
+		var cache = message.channel.server.roles;
+		var role = cache.get("name", splitted[1]);
+		if(role == null) return "Error, type an exsisting role";
+		if(splitted[2] == null || splitted[2].substring(2) != "0x" || splitted[2].length != 8) return "Error, type a valid color, eg 0xffffff";
+		client.updateRole(role, {color: parseInt(splitted[2])});
+		return "Color changed successfully";
 	},
 }
 
