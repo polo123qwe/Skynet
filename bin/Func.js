@@ -485,6 +485,17 @@ Func.prototype = {
 		client.updateRole(role, {color: parseInt(splitted[2])});
 		return "Color changed successfully";
 	},
+
+	//define
+	define: function(message, splitted) {
+		if(splitted[1] == null) {
+			return "Correct usage of this command is: `define! <word/s>`"
+		} else {
+			result = result.splice(1, result.length);
+			result = result.toString().split(",").join("%");
+			return "http://www.merriam-webster.com/dictionary/"+result;
+		}
+	},
 }
 
 function isAllowed(user, rank, server){

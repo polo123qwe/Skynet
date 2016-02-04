@@ -59,6 +59,7 @@ data.prototype = {
 		cmds.add("caveJohnson!", [func.caveJohnson, helping("caveJohnson")]);
 		cmds.add("rebel!", [func.rebel, helping("rebel")]);
 		cmds.add("color!", [func.color, helping("color")]);
+		cmds.add("define!", [func.define, helping("define")]);
 		
 		return cmds;
 	},
