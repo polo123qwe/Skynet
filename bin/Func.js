@@ -490,12 +490,12 @@ Func.prototype = {
 	define: function(message, splitted) {
 
 		var result = splitted.slice();
-		
+
 		if(splitted[1] == null) {
 			return "Correct usage of this command is: `define! <word/s>`"
 		} else {
 			result = result.splice(1, result.length);
-			result = result.toString().split(",").join("%");
+			result = result.toString().split(",").join("%20");
 			return "http://www.merriam-webster.com/dictionary/"+result;
 		}
 	},
