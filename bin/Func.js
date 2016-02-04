@@ -488,6 +488,9 @@ Func.prototype = {
 
 	//define
 	define: function(message, splitted) {
+
+		var result = splitted.slice();
+		
 		if(splitted[1] == null) {
 			return "Correct usage of this command is: `define! <word/s>`"
 		} else {
