@@ -65,7 +65,7 @@ Func.prototype = {
 				client.addMemberToRole(warnedID, warnRole)
 				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
 				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
-				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get banned. If this warning is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your warn.";		
+				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";		
 			}
 		}
 		return null;
@@ -93,11 +93,12 @@ Func.prototype = {
 				client.sendMessage("139913811451838464", message.author.mention()+" muted <@"
 				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
 
-				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 3 days. If this mute is, in your opinion, not deserved, then PM one of the OPs and we'll discuss what to do about your mute.";		
+				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 1 week. If you think this mute is not deserved, please contact one of the OP/MDs to talk about it.";		
 			}
 		}
 		return null;
 	},
+
 
 	//report //usage: report! @user reason
 	report: function(message, splitted, client){
@@ -328,6 +329,51 @@ Func.prototype = {
 
 			client.addMemberToRole(memberID, memberRole);
 			return "<@"+memberID+">, you are now allowed to enter Chernobyl, thanks to "+message.author.mention()+". If you think this is a mistake, and want the Rebel role removed, contact an Operator please.";
+
+		} else {
+			return "Access denied. `rebel!` is an OP/MD only command.";
+		}
+	},
+
+	//unrebel
+	unrebel: function(message, splitted, client) {
+		// limits assignment to op or md
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
+
+			// sets up roles
+			var allRoles = message.channel.server.roles;
+			var userRoles = message.channel.server.rolesOfUser(message.author);
+			var rebelRole;
+
+			// Prevents errors
+			if(!splitted[1]){
+				return "Not enough parameters. Usage: `rebel! <@user>"
+			}
+
+			// ID
+			var memberID = splitted[1].replace(/<|@|>/ig,"");
+			if(!wasMentioned(memberID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user."
+			}
+
+			// gets rebel role
+			for(var i = 0; i < allRoles.length; i++){
+				if(allRoles[i].name == "Rebel"){
+					rebelRole = allRoles[i];
+				}
+			}
+
+			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
+
+			// prevents double membership
+			for(i = 0; i < requestingUserRoles.length; ++i){
+				if(requestingUserRoles[i].name == "Rebel") {
+					client.removeMemberFromRole(memberID, rebelRole);
+					return "<@"+memberID+"> has successfully been removed from Chernobyl.";
+				} else {
+					return "<@"+memberID+"> was never in Chernobyl to begin with."
+				}
+			}
 
 		} else {
 			return "Access denied. `rebel!` is an OP/MD only command.";
