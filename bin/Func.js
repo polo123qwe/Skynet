@@ -556,7 +556,6 @@ Func.prototype = {
 		}
 
 		// removing previous color role and assigning the new one
-		var oldColorRole
 		var roles = message.channel.server.rolesOfUser(colorID)
 		for(i = 0; i < roles.length; i++){
 			if(roles[i].name.substring(0, 6) == "Color("){
