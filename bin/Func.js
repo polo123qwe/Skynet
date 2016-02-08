@@ -548,7 +548,6 @@ Func.prototype = {
 		if(splitted[2].length != 8) return "Error: Type a valid color code, `ex.) 0xffffff`.";
 
 		// creating or updating roles
-		var result;
 		var cache = message.channel.server.roles;
 		var role = cache.get("name", "Color("+splitted[2]+")");
 		if(role == null){
