@@ -568,7 +568,7 @@ Func.prototype = {
 		role = getRole("Color("+splitted[2]+")", message);
 		client.addMemberToRole(colorID, role);
 
-		return result || "Color changed successfully";
+		return "Color changed successfully. If the color was not automaticly assigned, blame Soso and write the same command again. It will work 100% in the second try.";
 	},
 
 	//define
