@@ -596,6 +596,25 @@ Func.prototype = {
 		}
 	},
 
+	joinDate: function(message, splitted, client) {
+
+		// Limit the usage of this command to only Operators and Moderators.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "null";
+		}
+
+		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Get the Member's ID
+		var userDetails = message.channel.server.detailsOfUser(memberID);	// Get user details
+		var userJoinDate = userDetails.joinedAt;							// Get the date (object) in UNIX.
+
+		// Error Checks
+		if(!wasMentioned(memberID, message)) return "No user was mentioned.";
+		if(memberID == null) return "No user was mentioned.";
+
+		// Return the date, converting it to Standard Time
+		return "`<@"+memberID+">` joined the server on " + unixToTime(userJoinDate) + "GMT";
+	},
+
 	/* kill!
 		This function simply kills the bot for when the devs need to use it for testing. */
 	kill: function(message, client) {
@@ -604,7 +623,7 @@ Func.prototype = {
 		} else {
 			return "Access denied. This command is only for Operators or Moderators."
 		}
-	}
+	},
 }
 
 function isAllowed(user, rank, server){
@@ -658,4 +677,17 @@ function getRole(rolename, message){
 			return allRoles[i];
 		}
 	}
+}
+
+function unixToTime(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
 }
