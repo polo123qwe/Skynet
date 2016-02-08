@@ -50,8 +50,7 @@ Func.prototype = {
 		var roles = message.channel.server.rolesOfUser(message.author);
 
 		for (var i = 0; i < roles.length; i++) {
-			if(roles[i] === "Operator" || roles[i] === "Moderator"){
-				console.log(roles[i].name);
+			if(roles[i].name === "Operator" || roles[i].name === "Moderator"){
 				if(splitted[1] == null || splitted[2] == null){
 					return "Not enough parameters. Command denied.";
 				}
