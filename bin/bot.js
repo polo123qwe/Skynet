@@ -27,16 +27,6 @@ mybot.on("message", function(message){
 	var func;
 	var result;
 
-	// ugly thing
-	// var roles = message.channel.server.rolesOfUser(message.author);
-
-	// this doesn't work..
-	// for(var i = 0; i < roles.length; i++){
-		// if(roles[i].name == "Warning"){
-			// command = "asdfadf";
-		// }
-	// }
-
 	if(command.substr(-1, 1) == "!"){
 		func = cmds.get(command);
 		if(func != null) func = func[0];
@@ -46,12 +36,7 @@ mybot.on("message", function(message){
 			result = func(message, splitted, mybot);
 		}
 
-		// if(result == null){
-			// mybot.sendMessage(message.channel, "Command `["+message.content+"]` by ["+message.author.mention()+", *"+message.channel.server.name+"*, <#"+message.channel.id+">] is an invalid command, has invalid/incomplete parameters and/or has been denied.")
-			// return
-		// }else{
-			mybot.sendMessage(message.channel, result);
-		// }
+		mybot.sendMessage(message.channel, result);
 	}
 });
 
@@ -59,19 +44,6 @@ mybot.on("message", function(message){
 mybot.on("serverNewMember", function(server, user){
 	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+".");
 })
-
-// On Status Change
-// mybot.on("presence", function(userOld, userNew){
-// 	if(server.members.get("username", userNew.username)){
-// 		console.log(userOld.status, userNew.status, userNew.username)
-// 	}
-// })
-	// for(var i = 0; i < server.members.length; i++){
-	// 	// checks if user is in the server
-	// 	if (server.members[i].username == userNew.username) {
-	// 		console.log(userOld.status, userNew.status)
-	// 	}
-	// }
 
 function login(){
 	console.log('Initializing <Skynet>');

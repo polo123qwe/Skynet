@@ -49,10 +49,11 @@ Func.prototype = {
 	warn: function(message, splitted, client){
 		var roles = message.channel.server.rolesOfUser(message.author);
 
-		for(var i = 0; i < roles.length; i++){
-			if(roles[i].name == "Operator" || "Moderator"){
+		for (var i = 0; i < roles.length; i++) {
+			if(roles[i] === "Operator" || roles[i] === "Moderator"){
+				console.log(roles[i].name);
 				if(splitted[1] == null || splitted[2] == null){
-					return "Command denied. Not enough parameters.";
+					return "Not enough parameters. Command denied.";
 				}
 
 				// this is so incredibly inefficient pls help
@@ -63,9 +64,9 @@ Func.prototype = {
 				var warnRole = getRole("Warning", message)
 				for(var i = 0; i < rolesOfWarnedUser.length; i++){
 					if(rolesOfWarnedUser[i].name == "Warning"){
-						warnRole = getRole("Warning 2", message)
+						warnRole = getRole("Warning 2", message);
 					}else if(rolesOfWarnedUser[i].name == "Warning 2"){
-						return "mute! <@"+warnedID+"> You were already warned 2 times and are thus subject for a mute."
+						return "mute! <@"+warnedID+"> You were already warned 2 times and are thus subject for a mute.";
 					}
 				}
 
@@ -73,21 +74,20 @@ Func.prototype = {
 				reason = reason.splice(2, reason.length);
 				reason = reason.toString().split(",").join(" ");
 
-				client.addMemberToRole(warnedID, warnRole)
+				client.addMemberToRole(warnedID, warnRole);
 				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
 				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
-				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";		
+				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";
 			}
-		}
-
-		return null;
+		};
+		return "Access denied."
 	},
 
 	mute: function(message, splitted, client){
 		var roles = message.channel.server.rolesOfUser(message.author);
 
 		for(var i = 0; i < roles.length; i++){
-			if(roles[i].name == "Operator" || "Moderator"){
+			if(roles[i].name === "Operator" || roles[i].name === "Moderator"){
 				if(splitted[1] == null || splitted[2] == null){
 					return "Command denied. Not enough parameters.";
 				}
@@ -108,7 +108,7 @@ Func.prototype = {
 				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 1 week. If you think this mute is not deserved, please contact one of the OP/MDs to talk about it.";		
 			}
 		}
-		return null;
+		return "Access denied.";
 	},
 
 
@@ -296,7 +296,6 @@ Func.prototype = {
         }
 		
 		var result = splitted.splice(1, splitted.length);
-		console.log(result);
 		result = result.toString().split(",").join("_");
 		
         return "http://en.wikipedia.org/wiki/" + result;
