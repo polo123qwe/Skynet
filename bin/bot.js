@@ -17,7 +17,7 @@ mybot.on("ready", function(){
 	server = mybot.servers.get("id", "132490115137142784");
 	cmds = data.cmdStartup(server.roles);
 	console.log('<Skynet> ready to operate!');
-	mybot.sendMessage("132490115137142784", "<@"+botID+"> is ready to operate.")
+	// mybot.sendMessage("132490115137142784", "<@"+botID+"> is ready to operate.")
 });
 
 // On Message

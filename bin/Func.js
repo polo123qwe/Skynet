@@ -528,18 +528,47 @@ Func.prototype = {
 	
 	// color!
 	color: function(message, splitted, client) {
-		
+		// permission
 		if(!isAllowed(message.author, "Operator", message.channel.server)){
 			if(!isAllowed(message.author, "Moderator", message.channel.server)){
 				return "Access Denied.";
 			}
 		}
+
+		// gets target member's ID
+		var colorID = splitted[1];
+		colorID = colorID.replace(/<|@|>/ig,"");
+
+		// error handling
+		if(splitted[1] == null) return "Invalid user."
+		if(!wasMentioned(colorID, message)) return "Invalid user."
+
+		if(splitted[2] == null) return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		if(splitted[2].substring(0, 2) != "0x") return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		if(splitted[2].length != 8) return "Error: Type a valid color code, `ex.) 0xffffff`.";
+
+		// creating or updating roles
+		var result;
 		var cache = message.channel.server.roles;
-		var role = cache.get("name", splitted[1]);
-		if(role == null) return "Error, type an existing role";
-		if(splitted[2] == null) return "Error, type a valid color, eg 0xffffff";
-		client.updateRole(role, {color: parseInt(splitted[2])});
-		return "Color changed successfully";
+		var role = cache.get("name", "Color("+splitted[2]+")");
+		if(role == null){
+			client.createRole(message.channel.server, {color: parseInt(splitted[2]), name: "Color("+splitted[2]+")"});
+		}
+
+		// removing previous color role and assigning the new one
+		var oldColorRole
+		var roles = message.channel.server.rolesOfUser(colorID)
+		for(i = 0; i < roles.length; i++){
+			if(roles[i].name.substring(0, 6) == "Color("){
+				client.removeMemberFromRole(colorID, roles[i]);
+			}
+		}
+
+		// assigns role
+		role = getRole("Color("+splitted[2]+")", message);
+		client.addMemberToRole(colorID, role);
+
+		return result || "Color changed successfully";
 	},
 
 	//define

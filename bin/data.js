@@ -147,7 +147,7 @@ function helping(command){
 		break;
 		case "fortune": return "`fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom.";
 		break;
-		case "color": return "`color! <role> <#rgb>` Change color of role.";
+		case "color": return "`color! <@user> <hexcode>` Gives `<@user>` the color of `<hexcode>`.";
 		break;
 		case "rebel": return "`rebel! <@user>` No.";
 		break;
