@@ -536,35 +536,38 @@ Func.prototype = {
 		}
 
 		// gets target member's ID
-		var colorID = splitted[1];
-		colorID = colorID.replace(/<|@|>/ig,"");
+		var user = splitted[1];
+
+		var hexColor = splitted[2];
 
 		// error handling
-		if(splitted[1] == null) return "Invalid user."
-		if(!wasMentioned(colorID, message)) return "Invalid user."
+		if(user == null) return "Invalid user.";
+		
+		user = user.replace(/<|@|>/ig,"");
+		if(!wasMentioned(user, message)) return "Invalid user.";
 
-		if(splitted[2] == null) return "Error: Type a valid color code, `ex.) 0xffffff`.";
-		if(splitted[2].substring(0, 2) != "0x") return "Error: Type a valid color code, `ex.) 0xffffff`.";
-		if(splitted[2].length != 8) return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		if(hexColor == null) return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		if(hexColor.substring(0, 2) != "0x") return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		if(hexColor.length != 8) return "Error: Type a valid color code, `ex.) 0xffffff`.";
 
 		// creating or updating roles
 		var cache = message.channel.server.roles;
 		var role = cache.get("name", "Color("+splitted[2]+")");
 		if(role == null){
-			client.createRole(message.channel.server, {color: parseInt(splitted[2]), name: "Color("+splitted[2]+")"});
+			client.createRole(message.channel.server, {color: parseInt(hexColor), name: "Color("+hexColor+")"});
 		}
 
 		// removing previous color role and assigning the new one
-		var roles = message.channel.server.rolesOfUser(colorID)
+		var roles = message.channel.server.rolesOfUser(user)
 		for(i = 0; i < roles.length; i++){
 			if(roles[i].name.substring(0, 6) == "Color("){
-				client.removeMemberFromRole(colorID, roles[i]);
+				client.removeMemberFromRole(user, roles[i]);
 			}
 		}
 
 		// assigns role
 		role = getRole("Color("+splitted[2]+")", message);
-		client.addMemberToRole(colorID, role);
+		client.addMemberToRole(user, role);
 
 		return "Color changed successfully. If the color was not automaticly assigned, blame Soso and write the same command again. It will work 100% in the second try.";
 	},
