@@ -345,8 +345,8 @@ Func.prototype = {
 		}
 	},
 
-	//unrebel
-	unrebel: function(message, splitted, client) {
+	//conform/unrebel
+	conform: function(message, splitted, client) {
 		// limits assignment to op or md
 		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
 
@@ -380,10 +380,10 @@ Func.prototype = {
 				if(requestingUserRoles[i].name == "Rebel") {
 					client.removeMemberFromRole(memberID, rebelRole);
 					return "<@"+memberID+"> has successfully been removed from Chernobyl.";
-				} else {
-					return "<@"+memberID+"> was never in Chernobyl to begin with."
 				}
 			}
+
+			return "<@"+memberID+"> wasn't in Chernobyl to begin with.";
 
 		} else {
 			return "Access denied. `rebel!` is an OP/MD only command.";
@@ -528,48 +528,58 @@ Func.prototype = {
 	
 	// color!
 	color: function(message, splitted, client) {
-		// permission
-		if(!isAllowed(message.author, "Operator", message.channel.server)){
-			if(!isAllowed(message.author, "Moderator", message.channel.server)){
-				return "Access Denied.";
-			}
+
+		// Checks if the user sending the message has the required permissions to use it.
+		if(!(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server))) {
+			return "Access denied. This is an OP/MD command only.";
 		}
 
-		// gets target member's ID
-		var user = splitted[1];
+		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message.
+		var hexColor = splitted[2];											// Grab the color in Hex from the message.
+		var rolesCache = message.channel.server.roles;						// Store the server roles in a cache
+		var userRoleList = message.channel.server.rolesOfUser(memberID)		// Store the roles of the user in a variable
+		var colorRole;
 
-		var hexColor = splitted[2];
-
-		// error handling
-		if(user == null) return "Invalid user.";
+		// If no user was mentioned, return an error.
+		if(memberID == null) return "No user was mentioned.";
 		
-		user = user.replace(/<|@|>/ig,"");
-		if(!wasMentioned(user, message)) return "Invalid user.";
+		// Check if the user was mentioned
+		if(!wasMentioned(memberID, message)) return "No user was mentioned.";
 
-		if(hexColor == null) return "Error: Type a valid color code, `ex.) 0xffffff`.";
-		if(hexColor.substring(0, 2) != "0x") return "Error: Type a valid color code, `ex.) 0xffffff`.";
-		if(hexColor.length != 8) return "Error: Type a valid color code, `ex.) 0xffffff`.";
+		// Check for errors in the color selected
+		if(hexColor == null) return "`Error:` You didn't type a color code.";
+		if(hexColor.length != 6) return "`Error:` Lenght of color code is either too short or too long.";
 
-		// creating or updating roles
-		var cache = message.channel.server.roles;
-		var role = cache.get("name", "Color("+splitted[2]+")");
-		if(role == null){
-			client.createRole(message.channel.server, {color: parseInt(hexColor), name: "Color("+hexColor+")"});
-		}
-
-		// removing previous color role and assigning the new one
-		var roles = message.channel.server.rolesOfUser(user)
-		for(i = 0; i < roles.length; i++){
-			if(roles[i].name.substring(0, 6) == "Color("){
-				client.removeMemberFromRole(user, roles[i]);
+		// Checking to see if the user already has a color role. If this is the case, remove that
+		for(i = 0; i < userRoleList.length; ++i) {
+			if(userRoleList[i].name.substring(0, 8) == "Color(0x"){
+				client.removeMemberFromRole(memberID, userRoleList[i]);
 			}
 		}
 
-		// assigns role
-		role = getRole("Color("+splitted[2]+")", message);
-		client.addMemberToRole(user, role);
+		// Checking to see if the color role already exists
+		for(i = 0; i < rolesCache.length; ++i) {
+			if(rolesCache[i].name == "Color(0x"+hexColor+")") {
+				colorRole = rolesCache[i];
+				client.addMemberToRole(memberID, colorRole);
+				return "Color changed successfully!";
+			}
+		}
 
-		return "Color changed successfully. If the color was not automaticly assigned, blame Soso and write the same command again. It will work 100% in the second try.";
+		// If previous check doesn't match, then create the color role.
+		client.createRole(message.channel.server, {color: parseInt("0x"+hexColor), name: "Color(0x"+hexColor+")"}, function(){
+			// Assigns Role
+			for(var i = 0; i < rolesCache.length; ++i) {
+				if(rolesCache[i].name == "Color(0x"+hexColor+")") {
+					colorRole = rolesCache[i];
+				}
+			}
+
+			client.addMemberToRole(memberID, colorRole);
+			
+		});
+
+		return "Color changed successfully!";
 	},
 
 	//define
@@ -585,6 +595,16 @@ Func.prototype = {
 			return "http://www.merriam-webster.com/dictionary/"+result;
 		}
 	},
+
+	/* kill!
+		This function simply kills the bot for when the devs need to use it for testing. */
+	kill: function(message, client) {
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
+			process.exit(1);
+		} else {
+			return "Access denied. This command is only for Operators or Moderators."
+		}
+	}
 }
 
 function isAllowed(user, rank, server){

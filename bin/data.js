@@ -60,6 +60,8 @@ data.prototype = {
 		cmds.add("rebel!", [func.rebel, helping("rebel")]);
 		cmds.add("color!", [func.color, helping("color")]);
 		cmds.add("define!", [func.define, helping("define")]);
+		cmds.add("conform!", [func.conform, helping("conform")]);
+		cmds.add("kill!", [func.kill, helping("kill")]);
 		
 		return cmds;
 	},
