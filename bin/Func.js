@@ -597,12 +597,6 @@ Func.prototype = {
 	},
 
 	joinDate: function(message, splitted, client) {
-
-		// Limit the usage of this command to only Operators and Moderators.
-		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
-			return "null";
-		}
-
 		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Get the Member's ID
 		var userDetails = message.channel.server.detailsOfUser(memberID);	// Get user details
 		var userJoinDate = userDetails.joinedAt;							// Get the date (object) in UNIX.
@@ -686,8 +680,8 @@ function unixToTime(UNIX_timestamp){
   var month = months[a.getMonth()];
   var date = a.getDate();
   var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
+  var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); 
+  var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
   var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
   return time;
 }
