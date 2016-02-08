@@ -94,7 +94,6 @@ data.prototype = {
 
 		var output = "";
 		cmds.fEach(printVotes);
-		console.log(output);
 		return "__**Skynet**__ was developed by: *polo123qwe*, *Soso*, and *Amery*."+
 			"\n`https://github.com/polo123qwe/Skynet`.\nCommandsAvailable:\n\n"+output+"\n";
 		
@@ -150,6 +149,11 @@ function helping(command){
 		break;
 		case "color": return "`color! <role> <#rgb>` Change color of role.";
 		break;
+		case "rebel": return "`rebel! <@user>` No.";
+		break;
+		case "caveJohnson": return "`caveJohnson!` LEMOOONS11!!";
+		break;
+		case "define": return "`define! <word>` Gives definition of <word>."
 	}
 	
 }

@@ -55,8 +55,19 @@ Func.prototype = {
 					return "Command denied. Not enough parameters.";
 				}
 
+				// this is so incredibly inefficient pls help
 				var warnedID = splitted[1];
 				warnedID = warnedID.replace(/<|@|>/ig,"");
+				var rolesOfWarnedUser = message.channel.server.rolesOfUser(warnedID);
+
+				var warnRole = getRole("Warning", message)
+				for(var i = 0; i < rolesOfWarnedUser.length; i++){
+					if(rolesOfWarnedUser[i].name == "Warning"){
+						warnRole = getRole("Warning 2", message)
+					}else if(rolesOfWarnedUser[i].name == "Warning 2"){
+						return "mute! <@"+warnedID+"> You were already warned 2 times and are thus subject for a mute."
+					}
+				}
 
 				var reason = splitted.slice();
 				reason = reason.splice(2, reason.length);
@@ -68,6 +79,7 @@ Func.prototype = {
 				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";		
 			}
 		}
+
 		return null;
 	},
 
