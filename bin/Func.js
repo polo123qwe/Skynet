@@ -565,9 +565,24 @@ Func.prototype = {
 				return "Color changed successfully!";
 			}
 		}
-
+		var permissions = {
+			
+			color: parseInt("0x"+hexColor), 
+			name: "Color(0x"+hexColor+")",
+			mentionEveryone: false,
+			hoist: false,
+			attachFiles: false,
+			embedLinks: false,
+			sendMessages: false,
+			readMessages: false,
+			sendTTSMessages: false,
+			voiceConnect: false,
+			voiceSpeak: false,
+			voiceUseVAD: false,
+			
+		}
 		// If previous check doesn't match, then create the color role.
-		client.createRole(message.channel.server, {color: parseInt("0x"+hexColor), name: "Color(0x"+hexColor+")"}, function(){
+		client.createRole(message.channel.server, permissions, function(){
 			// Assigns Role
 			for(var i = 0; i < rolesCache.length; ++i) {
 				if(rolesCache[i].name == "Color(0x"+hexColor+")") {
