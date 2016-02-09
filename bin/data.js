@@ -157,6 +157,12 @@ function helping(command){
 		case "caveJohnson": return "`caveJohnson!` LEMOOONS11!!";
 		break;
 		case "define": return "`define! <word>` Gives definition of <word>."
+		break;
+		case "conform": return "`conform! <@user>` Undoes rebel!."
+		break;
+		case "kill": return "`kill!` Kills the bot."
+		break;
+		case "joinDate": return "`joinDate! <@user>` Returns the join date of the user."
 	}
 	
 }

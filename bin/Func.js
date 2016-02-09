@@ -65,7 +65,7 @@ Func.prototype = {
 					if(rolesOfWarnedUser[i].name == "Warning"){
 						warnRole = getRole("Warning 2", message);
 					}else if(rolesOfWarnedUser[i].name == "Warning 2"){
-						return "mute! <@"+warnedID+"> You were already warned 2 times and are thus subject for a mute.";
+						return "mute! @"+warnedID+" You were already warned 2 times and are thus subject for a mute.";
 					}
 				}
 
@@ -75,7 +75,7 @@ Func.prototype = {
 
 				client.addMemberToRole(warnedID, warnRole);
 				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
-				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"] for "+reason);
+				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason);
 				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";
 			}
 		};
@@ -102,7 +102,7 @@ Func.prototype = {
 
 				client.addMemberToRole(muteID, muteRole)
 				client.sendMessage("139913811451838464", message.author.mention()+" muted <@"
-				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]");
+				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason);
 
 				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 1 week. If you think this mute is not deserved, please contact one of the OP/MDs to talk about it.";		
 			}
