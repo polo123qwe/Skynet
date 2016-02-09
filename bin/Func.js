@@ -357,7 +357,7 @@ Func.prototype = {
 
 			// Prevents errors
 			if(!splitted[1]){
-				return "Not enough parameters. Usage: `rebel! <@user>"
+				return "Not enough parameters. Usage: `conform! <@user>"
 			}
 
 			// ID
@@ -386,7 +386,7 @@ Func.prototype = {
 			return "<@"+memberID+"> wasn't in Chernobyl to begin with.";
 
 		} else {
-			return "Access denied. `rebel!` is an OP/MD only command.";
+			return "Access denied. `conform!` is an OP/MD only command.";
 		}
 	},
 
