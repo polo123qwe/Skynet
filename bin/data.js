@@ -164,6 +164,8 @@ function helping(command){
 		case "kill": return "`kill!` Kills the bot."
 		break;
 		case "joinDate": return "`joinDate! <@user>` Returns the join date of the user."
+		break;
+		case "mala": return "`mala! <anime name>` Returns the mal search for the anime name."
 	}
 	
 }

@@ -1,12 +1,15 @@
 //vote related
-var votes = new Map();
-var output = "";
-var voted = [];
 
+// var votes = new Map();
+// var output = "";
+// var voted = [];
 
 module.exports = Vote;
 
 function Vote(options){
+	
+	this.votes = new Map();
+	this.voted = [];
 	
 	output = "";
 	voted = [];	
@@ -16,29 +19,29 @@ function Vote(options){
 	}
 	
 	options = options.toString().split(",").join(" ");
-	
 
 	return options;
 	
 }
 
 Vote.prototype = {
+	
 	constructor: Vote,
 	
 	addVote: function(vote, id){
 				// if options exists
-		var count = votes.get(vote);
+		var count = this.votes.get(vote);
 		if(count == undefined){
-			return "Failed to vote.\n"+getOptions();
+			return "Failed to vote.\n"+getOptions(this.votes);
 		} else {
 			// and if note voted before
-			if(contains(id)){
+			if(contains(id, this.voted)){
 				return "User <@"+id+"> already voted.";
 			} else {
-				voted.push(id);
+				this.voted.push(id);
 			}
 
-			votes.set(vote, count+1);
+			this.votes.set(vote, count+1);
 			return "Your vote `"+vote+"` was added successfully.";
 		}
 	},
@@ -46,7 +49,7 @@ Vote.prototype = {
 	endVote: function(){
 		
 		var output = "";
-		votes.forEach(printVotes)
+		this.votes.forEach(printVotes)
 		
 		return "Results:\n```\n"+output+"\n```";
 		
@@ -57,21 +60,21 @@ Vote.prototype = {
 	},
 	
 	getOptions: function(){
-		return getOptions();
+		return getOptions(this.votes);
 	}
 
 }
 
-function contains(id) {
-	for (var i = 0; i < voted.length; i++) {
-		if (voted[i] == id) {
+function contains(id, arr) {
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i] == id) {
 			return true;
 		}
 	}
 	return false;
 }
-function getOptions(){
-	var iterator = votes.keys();
+function getOptions(map){
+	var iterator = map.keys();
 	var result = "Options available:\n```";
 
 	var col = iterator.next();	
