@@ -159,11 +159,15 @@ Func.prototype = {
 
 	//mal anime search link // usage: mala! title
 	mala: function(message, splitted){
+			
+		var result = splitted.slice();
 		
-		if(splitted[1] != null){
-			return "http://myanimelist.net/anime.php?q="+splitted[1];
-		}else{
+		if (splitted[1] == null){
 			return "Not enough arguments, type mala! title";
+		} else {
+			result = result.splice(1, result.length);
+			result = result.toString().split(",").join("+");	
+			return "http://myanimelist.net/anime.php?q="+result;
 		}
 	},
 
