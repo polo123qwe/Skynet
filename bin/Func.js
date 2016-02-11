@@ -157,6 +157,16 @@ Func.prototype = {
 		}
 	},
 
+	//mal anime search link // usage: mala! title
+	mala: function(message, splitted){
+		
+		if(splitted[1] != null){
+			return "http://myanimelist.net/anime.php?q="+splitted[1];
+		}else{
+			return "Not enough arguments, type mala! title";
+		}
+	}
+
 	//time //usage: time! timezone
 	time: function(message, splitted){
 	
