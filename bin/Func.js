@@ -165,7 +165,7 @@ Func.prototype = {
 		}else{
 			return "Not enough arguments, type mala! title";
 		}
-	}
+	},
 
 	//time //usage: time! timezone
 	time: function(message, splitted){
