@@ -45,6 +45,7 @@ data.prototype = {
 		cmds.add("report!", [func.report, helping("report")]);
 		cmds.add("urban!", [func.urban, helping("urban")]);
 		cmds.add("mal!", [func.mal, helping("mal")]);
+		cmds.add("mala!", [func.mala, helping("mala")]);
 		cmds.add("time!", [func.time, helping("time")]);
 		cmds.add("editEvent!", [func.editEvent, helping("editEvent")]);
 		cmds.add("showEvent!", [func.showEvent, helping("showEvent")]);
