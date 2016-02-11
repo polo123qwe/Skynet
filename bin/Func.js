@@ -166,7 +166,7 @@ Func.prototype = {
 			return "Not enough arguments, type mala! title";
 		} else {
 			result = result.splice(1, result.length);
-			result = result.toString().split(",").join("+");	
+			result = result.toString().split(",").join("%20");	
 			return "http://myanimelist.net/anime.php?q="+result;
 		}
 	},
