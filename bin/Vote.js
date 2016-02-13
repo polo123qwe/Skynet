@@ -1,5 +1,5 @@
 //vote related
-
+//////////////////////////REDO?????
 // var votes = new Map();
 // var output = "";
 // var voted = [];
@@ -10,6 +10,20 @@ function Vote(options){
 	
 	this.votes = new Map();
 	this.voted = [];
+	
+	this.contains = function(id, arr) {
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i] == id) {
+			return true;
+		}
+	}
+	
+	console.log("No this: "+votes);
+	console.log("This: "+this.votes);
+	
+	return false;
+}
+	
 	
 	output = "";
 	voted = [];	
