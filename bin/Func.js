@@ -63,10 +63,8 @@ Func.prototype = {
 
 				var warnRole = getRole("Warning", message)
 				for(var i = 0; i < rolesOfWarnedUser.length; i++){
-					if(rolesOfWarnedUser[i].name == "Warning"){
-						warnRole = getRole("Warning 2", message);
-					}else if(rolesOfWarnedUser[i].name == "Warning 2"){
-						return "mute! @"+warnedID+" You were already warned 2 times and are thus subject for a mute.";
+					}else if(rolesOfWarnedUser[i].name == "Warning 1"){
+						return "mute! @"+warnedID+" You were already warned before and are thus subject for a mute.";
 					}
 				}
 
