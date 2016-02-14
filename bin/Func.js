@@ -61,9 +61,10 @@ Func.prototype = {
 				warnedID = warnedID.replace(/<|@|>/ig,"");
 				var rolesOfWarnedUser = message.channel.server.rolesOfUser(warnedID);
 
-				var warnRole = getRole("Warning", message)
+				var warnRole = getRole("Warning", message);
+				
 				for(var i = 0; i < rolesOfWarnedUser.length; i++){
-					}else if(rolesOfWarnedUser[i].name == "Warning 1"){
+					if(rolesOfWarnedUser[i].name == "Warning 1") {
 						return "mute! @"+warnedID+" You were already warned before and are thus subject for a mute.";
 					}
 				}
@@ -550,13 +551,31 @@ Func.prototype = {
 			return "Access denied. This is an OP/MD command only.";
 		}
 
-		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message.
-		var hexColor = splitted[2];											// Grab the color in Hex from the message.
+		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message
+		var hexColor = splitted[2];											// Grab the color in Hex from the message
 		var rolesCache = message.channel.server.roles;						// Store the server roles in a cache
 		var userRoleList = message.channel.server.rolesOfUser(memberID)		// Store the roles of the user in a variable
-		var colorRole;
+		var colorRole;														// Empty var, to be filled later
+		
+		// Set the permissions for the new role that will be created
+		var permissions = {
+			
+			color: parseInt("0x"+hexColor), 
+			name: "Color(0x"+hexColor+")",
+			mentionEveryone: false,
+			hoist: false,
+			attachFiles: false,
+			embedLinks: false,
+			sendMessages: false,
+			readMessages: false,
+			sendTTSMessages: false,
+			voiceConnect: false,
+			voiceSpeak: false,
+			voiceUseVAD: false,
+			
+		}
 
-		// If no user was mentioned, return an error.
+		// If no user was mentioned, return an error
 		if(memberID == null) return "No user was mentioned.";
 		
 		// Check if the user was mentioned
@@ -581,22 +600,7 @@ Func.prototype = {
 				return "Color changed successfully!";
 			}
 		}
-		var permissions = {
-			
-			color: parseInt("0x"+hexColor), 
-			name: "Color(0x"+hexColor+")",
-			mentionEveryone: false,
-			hoist: false,
-			attachFiles: false,
-			embedLinks: false,
-			sendMessages: false,
-			readMessages: false,
-			sendTTSMessages: false,
-			voiceConnect: false,
-			voiceSpeak: false,
-			voiceUseVAD: false,
-			
-		}
+		
 		// If previous check doesn't match, then create the color role.
 		client.createRole(message.channel.server, permissions, function(){
 			// Assigns Role

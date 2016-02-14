@@ -98,7 +98,7 @@ data.prototype = {
 
 		var output = "";
 		cmds.fEach(printVotes);
-		return "__**Skynet**__ was developed by: *polo123qwe*, *Soso*, and *Amery*."+
+		return "__**Skynet**__ was developed by three fags known as *Sergi*, *Soso*, and *Amery*."+
 			"\n`https://github.com/polo123qwe/Skynet`.\nCommandsAvailable:\n\n"+output+"\n";
 		
 		////printCommands
