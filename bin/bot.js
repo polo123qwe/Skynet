@@ -26,17 +26,22 @@ mybot.on("message", function(message){
 	var command = splitted[0];
 	var func;
 	var result;
-
+	
 	if(command.substr(-1, 1) == "!"){
 		func = cmds.get(command);
 		if(func != null) func = func[0];
+		if(message.channel.server != null){
+			if(func != null){
+				console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")
+				// console.log("Recieved cmd ["+message.content+"] by ["+message.author.username)
+				result = func(message, splitted, mybot);
+			}
 
-		if(func != null){
-			console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")
-			result = func(message, splitted, mybot);
+			mybot.sendMessage(message.channel, result);
+		} else {
+			console.log("Recieved pm ["+message.content+"] by ["+message.author.username+"]");
 		}
-
-		mybot.sendMessage(message.channel, result);
+		
 	}
 });
 
