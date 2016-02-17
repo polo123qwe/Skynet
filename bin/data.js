@@ -64,6 +64,8 @@ data.prototype = {
 		cmds.add("conform!", [func.conform, helping("conform")]);
 		cmds.add("kill!", [func.kill, helping("kill")]);
 		cmds.add("joinDate!", [func.joinDate, helping("joinDate")]);
+		cmds.add("kick!", [func.kick, helping("kick")]);
+		cmds.add("ban!", [func.ban, helping("ban")]);
 		
 		return cmds;
 	},

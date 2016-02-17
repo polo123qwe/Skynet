@@ -653,6 +653,56 @@ Func.prototype = {
 			return "Access denied. This command is only for Operators or Moderators."
 		}
 	},
+
+	ban: function(message, splitted, client) {
+		// Czech for permission.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "This command is for Operators and Moderators only.";
+		}
+
+		// Variables
+		var userToBeBannedID = splitted[1].replace(/<@>/ig, "");
+		var reason = splitted.slice();
+		reason = reason.splice(2, reason.length);
+		reason = reason.toString().split(",").join(" ");
+
+		// Checks if the user was indeed mentioned.
+		if(!wasMentioned(userToBeBannedID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user.";
+		}
+
+		// Bans the member
+		client.banMember(userToBeBannedID, message.channel.server);
+
+		// Send message to #management
+		client.sendMessage("139913811451838464", message.author.mention() + "**banned** <@"+userToBeBannedID+"> for: `"+reason
+		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
+	},
+
+	kick: function(message, splitted, client) {
+		// Czech for permission.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "This command is for Operators and Moderators only.";
+		}
+
+		// Variables
+		var userToBeKickedID = splitted[1].replace(/<@>/ig, "");
+		var reason = splitted.slice();
+		reason = reason.splice(2, reason.length);
+		reason = reason.toString().split(",").join(" ");
+
+		// Checks if the user was indeed mentioned.
+		if(!wasMentioned(userToBeKickedID, message)){
+				return "Invalid user parameter. `<@user>` has to be an existing user.";
+		}
+
+		// Bans the member
+		client.kickMember(userToBeKickedID, message.channel.server);
+
+		// Send message to #management
+		client.sendMessage("139913811451838464", message.author.mention() + "**kicked** <@"+userToBeKickedID+"> for: `"+reason
+		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
+	},
 }
 
 function isAllowed(user, rank, server){
