@@ -75,7 +75,7 @@ Func.prototype = {
 
 				client.addMemberToRole(warnedID, warnRole);
 				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
-				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason);
+				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason+"@119556874378018818");
 				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";
 			}
 		};
@@ -102,7 +102,7 @@ Func.prototype = {
 
 				client.addMemberToRole(muteID, muteRole)
 				client.sendMessage("139913811451838464", message.author.mention()+" muted <@"
-				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason);
+				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason+"@119556874378018818");
 
 				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 1 week. If you think this mute is not deserved, please contact one of the OP/MDs to talk about it.";		
 			}
@@ -672,7 +672,7 @@ Func.prototype = {
 		}
 
 		// Bans the member
-		client.banMember(userToBeBannedID, message.channel.server);
+		client.banMember(userToBeBannedID, message.channel.server, 7);
 
 		// Send message to #management
 		client.sendMessage("139913811451838464", message.author.mention() + "**banned** <@"+userToBeBannedID+"> for: `"+reason
