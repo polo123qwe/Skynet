@@ -46,70 +46,81 @@ Func.prototype = {
 		return "<#"+id+">'s ID is: `"+id+"`";
 	},
 
-	//warn //usage: warn! @name reason
-	warn: function(message, splitted, client){
-		var roles = message.channel.server.rolesOfUser(message.author);
+	//Warn: Gives user the 'Warned' role. If the user was already warned once, it mutes said user.
+	warn: function(message, splitted, client) {
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only."
+		}
 
-		for (var i = 0; i < roles.length; i++) {
-			if(roles[i].name === "Operator" || roles[i].name === "Moderator"){
-				if(splitted[1] == null || splitted[2] == null){
-					return "Not enough parameters. Command denied.";
-				}
+		// Declarations and Definitions
+		var utwID = splitted[1].replace(/<|@|>/ig, "");						// User to warn ID
+		var utwRoles = message.channel.server.rolesOfUser(utwID);			// Roles of the user to warn
+		var warnRole = getRole("Warning", message); 						// Get the warning role
+		var muteRole = getRole("Muted", message);							// Get the muted role
+		var reason = splitted.slice();										// Get the reason for the warning
+		
+		// Rebuild the reason text.
+		reason = reason.splice(2, reason.lenght).toString().split(",").join(" ");
 
-				// this is so incredibly inefficient pls help
-				var warnedID = splitted[1];
-				warnedID = warnedID.replace(/<|@|>/ig,"");
-				var rolesOfWarnedUser = message.channel.server.rolesOfUser(warnedID);
+		// Check for nulls
+		if(splitted[1] == null || splitted[2] == null) {
+			return "Not enough parameters or one of the parameters was null."
+		}
+		
+		// Check for a previous warning
+		for(var i = 0; i < utwRoles.length; ++i) {
+			if(rolesOfUser[i].name == "Warning") {
+				// User already had a warning, so it proceeds to mute said user
+				client.addMemberToRole(utwID, muteRole);
 
-				var warnRole = getRole("Warning", message);
+				// Send a message to #log with details
+				client.sendMessage("150028926931042305", message.author.mention() + " warned <@" + utwID + ">, but seeing as they were already warned before, said user has been muted. Reason: " + reason);
 				
-				for(var i = 0; i < rolesOfWarnedUser.length; i++){
-					if(rolesOfWarnedUser[i].name == "Warning 1") {
-						return "mute! @"+warnedID+" You were already warned before and are thus subject for a mute.";
-					}
-				}
-
-				var reason = splitted.slice();
-				reason = reason.splice(2, reason.length);
-				reason = reason.toString().split(",").join(" ");
-
-				client.addMemberToRole(warnedID, warnRole);
-				client.sendMessage("139913811451838464", message.author.mention()+" warned <@"
-				+warnedID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason+"@119556874378018818");
-				return "<@"+warnedID+">. You were warned for:`"+reason+"`. This warn will be resolved after 3 days. Should you be warned again within that time period, you will get muted. If you think you didn't deserve this warn, please contact one of the OP/MDs to talk about it.";
-			}
-		};
-		return "Access denied."
-	},
-
-	mute: function(message, splitted, client){
-		var roles = message.channel.server.rolesOfUser(message.author);
-
-		for(var i = 0; i < roles.length; i++){
-			if(roles[i].name === "Operator" || roles[i].name === "Moderator"){
-				if(splitted[1] == null || splitted[2] == null){
-					return "Command denied. Not enough parameters.";
-				}
-
-				var muteID = splitted[1];
-				muteID = muteID.replace(/<|@|>/ig,"");
-
-				var reason = splitted.slice();
-				reason = reason.splice(2, reason.length);
-				reason = reason.toString().split(",").join(" ");
-
-				var muteRole = getRole("Muted", message);
-
-				client.addMemberToRole(muteID, muteRole)
-				client.sendMessage("139913811451838464", message.author.mention()+" muted <@"
-				+muteID+"> in ["+message.channel.server.name+", "+message.channel.name+"]. Reason: "+reason+"@119556874378018818");
-
-				return "<@"+muteID+">. You were muted for:`"+reason+"`. This mute will be resolved after 1 week. If you think this mute is not deserved, please contact one of the OP/MDs to talk about it.";		
+				// Send a message on the channel to inform the user of their mute
+				return "<@" + utwID + ">, seeing as you were previously warned once, you've now been muted. Please, read #rules for more info.";
 			}
 		}
-		return "Access denied.";
+
+		// If none of the above happens, then warn the user
+		client.addMemberToRole(utwID, warnRole);
+
+		// Send message to #log with details
+		client.sendMessage("150028926931042305", message.author.mention() + " warned <@" + utwID + ">. Reason: " + reason);
+
+		// Send message on the channel to inform the user of their warn
+		return "<@" + utwID + ">, you've been warned. Reason: `" + reason + "` Please, read #rules for more info."
 	},
 
+	// Mute: Mutes a user.
+	mute: function(message, splitted, client) {
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only."
+		}
+
+		// Declaration and Definitions
+		var utmID = splitted[1].replace(/<|@|>/ig, "");		// User to mute ID	
+		var muteRole = getRole("Muted", message);			// Gets the muted role
+		var reason = splitted.slice();						// Gets the reason
+
+		// Rebuild the reason text
+		reason = reason.splice(2, reason.length).toString().split(",").join(" ");
+
+		// Check for nulls
+		if(splitted[1] == null || splitted[2] == null) {
+			return "Not enough parameters or one of the parameters was null."
+		}
+
+		// Mutes the user
+		client.addMemberToRole(utmID, muteRole);
+
+		// Sends a message to #log with details
+		client.sendMessage("150028926931042305", message.author.mention() + " muted <@" + utmID + ">. Reason: " + reason);
+
+		// Sends a message on the channel to inform the user of their mute
+		return "<@" + utmID + ">, you have been muted. Reason: `" + reason + "` Please, read #rules for more info.";
+	},
 
 	//report //usage: report! @user reason
 	report: function(message, splitted, client){
