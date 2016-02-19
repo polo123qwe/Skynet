@@ -53,6 +53,11 @@ Func.prototype = {
 			return "Access denied. This command is for Operators or Moderators only."
 		}
 
+		// Check for nulls
+		if(splitted[1] == null || splitted[2] == null) {
+			return "Not enough parameters or one of the parameters was null."
+		}
+
 		// Declarations and Definitions
 		var utwID = splitted[1].replace(/<|@|>/ig, "");						// User to warn ID
 		var utwRoles = message.channel.server.rolesOfUser(utwID);			// Roles of the user to warn
@@ -63,11 +68,11 @@ Func.prototype = {
 		// Rebuild the reason text.
 		reason = reason.splice(2, reason.lenght).toString().split(",").join(" ");
 
-		// Check for nulls
-		if(splitted[1] == null || splitted[2] == null) {
-			return "Not enough parameters or one of the parameters was null."
+		// Check if the user was mentioned
+		if(!wasMentioned(utwID, message)) {
+				return "No user was mentioned. Remember to @ the user you need to warn.";
 		}
-		
+
 		// Check for a previous warning
 		for(var i = 0; i < utwRoles.length; ++i) {
 			if(rolesOfUser[i].name == "Warning") {
@@ -99,18 +104,23 @@ Func.prototype = {
 			return "Access denied. This command is for Operators or Moderators only."
 		}
 
+		// Check for nulls
+		if(splitted[1] == null || splitted[2] == null) {
+			return "Not enough parameters or one of the parameters was null."
+		}
+
 		// Declaration and Definitions
 		var utmID = splitted[1].replace(/<|@|>/ig, "");		// User to mute ID	
 		var muteRole = getRole("Muted", message);			// Gets the muted role
 		var reason = splitted.slice();						// Gets the reason
 
+		// Check if the user was mentioned
+		if(!wasMentioned(utmID, message)) {
+				return "No user was mentioned. Remember to @ the user you need to mute.";
+		}
+
 		// Rebuild the reason text
 		reason = reason.splice(2, reason.length).toString().split(",").join(" ");
-
-		// Check for nulls
-		if(splitted[1] == null || splitted[2] == null) {
-			return "Not enough parameters or one of the parameters was null."
-		}
 
 		// Mutes the user
 		client.addMemberToRole(utmID, muteRole);
