@@ -66,7 +66,7 @@ Func.prototype = {
 
 		// Check for a previous warning
 		for(var i = 0; i < utwRoles.length; ++i) {
-			if(rolesOfUser[i].name == "Warning") {
+			if(utwRoles[i].name == "Warning") {
 				// User already had a warning, so it proceeds to mute said user
 				client.addMemberToRole(utwID, muteRole);
 
