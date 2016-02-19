@@ -50,11 +50,8 @@ data.prototype = {
 		cmds.add("editEvent!", [func.editEvent, helping("editEvent")]);
 		cmds.add("showEvent!", [func.showEvent, helping("showEvent")]);
 		cmds.add("lennyface!", [func.lennyface, helping("lennyface")]);
-		cmds.add("giveMembership!", [func.giveMembership, helping("giveMembership")]);
+		cmds.add("membership!", [func.membership, helping("membership")]);
 		cmds.add("proveActive!", [func.proveActive, helping("proveActive")]);
-		cmds.add("vote!", [func.vote, helping("vote")]);
-		cmds.add("startVote!", [func.startVote, helping("startVote")]);
-		cmds.add("endVote!", [func.endVote, helping("endVote")]);
 		cmds.add("wiki!", [func.wiki, helping("wiki")]);
 		cmds.add("fortune!", [func.fortune, helping("fortune")]);
 		cmds.add("caveJohnson!", [func.caveJohnson, helping("caveJohnson")]);
@@ -64,8 +61,6 @@ data.prototype = {
 		cmds.add("conform!", [func.conform, helping("conform")]);
 		cmds.add("kill!", [func.kill, helping("kill")]);
 		cmds.add("joinDate!", [func.joinDate, helping("joinDate")]);
-		cmds.add("kick!", [func.kick, helping("kick")]);
-		cmds.add("ban!", [func.ban, helping("ban")]);
 		
 		return cmds;
 	},
@@ -139,16 +134,16 @@ function helping(command){
 		break;
 		case "lennyface": return "`lennyface!` ( ͡° ͜ʖ ͡°)";
 		break;
-		case "giveMembership": return "`giveMembership! <@user>` Grants membership to the user. Only OP/MD.";
+		case "membership": return "`membership! <@user>` Grants membership to the user. Only OP/MD.";
 		break;
 		case "proveActive": return "`proveActive! <@member>` Proves `<@member>` active. Only OP/MD";
 		break;
-		case "vote": return "`vote! <name> <option>` Votes for option `<option>`.";
+		/*case "vote": return "`vote! <name> <option>` Votes for option `<option>`.";
 		break;
 		case "startVote": return "`startVote! <name> <option1> <option2> <option3> ...` Start a vote. Only OP/MD.";
 		break;
 		case "endVote": return "`endVote! <name>` Ends a vote. Only OP/MD.";
-		break;
+		break;*/
 		case "wiki": return "`wiki! <term>` Returns the wikipedia page of said word.";
 		break;
 		case "fortune": return "`fortune! <question>` Skynet will respond to your question with his Ultimate Wisdom.";

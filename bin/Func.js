@@ -1,3 +1,14 @@
+/* Func.js
+	Functions for the commands. Remember to add them to 'data.js' after you're done here.
+	Remember to use the proper category for your command.
+
+	INDEX:
+		1. Moderation Commands
+		2. Other Restricted Commands
+		3. Useful Commands
+		4. Web Search Commands
+		5. Text Commands
+*/
 
 var fa = require('./Crystalball.js');
 var Vote = require('./Vote.js');
@@ -20,37 +31,17 @@ function Func(wR, mR, mbR){
 
 Func.prototype = {
 	constructor: Func,
-	
-//FUNCTIONS OF THE COMMANDS//
-//ADD THE FUNCTION OF THE COMMAND HERE
 
-
-	//caveJohnson! Yup.
-	caveJohnson: function() {
-		return "All right, I've been thinking. When life gives you lemons, *don't make lemonade.* \nMake life take the lemons back! \n***Get mad!*** \n**I don't want your damn lemons! What am I supposed to do with these?!** \nDemand to see life's manager! \nMake life rue the day it thought it could give Cave Johnson lemons! \nDo you know who I am? \nI'm the man who's gonna burn your house down! \nWith the lemons! \nI'm gonna get my engineers to invent a combustible lemon that **burns your house down!**";
-	},
-
-	//ping //usage: ping!
-	ping: function(){
-		return "pong!";
-	},
-
-	//id //usage: getMyID!
-	getMyID: function(message){
-		return message.author.mention()+", your ID is: `"+message.author.id+"`";
-	},
-
-	//getChannelID //usage: getChannelID!
-	getChannelID: function(message){
-		var id = message.channel.id;
-		return "<#"+id+">'s ID is: `"+id+"`";
-	},
+	/* 1. MODERATION COMMANDS
+			As the name implies, moderation commands are restricted to moderators and operators only.
+			Command list: warn, mute, rebel, conform, membership, proveactive
+	*/
 
 	//Warn: Gives user the 'Warned' role. If the user was already warned once, it mutes said user.
 	warn: function(message, splitted, client) {
 		// Check if the user is allowed to use the command.
 		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
-			return "Access denied. This command is for Operators or Moderators only."
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
 
 		// Check for nulls
@@ -101,7 +92,7 @@ Func.prototype = {
 	mute: function(message, splitted, client) {
 		// Check if the user is allowed to use the command.
 		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
-			return "Access denied. This command is for Operators or Moderators only."
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
 
 		// Check for nulls
@@ -132,444 +123,165 @@ Func.prototype = {
 		return "<@" + utmID + ">, you have been muted. Reason: `" + reason + "` Please, read #rules for more info.";
 	},
 
-	//report //usage: report! @user reason
-	report: function(message, splitted, client){
-		//error handling
-		if(splitted[1] == null || splitted[2] == null){
-			return "Not enough arguments. Correct usage is: `report! @person reason`. Remember to use an @ in front of the person's name.";
-		}
-
-		//ID
-		var reporterID = message.author.id;
-		var reportedID = splitted[1].replace(/<|@|>/ig,"");
-
-		//reason
-		var reason = splitted.slice();
-		reason = reason.splice(2, reason.length);
-		reason = reason.toString().split(",").join(" ");
-
-		client.sendMessage("139913811451838464", "<@"+reporterID
-		+"> reported <@"+reportedID+"> on: `"+reason
-		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
-		return "Your report has been taken into account!";
-	},
-	
-	//urban //usage: urban! something
-	urban: function(message, splitted){
-		
-		var result = splitted.slice();
-		
-		if (splitted[1] == null){
-			return "Not enough arguments, type urban! word";
-		} else {
-			result = result.splice(1, result.length);
-			result = result.toString().split(",").join("+");
-			return "http://www.urbandictionary.com/define.php?term="+result;
-		}
-	},
-	
-	//mal //usage: mal! name
-	mal: function(message, splitted){
-		
-		if(splitted[1] != null){
-			return "http://www.myanimelist.net/profile/"+splitted[1];
-		}else{
-			return "Not enough arguments, type mal! username";
-		}
-	},
-
-	//mal anime search link // usage: mala! title
-	mala: function(message, splitted){
-			
-		var result = splitted.slice();
-		
-		if (splitted[1] == null){
-			return "Not enough arguments, type mala! title";
-		} else {
-			result = result.splice(1, result.length);
-			result = result.toString().split(",").join("%20");	
-			return "http://myanimelist.net/anime.php?q="+result;
-		}
-	},
-
-	//time //usage: time! timezone
-	time: function(message, splitted){
-	
-		var date = new Date(Date.now());
-		
-		var time = splitted[1];
-		var utc;
-		
-		if(time != null){
-			utc = time.substring(0,4).toUpperCase();
-
-			if(utc != "GMT+" && utc != "GMT-" && utc != "GMT ") return null;
-			
-			var offset = parseInt(time.substring(4,6));
-			
-			if(offset>12) offset = 12;
-			
-			if(utc.charAt(3) == "+")
-				date = new Date(date.getTime()+(offset*3600000));
-			else date = new Date(date.getTime()-(offset*3600000));
-			
-		} else time = "GMT";
-		
-		var h = date.getUTCHours();
-		h = (h < 10 ? "0" : "") + h;
-		var m  = date.getUTCMinutes();
-		m = (m < 10 ? "0" : "") + m;
-		var s  = date.getUTCSeconds();
-		s = (s < 10 ? "0" : "") + s;
-		var Y = date.getUTCFullYear();
-		var M = date.getUTCMonth() + 1;
-		M = (M < 10 ? "0" : "") + M;
-		var D  = date.getUTCDate();
-		D = (D < 10 ? "0" : "") + D;
-		
-		return "**"+time.toUpperCase()+"** Standard Time: `"+D+"/"+M+"/"+Y+" "+h+":"+m+":"+s+"`";
-	},
-
-	// editEvent: lets op edit the current event.
-	editEvent: function(message, splitted){
-		var roles = message.channel.server.rolesOfUser(message.author);
-
-		for(var i = 0; i < roles.length; i++){
-			if(roles[i].name == "Operator"){
-				if(splitted[1] == null){
-					return null;
-				}else {
-					for(var i = 1; i < splitted.length; i++){
-						eventMessage += splitted[i] + " ";
-					}
-				}
-				return "The current event has been edited to: `"+eventMessage+"`";
-			}else {
-				return null;
-			}
-		}
-	},
-
-	//showEvent: shows the current event, previously set by an OP, or an error message.
-	showEvent: function(){
-		if(eventMessage != ""){
-			return "The current event is: `"+eventMessage+"`";
-		} else {
-			return "There is currently no event going on.";
-		}
-	},
-	
-	//startVote //startVote! name option1 option2 option3 ...
-	startVote: function(message, splitted){
-		// if(!isAllowed(message.author, "Operator", message.channel.server)){
-			// if(!isAllowed(message.author, "Moderator", message.channel.server)){
-				// return "Access Denied.";
-			// }
-		// }
-
-		// if(splitted[3] == null) return "Not enough parameters. Usage: `startVote! name option1 option2 option3 ...`";
-		
-		// var actualVote = new Vote(splitted.splice(2, splitted.length));
-		actualVote = new Vote(splitted.splice(2, splitted.length));
-		
-		// votes.set(splitted[1], actualVote);
-	
-		// console.log("Voting started! ["+message.author.username+", "+message.channel.name+", "+actualVote.getOptions()+"]");
-		// return "Voting started! "+actualVote.getOptions();
-	},
-
-	//vote //vote! name option
-	vote: function(message, splitted){
-		
-		// if(splitted[1] == null){
-			// return "Please type the name of the vote.\n"+stringifyVotes();
-		// } else {
-			// var actualVote = votes.get(splitted[1]);
-			// if(actualVote == undefined) return splitted[1]+" is not currently in progress.\n"+stringifyVotes();
-			
-			// if(splitted[2] == null) return "Error, type vote! name option"+actualVote.getOptions();
-			
-			// var id = message.author.id;
-			
-			// return actualVote.addVote(splitted[2], id);
-		// }
-	},
-	
-	//endVote //endVote!
-	endVote: function(message, splitted){
-		
-		// if(!isAllowed(message.author, "Operator", message.channel.server)){
-			// if(!isAllowed(message.author, "Moderator", message.channel.server)){
-				// return "Access denied";
-			// }
-		// }
-		
-		// if(splitted[1] == null) return "Type the name of the vote to remove.\n"+stringifyVotes();
-
-		// var actualVote = votes.get(splitted[1]);
-		
-		// if(actualVote == undefined) return splitted[1]+" is not currently in progress.\n"+stringifyVotes();
-		
-		// var result = "Vote ended successfully.\n"+actualVote.endVote();
-		
-		// votes.delete(splitted[1]);
-		
-		actualVote = null;
-		
-		// return result;
-
-	},
-
-	//
-	lennyface: function(){
-		return "( ͡° ͜ʖ ͡°)";
-	},
-	
-	//wiki: Looks up something in the English Wikipedia. -Amery
-    wiki: function(message, splitted) {
-		
-        if (splitted[1] == null) {
-            return "Not enough arguments. Correct usage is: `wiki! <search terms separated by spaces>`";
-        }
-		
-		var result = splitted.splice(1, splitted.length);
-		result = result.toString().split(",").join("_");
-		
-        return "http://en.wikipedia.org/wiki/" + result;
-    },
-
-	//rebel!
+	// Rebel: Allows a user to access NSFW content.
 	rebel: function(message, splitted, client) {
-		// limits assignment to op or md
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
-
-			// sets up roles
-			var allRoles = message.channel.server.roles;
-			var userRoles = message.channel.server.rolesOfUser(message.author);
-			var memberRole;
-
-			// Prevents errors
-			if(!splitted[1]){
-				return "Not enough parameters. Usage: `rebel! <@user>"
-			}
-
-			// ID
-			var memberID = splitted[1].replace(/<|@|>/ig,"");
-			if(!wasMentioned(memberID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user."
-			}
-
-			// gets member role
-			for(var i = 0; i < allRoles.length; i++){
-				if(allRoles[i].name == "Rebel"){
-					memberRole = allRoles[i];
-				}
-			}
-
-			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
-
-			// prevents double membership
-			for(i = 0; i < requestingUserRoles.length; ++i){
-				if(requestingUserRoles[i].name == "Rebel") {
-					return "<@"+memberID+"> is already in Chernobyl";
-				}
-			}
-
-			client.addMemberToRole(memberID, memberRole);
-			return "<@"+memberID+">, you are now allowed to enter Chernobyl, thanks to "+message.author.mention()+". If you think this is a mistake, and want the Rebel role removed, contact an Operator please.";
-
-		} else {
-			return "Access denied. `rebel!` is an OP/MD only command.";
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
+
+		// Null check
+		if(splitted[1] == null) {
+			return "Not enough parameters.";
+		}
+
+		// Variables
+		var memberID = splitted[1].replace(/<|@|>/ig,"");							// Get the ID of the requesting user.
+		var allRoles = message.channel.server.roles;								// Get all the roles from the list
+		var rebelRole = getRole("Rebel", message);									// Set variable for rebel role
+		var requestingUserRoles = message.channel.server.rolesOfUser(memberID);		// Get the requesting user roles
+
+		
+		// Checks for user mention
+		if(!wasMentioned(memberID, message)) {
+			return "No user was mentioned. Remember to @ the user you want to rebel.";
+		}
+
+		// Check for double rebelry
+		for(i = 0; i < requestingUserRoles.length; ++i){
+			if(requestingUserRoles[i].name == "Rebel") {
+				return "<@"+memberID+"> is already a rebel.";
+			}
+		}
+
+		// Gives the selected member the rebel role
+		client.addMemberToRole(memberID, rebelRole);
+
+		// Sends a message on the channel to inform the user
+		return "<@"+memberID+">, you are now a rebel. If you think this was a mistake, please ask to be conformed.";
 	},
 
-	//conform/unrebel
+	// Conform/Unrebel: Reverts 'rebel' command.
 	conform: function(message, splitted, client) {
-		// limits assignment to op or md
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
-
-			// sets up roles
-			var allRoles = message.channel.server.roles;
-			var userRoles = message.channel.server.rolesOfUser(message.author);
-			var rebelRole;
-
-			// Prevents errors
-			if(!splitted[1]){
-				return "Not enough parameters. Usage: `conform! <@user>"
-			}
-
-			// ID
-			var memberID = splitted[1].replace(/<|@|>/ig,"");
-			if(!wasMentioned(memberID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user."
-			}
-
-			// gets rebel role
-			for(var i = 0; i < allRoles.length; i++){
-				if(allRoles[i].name == "Rebel"){
-					rebelRole = allRoles[i];
-				}
-			}
-
-			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
-
-			// prevents double membership
-			for(i = 0; i < requestingUserRoles.length; ++i){
-				if(requestingUserRoles[i].name == "Rebel") {
-					client.removeMemberFromRole(memberID, rebelRole);
-					return "<@"+memberID+"> has successfully been removed from Chernobyl.";
-				}
-			}
-
-			return "<@"+memberID+"> wasn't in Chernobyl to begin with.";
-
-		} else {
-			return "Access denied. `conform!` is an OP/MD only command.";
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
+
+		// Null check
+		if(splitted[1] == null) {
+			return "Not enough parameters.";
+		}
+
+		// Variables
+		var memberID = splitted[1].replace(/<|@|>/ig,"");							// Get user ID
+		var allRoles = message.channel.server.roles;								// Get all the roles from the list
+		var requestingUserRoles = message.channel.server.rolesOfUser(memberID);		// Get the roles from the user
+		var rebelRole = getRole("Rebel", message);									// Get the Rebel role
+		
+		// Checks for user mention
+		if(!wasMentioned(memberID, message)){
+			return "No user was mentioned. Remember to @ the user you want to conform."
+		}
+		
+		// Checks the requesting user role's for the 'Rebel' role. If it's there, remove it
+		for(i = 0; i < requestingUserRoles.length; ++i){
+			if(requestingUserRoles[i].name == "Rebel") {
+				client.removeMemberFromRole(memberID, rebelRole);
+				return "<@"+memberID+"> has successfully been conformed. *Power to authority!*.";
+			}
+		}
+
+		// If the role wasn't there, return an error
+		return "<@"+memberID+"> wasn't a rebel to begin with.";
 	},
 
-	//giveMembership //usage giveMembership! @name
-	giveMembership: function(message, splitted, client) {
-		// limits assignment to op or md
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
-
-			// sets up roles
-			var allRoles = message.channel.server.roles;
-			var userRoles = message.channel.server.rolesOfUser(message.author);
-			var memberRole;
-
-			// Prevents errors
-			if(!splitted[1]){
-				return "Not enough parameters. Usage: `giveMembership! <@user>"
-			}
-
-			// ID
-			var memberID = splitted[1].replace(/<|@|>/ig,"");
-			if(!wasMentioned(memberID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user."
-			}
-
-			// gets member role
-			for(var i = 0; i < allRoles.length; i++){
-				if(allRoles[i].name == "Member"){
-					memberRole = allRoles[i];
-				}
-			}
-
-			var requestingUserRoles = message.channel.server.rolesOfUser(memberID);
-
-			// prevents double membership
-			for(i = 0; i < requestingUserRoles.length; ++i){
-				if(requestingUserRoles[i].name == "Member") {
-					return "<@"+memberID+"> is already a member of **Anime Discord**";
-				}
-			}
-
-			client.addMemberToRole(memberID, memberRole);
-			return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
-
-		} else {
-			return "Access denied. `giveMembership!` is an OP/MD only command.";
+	// Membership: Grants a user the member role.
+	membership: function(message, splitted, client) {
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
+
+		// Null check
+		if(splitted[1] == null) {
+			return "Not enough parameters.";
+		}
+
+		// Variables
+		var memberID = splitted[1].replace(/<|@|>/ig,"");							// Get the user's ID
+		var allRoles = message.channel.server.roles;								// Get all the roles from the list
+		var requestingUserRoles = message.channel.server.rolesOfUser(memberID);		// Get the user's roles
+		var memberRole = getRole("Member", message);								// Get the Member role from the list
+
+		// Check for user mention
+		if(!wasMentioned(memberID, message)){
+			return "No user was mentioned. Remember to @ the user you want to give membership to."
+		}
+
+		// Check for double membership
+		for(i = 0; i < requestingUserRoles.length; ++i){
+			if(requestingUserRoles[i].name == "Member") {
+				return "<@"+memberID+"> is already a member of **Anime Discord**";
+			}
+		}
+
+		// Give the user the member role
+		client.addMemberToRole(memberID, memberRole);
+
+		// Sends a message on the channel to inform the user
+		return "<@"+memberID+">, you've been given membership for **Anime Discord** by "+message.author.mention()+".";
 	},
 
-	proveActive: function(message, splitted, client){
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)){
-			// Prevents errors
-			if(!splitted[1]){
-				return "Not enough parameters. Usage: `proveActive! <@user>`"
-			}
-
-			// ID
-			var memberID = splitted[1].replace(/<|@|>/ig,"");
-			if(!wasMentioned(memberID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user."
-			}
-
-			// gets active role
-			var allRoles = message.channel.server.roles;
-			var userRoles = message.channel.server.rolesOfUser(message.author);
-			var activeRole
-			for(var i = 0; i < allRoles.length; i++){
-				if(allRoles[i].name == "Active"){
-					activeRole = allRoles[i];
-				}
-			}
-
-			// prevents double active..ness
-			for(var i = 0; i < userRoles.length; i++){
-				if(userRoles[i].name == "Active"){
-					return "<@"+memberID+"> is already proven to be active.";
-					break;
-				}
-			}
-
-			client.addMemberToRole(memberID, activeRole)
-			return "<@"+memberID+"> was proven active by "+message.author.mention()+".";
-		}else{
-			return "Access denied. `proveActive!` is an OP/MD only command."
+	// ProveActive: Gives a user the 'Active' role.
+	proveActive: function(message, splitted, client) {
+		// Check if the user is allowed to use the command.
+		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
+
+		// Null check
+		if(splitted[1] == null) {
+			return "Not enough parameters.";
+		}
+
+		// Variables
+		var memberID = splitted[1].replace(/<|@|>/ig,"");						// Get the user's ID
+		var allRoles = message.channel.server.roles;							// Get all the roles from the list
+		var userRoles = message.channel.server.rolesOfUser(message.author);		// Get the user's roles
+		var activeRole = getRole("Active", message);							// Get the Active role from the list
+
+		// Check for user mention
+		if(!wasMentioned(memberID, message)){
+			return "No user was mentioned. Remember to @ the user you want to prove active.";
+		}
+
+		// Check for double active role assignment
+		for(var i = 0; i < userRoles.length; i++){
+			if(userRoles[i].name == "Active"){
+				return "<@"+memberID+"> is already proven to be active.";
+				break;
+			}
+		}
+
+		// Give the user the 'Active' role
+		client.addMemberToRole(memberID, activeRole);
+
+		// Sends a message on the channel to inform the user
+		return "<@"+memberID+"> was proven active by "+message.author.mention()+".";
 	},
 
-	//enroll! //usage: enroll! timezone(GMT) 
-	enroll: function(message, splitted, client){
-		var roles = message.channel.server.rolesOfUser(message.author);
+	/* 2. OHTER RESTRICTED COMMANDS
+			Commands that are restricted to the normal user, but have no moderation functionality.
+			Command list: color, kill, editEvent
+	*/
 
-		if(splitted[1] == null){
-			return "Incorrect usage of `enroll!`. `ex.) enroll! GMT+1`"
-		}
-
-		if(splitted[1].substring(0, 3).toLowerCase() == "gmt" && parseInt(splitted[1].substring(3)) < 12 && parseInt(splitted[1].substring(3)) > -12){
-			// prevent not-members from enrolling
-			var isMember = false
-			for(var i = 0; i < roles.length; i++){
-				if(roles[i].name == "Member"){
-					isMember = true;
-				}
-			}
-
-			if(!isMember){
-				return message.author.mention()+" is not a member of **Anime Discord** yet.";
-			}
-
-			// prevents double enroll
-			for(var i = 0; i < roles.length; i++){
-				if(roles[i].name.substring(0, 3) == "GMT"){
-					return message.author.mention()+" is already a enrolled for future elections of **Anime Discord**";
-				}
-			}
-
-			// just messy code
-			roles = message.channel.server.roles;
-
-			for (var i = 0; i < roles.length; i++){
-				if(roles[i].name == "GMT"+splitted[1].substring(3)){
-					console.log(roles[i].name, splitted[1].substring(3))
-					client.addMemberToRole(message.author, roles[i])
-					return message.author.mention()+" is now enrolled for future elections of **Anime Discord**";
-				}
-			}
-
-			return "This timezone does not yet exist. Ask the OPs to add `GMT"+splitted[1].substring(3)+"` as a *Timezone Role*";
-		}
-	},
-	
-	// fortune!: Ask a question, get the fortune!
-	fortune: function(message, splitted) {
-		if (splitted[1] == null) {
-			return "You didn't ask the Almighty Skynet a question.";
-		} else {
-			var random = Math.floor((Math.random() * fa.arr.length));
-			return message.author.mention() + ":crystal_ball:*"+fa.arr[random]+"*:crystal_ball:";
-		}
-	},
-	
-	// color!
+	// Color: Used to give color roles to members who request it.
 	color: function(message, splitted, client) {
 
 		// Checks if the user sending the message has the required permissions to use it.
 		if(!(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server))) {
-			return "Access denied. This is an OP/MD command only.";
+			return "Access denied. This command is for Operators or Moderators only.";
 		}
 
 		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message
@@ -638,7 +350,205 @@ Func.prototype = {
 		return "Color changed successfully!";
 	},
 
-	//define
+	// Kill: Kills the bot. Used to prevent double hosted clients.
+	kill: function(message, client) {
+		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
+			process.exit(1);
+		} else {
+			return "Access denied. This command is for Operators or Moderators only.";
+		}
+	},
+
+	// editEvent: lets op edit the current event.
+	editEvent: function(message, splitted) {
+		if(!isAllowed(message.author, "Operator", message.channel.server)) {
+			return "Access denied. This command is for Operators or Moderators only.";
+		}
+
+		// Check for null
+		if(splitted[1] == null){
+			return "No event was added after the command.";
+		} else {
+			for(var i = 1; i < splitted.length; i++){
+				eventMessage += splitted[i] + " ";
+			}
+		}
+
+		return "The current event has been edited to: `"+eventMessage+"`";
+	},
+
+	/* 3. USEFUL COMMANDS
+			Useful stuff that actually serves a purpose or another for the users.
+			Command list: showEvent, joinDate, getMyID, getChannelID, time, report
+	*/
+
+	//showEvent: Shows the current event, previously set by an OP, or an error message.
+	showEvent: function(){
+		if(eventMessage != ""){
+			return "The current event is: `"+eventMessage+"`";
+		} else {
+			return "There is currently no event going on.";
+		}
+	},
+
+	//joinDate: Shows the user's join date
+	joinDate: function(message, splitted, client) {
+		// Check for null
+		if(splitted[1] == null) {
+			// In this case, if there is no mention of user and the command is left blank, return the message author's own join date
+			var ownDetails = message.channel.server.detailsOfUser(message.author);
+			var ownJoinDate = ownDetails.joinedAt;
+
+			// Return the date, converted to Standard Time
+			return message.author.mention() + "joined the server on " + unixToTime(ownJoinDate) + "GMT";
+		}
+
+		// If another user was mentioned, then we set new variables
+		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Get the Member's ID
+		var userDetails = message.channel.server.detailsOfUser(memberID);	// Get user details
+		var userJoinDate = userDetails.joinedAt;							// Get the date (object) in UNIX.
+
+		// Error Checks
+		if(!wasMentioned(memberID, message)) return "No user was mentioned.";
+		if(memberID == null) return "No user was mentioned.";
+
+		// Return the date, converting it to Standard Time
+		return "`<@"+memberID+">` joined the server on " + unixToTime(userJoinDate) + "GMT";
+	},
+
+	//getMyID: Gets the user's ID
+	getMyID: function(message){
+		return message.author.mention()+", your ID is: `"+message.author.id+"`";
+	},
+
+	//getChannelID: Gets the channel's ID
+	getChannelID: function(message){
+		var id = message.channel.id;
+		return "<#"+id+">'s ID is: `"+id+"`";
+	},
+
+	//Time: Gets the time in the selected timezone
+	time: function(message, splitted){
+	
+		var date = new Date(Date.now());
+		
+		var time = splitted[1];
+		var utc;
+		
+		if(time != null){
+			utc = time.substring(0,4).toUpperCase();
+
+			if(utc != "GMT+" && utc != "GMT-" && utc != "GMT ") return null;
+			
+			var offset = parseInt(time.substring(4,6));
+			
+			if(offset>12) offset = 12;
+			
+			if(utc.charAt(3) == "+")
+				date = new Date(date.getTime()+(offset*3600000));
+			else date = new Date(date.getTime()-(offset*3600000));
+			
+		} else time = "GMT";
+		
+		var h = date.getUTCHours();
+		h = (h < 10 ? "0" : "") + h;
+		var m  = date.getUTCMinutes();
+		m = (m < 10 ? "0" : "") + m;
+		var s  = date.getUTCSeconds();
+		s = (s < 10 ? "0" : "") + s;
+		var Y = date.getUTCFullYear();
+		var M = date.getUTCMonth() + 1;
+		M = (M < 10 ? "0" : "") + M;
+		var D  = date.getUTCDate();
+		D = (D < 10 ? "0" : "") + D;
+		
+		return "**"+time.toUpperCase()+"** Standard Time: `"+D+"/"+M+"/"+Y+" "+h+":"+m+":"+s+"`";
+	},
+
+	//Report: Sends a report for a user to #management.
+	report: function(message, splitted, client) {
+		// Check for null
+		if(splitted[1] == null) {
+			return "Not enough arguments. No user was mentioned.";
+		} else if(splitted[2] == null) {
+			return "Not enough arguments. No reason was specified.";
+		}
+
+		//ID
+		var reporterID = message.author.id;
+		var reportedID = splitted[1].replace(/<|@|>/ig,"");
+
+		// Check for user mention
+		if(!wasMentioned(reportedID, message)) {
+			return "No user was mentioned. Remember to @ the user you want to report.";
+		}
+
+		//reason
+		var reason = splitted.slice();
+		reason = reason.splice(2, reason.length);
+		reason = reason.toString().split(",").join(" ");
+
+		client.sendMessage("139913811451838464", "<@"+reporterID
+		+"> reported <@"+reportedID+"> on: `"+reason
+		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
+		return "Your report has been taken into account!";
+	},
+
+	/* 4. WEB SEARCH COMMANDS
+			Commands that give a link to something or search for something on the internet.
+			Command list: urban, mal, mala, wiki, define
+	*/
+
+	// Urban: Gives a link to Urban Dictionary's definition of the user's input.
+	urban: function(message, splitted){
+		
+		var result = splitted.slice();
+		
+		if (splitted[1] == null){
+			return "Not enough arguments.";
+		} else {
+			result = result.splice(1, result.length);
+			result = result.toString().split(",").join("+");
+			return "http://www.urbandictionary.com/define.php?term="+result;
+		}
+	},
+	
+	// Mal: Returns a MAL Profile
+	mal: function(message, splitted){
+		if(splitted[1] != null){
+			return "http://www.myanimelist.net/profile/"+splitted[1];
+		}else{
+			return "Not enough arguments.";
+		}
+	},
+
+	// Mala: Gives a link to MAL Search of the user's input.
+	mala: function(message, splitted){
+			
+		var result = splitted.slice();
+		
+		if (splitted[1] == null){
+			return "Not enough arguments.";
+		} else {
+			result = result.splice(1, result.length);
+			result = result.toString().split(",").join("%20");	
+			return "http://myanimelist.net/anime.php?q="+result;
+		}
+	},
+
+	// Wiki: Looks up something in the English Wikipedia.
+    wiki: function(message, splitted) {
+        if (splitted[1] == null) {
+            return "Not enough arguments.";
+        }
+		
+		var result = splitted.splice(1, splitted.length);
+		result = result.toString().split(",").join("_");
+		
+        return "http://en.wikipedia.org/wiki/" + result;
+    },
+
+    // Define: Gives a link to Merriam-Webster's definition of the user's input
 	define: function(message, splitted) {
 
 		var result = splitted.slice();
@@ -652,99 +562,58 @@ Func.prototype = {
 		}
 	},
 
-	joinDate: function(message, splitted, client) {
-		var memberID = splitted[1].replace(/<|@|>/ig,"");					// Get the Member's ID
-		var userDetails = message.channel.server.detailsOfUser(memberID);	// Get user details
-		var userJoinDate = userDetails.joinedAt;							// Get the date (object) in UNIX.
+	/* 5. TEXT COMMANDS
+			Commands that return a simple text output. Virtually useless, but whatever, man...
+			Command list: ping, lennyface, 
+	*/
 
-		// Error Checks
-		if(!wasMentioned(memberID, message)) return "No user was mentioned.";
-		if(memberID == null) return "No user was mentioned.";
-
-		// Return the date, converting it to Standard Time
-		return "`<@"+memberID+">` joined the server on " + unixToTime(userJoinDate) + "GMT";
+	// Ping: Tests server lag
+	ping: function(){
+		return "pong!";
 	},
 
-	/* kill!
-		This function simply kills the bot for when the devs need to use it for testing. */
-	kill: function(message, client) {
-		if(isAllowed(message.author, "Operator", message.channel.server) || isAllowed(message.author, "Moderator", message.channel.server)) {
-			process.exit(1);
+	// Lennyface: Returns a lennyface.........
+	lennyface: function(){
+		return "( ͡° ͜ʖ ͡°)";
+	},
+
+	// Fortune: Ask a question, get the fortune!
+	fortune: function(message, splitted) {
+		if (splitted[1] == null) {
+			return "You didn't ask the **Almighty Skynet** a question.";
 		} else {
-			return "Access denied. This command is only for Operators or Moderators."
+			var random = Math.floor((Math.random() * fa.arr.length));
+			return message.author.mention() + ":crystal_ball:*"+fa.arr[random]+"*:crystal_ball:";
 		}
-	},
-
-	ban: function(message, splitted, client) {
-		// Czech for permission.
-		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
-			return "This command is for Operators and Moderators only.";
-		}
-
-		// Variables
-		var userToBeBannedID = splitted[1].replace(/<@>/ig, "");
-		var reason = splitted.slice();
-		reason = reason.splice(2, reason.length);
-		reason = reason.toString().split(",").join(" ");
-
-		// Checks if the user was indeed mentioned.
-		if(!wasMentioned(userToBeBannedID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user.";
-		}
-
-		// Bans the member
-		client.banMember(userToBeBannedID, message.channel.server, 7);
-
-		// Send message to #management
-		client.sendMessage("139913811451838464", message.author.mention() + "**banned** <@"+userToBeBannedID+"> for: `"+reason
-		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
-	},
-
-	kick: function(message, splitted, client) {
-		// Czech for permission.
-		if(!(isAllowed(message.author, "Moderator", message.channel.server) || isAllowed(message.author, "Operator", message.channel.server))) {
-			return "This command is for Operators and Moderators only.";
-		}
-
-		// Variables
-		var userToBeKickedID = splitted[1].replace(/<@>/ig, "");
-		var reason = splitted.slice();
-		reason = reason.splice(2, reason.length);
-		reason = reason.toString().split(",").join(" ");
-
-		// Checks if the user was indeed mentioned.
-		if(!wasMentioned(userToBeKickedID, message)){
-				return "Invalid user parameter. `<@user>` has to be an existing user.";
-		}
-
-		// Bans the member
-		client.kickMember(userToBeKickedID, message.channel.server);
-
-		// Send message to #management
-		client.sendMessage("139913811451838464", message.author.mention() + "**kicked** <@"+userToBeKickedID+"> for: `"+reason
-		+"` ["+message.channel.server.name+", "+message.channel.name+"]");
 	},
 }
 
-function isAllowed(user, rank, server){
+/* EXTRA FUNCTIONS
+	These functions are helpers that are used in the above commands to do frequent checks and speed up the process.
+*/
+
+// isAllowed: Checks if a user has a set role.
+function isAllowed(user, rank, server) {
 	var userRoles = server.rolesOfUser(user);
-	for(var i = 0; i < userRoles.length; i++){
-		if(userRoles[i].name == rank){
+	for(var i = 0; i < userRoles.length; i++) {
+		if(userRoles[i].name == rank) {
 			return true;
 		}
 	}
 	return false;
 }
 
-function isOnChannel(channel, wantedChannel){
-	if(channel.id == wantedChannel){
+// isOnChannel: Checks if the user is on the set channel
+function isOnChannel(channel, wantedChannel) {
+	if(channel.id == wantedChannel) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-function stringifyVotes(){
+// stringifyVotes: ???
+function stringifyVotes() {
 	
 	var iterator = votes.keys();
 	var result = "Votes in progress:\n";
@@ -759,6 +628,8 @@ function stringifyVotes(){
 	// return "";
 }
 
+
+// wasMentioned: Checks if the user was mentioned in Discord
 function wasMentioned(userID, message){
 	var mentions = message.mentions
 	for(var i = 0; i < mentions.length; i++){
@@ -769,6 +640,7 @@ function wasMentioned(userID, message){
 	return false
 }
 
+// getRole: Gets a set Role from the list of roles of the server.
 function getRole(rolename, message){
 	var allRoles = message.channel.server.roles;
 
@@ -780,6 +652,7 @@ function getRole(rolename, message){
 	}
 }
 
+// unixToTime: Converts UNIX timestamps into real time.
 function unixToTime(UNIX_timestamp){
   var a = new Date(UNIX_timestamp);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
