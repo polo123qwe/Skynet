@@ -1,5 +1,5 @@
 //time
-
+//Returns time in a timezone using GMT standard
 module.exports = {
 	//Name of the function
 	"time": function(message, splitted){

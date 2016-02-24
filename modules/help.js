@@ -1,5 +1,5 @@
 //help
-
+//Prints help
 module.exports = {
 	//Name of the function
 	"help": function(message){
