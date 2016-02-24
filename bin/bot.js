@@ -1,23 +1,23 @@
 var print = console.log
 var Discord = require('discord.js');
-var Commands = require('./Commands.js');
-var data = require('./data.js');
+// var data = require('./data.js');
+var Imp = require('./imp.js');
+
 var readline = require('readline');
 
-var data = new data();
+// var data = new data();
 var mybot = new Discord.Client();
-var botID = "133331859387056128"
-var server
-var cmds;
+var botID = "133331859387056128";
+var server;
+var commands = new Imp();
 
-login();
-
+// login();
+mybot.login("sergibernaus@yahoo.es", "polopolo1");
+// console.log(commands.f());
 // On Ready
 mybot.on("ready", function(){
-	server = mybot.servers.get("id", "132490115137142784");
-	cmds = data.cmdStartup(server.roles);
+	// server = mybot.servers.get("id", "132490115137142784");
 	console.log('<Skynet> ready to operate!');
-	// mybot.sendMessage("132490115137142784", "<@"+botID+"> is ready to operate.")
 });
 
 // On Message
@@ -28,18 +28,15 @@ mybot.on("message", function(message){
 	var result;
 	
 	if(command.substr(-1, 1) == "!"){
-		func = cmds.get(command);
-		if(func != null) func = func[0];
+		result = commands.get(command, message, splitted, mybot);
+		if(result == null) return 0;
 		if(message.channel.server != null){
-			if(func != null){
-				console.log("Recieved cmd ["+message.content+"] by ["+message.author.username+", "+message.channel.server.name+", #"+message.channel.name+"]")
-				// console.log("Recieved cmd ["+message.content+"] by ["+message.author.username)
-				result = func(message, splitted, mybot);
-			}
-
+			console.log("Recieved command ["+message.content+"] by ["+message.author.username+" at "
+						+message.channel.server.name+" in #"+message.channel.name+"]");
 			mybot.sendMessage(message.channel, result);
 		} else {
-			console.log("Recieved pm ["+message.content+"] by ["+message.author.username+"]");
+			console.log("Recieved PM ["+message.content+"] by ["+message.author.username+"]");
+			mybot.sendMessage(message.channel, result);
 		}
 		
 	}
@@ -47,8 +44,8 @@ mybot.on("message", function(message){
 
 // On New Member
 mybot.on("serverNewMember", function(server, user){
-	mybot.sendMessage(server.defaultChannel, "Welcome to **Anime Discord** "+user.mention()+".");
-})
+	// mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+".");
+});
 
 function login(){
 	console.log('Initializing <Skynet>');
@@ -56,9 +53,13 @@ function login(){
 	rl.setPrompt('Enter password: ');
 	rl.prompt();
 	rl.on('line', function(line) {
-		mybot.login("bernausergi@gmail.com", line, function(error){
+		// mybot.login("bernausergi@gmail.com", line, function(error){
+		mybot.login("sergibernaus@yahoo.es", line, function(error){
 			if(error == null) return;
 			else rl.prompt();
 		});
 	});
 }
+
+
+
