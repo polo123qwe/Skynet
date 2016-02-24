@@ -11,8 +11,8 @@ var botID = "133331859387056128";
 var server;
 var commands = new Imp();
 
-// login();
-mybot.login("sergibernaus@yahoo.es", "polopolo1");
+login();
+
 // console.log(commands.f());
 // On Ready
 mybot.on("ready", function(){
@@ -44,7 +44,7 @@ mybot.on("message", function(message){
 
 // On New Member
 mybot.on("serverNewMember", function(server, user){
-	// mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+".");
+	mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+".");
 });
 
 function login(){
@@ -53,8 +53,7 @@ function login(){
 	rl.setPrompt('Enter password: ');
 	rl.prompt();
 	rl.on('line', function(line) {
-		// mybot.login("bernausergi@gmail.com", line, function(error){
-		mybot.login("sergibernaus@yahoo.es", line, function(error){
+		mybot.login("bernausergi@gmail.com", line, function(error){
 			if(error == null) return;
 			else rl.prompt();
 		});
