@@ -42,7 +42,6 @@ module.exports = {
 		// Checking to see if the color role already exists
 		for (var role of rolesCache){
 			if(role.name == "Color(0x"+hexColor+")"){
-				console.log("Match");
 				mybot.addMemberToRole(user, role, function(err){
 					if(err)
 						console.log(err)
@@ -53,7 +52,8 @@ module.exports = {
 
 		// If previous check doesn't match, then create the color role.
 		mybot.createRole(currentServer, data, function(err, role){
-			console.log(err);
+			if(err)
+				console.log(err);
 			var colorRole = role;
 			mybot.addMemberToRole(user, colorRole, function(err){
 			});
