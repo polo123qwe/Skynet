@@ -2,13 +2,13 @@
 //Prints help
 module.exports = {
 	//Name of the function
-	"help": function(message){
+	run: function(message){
 		return "a42";
 	},
 	//What to return on help
-	"aid": function(){
-		return "`id!` returns your id";
-	},
+	help: "`id!` returns your id",
 	//Power needed to execute the command
-	"power": 0,
+	power: 0,
+
+	permissions: [],
 };

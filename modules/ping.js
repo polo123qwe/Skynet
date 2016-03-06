@@ -1,15 +1,14 @@
 //ping
 
 module.exports = {
-	
-	this: require('./template.js'),
-	
-	"ping": function(){
+
+	run: function(){
 		return "pong!";
 	},
+
+	help: "`ping!` returns pong!",
 	
-	"aid": function(){
-		return "`ping!` returns pong!";
-	},
-	"power": 0,
+	power: 0,
+
+	permissions: [],
 };

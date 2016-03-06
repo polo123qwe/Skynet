@@ -1,14 +1,8 @@
 var print = console.log
 var Discord = require('discord.js');
-// var data = require('./data.js');
 var Imp = require('./imp.js');
-
 var readline = require('readline');
-
-// var data = new data();
 var mybot = new Discord.Client();
-var botID = "133331859387056128";
-var server;
 var commands = new Imp();
 
 login();
@@ -16,7 +10,6 @@ login();
 // console.log(commands.f());
 // On Ready
 mybot.on("ready", function(){
-	// server = mybot.servers.get("id", "132490115137142784");
 	console.log('<Skynet> ready to operate!');
 });
 
@@ -26,7 +19,7 @@ mybot.on("message", function(message){
 	var command = splitted[0];
 	var func;
 	var result;
-	
+
 	if(command.substr(-1, 1) == "!"){
 		result = commands.get(command.toLowerCase(), message, splitted, mybot);
 		if(result == null) return 0;
@@ -38,7 +31,7 @@ mybot.on("message", function(message){
 			console.log("Recieved PM ["+message.content+"] by ["+message.author.username+"]");
 			mybot.sendMessage(message.channel, result);
 		}
-		
+
 	}
 });
 
@@ -59,6 +52,3 @@ function login(){
 		});
 	});
 }
-
-
-
