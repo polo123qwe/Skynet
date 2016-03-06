@@ -15,7 +15,7 @@ module.exports = {
 			} else if( !locat ) {
 				mybot.sendMessage(message.channel, 'No result.');
 			} else {
-				var result = getForecast(locat.lat, locat.lng, argument, mybot, message.channel);
+				getForecast(locat.lat, locat.lng, argument, mybot, message.channel);
 			}
 		});
 		return "none";

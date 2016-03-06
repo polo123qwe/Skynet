@@ -48,6 +48,8 @@ Imp.prototype = {
 					if(this.commands[cmd].power <= power) returned += "> "+this.commands[cmd].help+"\n";
 				}
 				returned += "\n https://github.com/polo123qwe/Skynet."
+				mybot.sendMessage(message.author, returned);
+				returned = "none";
 			}
 			if(returned == "none") returned = null;
 
