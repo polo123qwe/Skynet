@@ -7,6 +7,8 @@ module.exports = {
 
 		var currentServer = message.channel.server
 
+		if(currentServer == null) return "none";
+
 		if(splitted[1] == null) return "No user was mentioned.";
 
 		var user = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message

@@ -15,10 +15,11 @@ module.exports = {
 			} else if( !locat ) {
 				mybot.sendMessage(message.channel, 'No result.');
 			} else {
-				getForecast(locat.lat, locat.lng, argument, mybot, message.channel);
+
+				getForecast(locat.geometry.location.lat, locat.geometry.location.lng, locat.formatted_address, argument, mybot, message.channel);
 			}
 		});
-		return "none";
+		return null;
 
 	},
 	//What to return on help
@@ -29,7 +30,7 @@ module.exports = {
 	permissions: [],
 };
 
-function getForecast(latitude, longitude, argument, mybot, channel){
+function getForecast(latitude, longitude, address, argument, mybot, channel){
 	var forecast = new Forecast({
 	    key: "c6199bfc28582078316aec25fbf4bfb3",
 	    timeout: 2500
@@ -40,7 +41,7 @@ function getForecast(latitude, longitude, argument, mybot, channel){
 	forecast.fetch(latitude, longitude, options)
 	.then(function(out) {
 		out = out.currently;
-		var currentWeather = "The weather at "+argument+" is: "+"\n -> Summary: "+out.summary
+		var currentWeather = "The weather at "+address+" is: "+"\n -> Summary: "+out.summary
 							+".\n -> Temperature: "+out.temperature+"ºC."
 							+"\n -> Apparent Temperature: "+out.apparentTemperature+"ºC."+"\n -> Humidity: "
 							+out.humidity+".\n";

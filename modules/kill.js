@@ -11,7 +11,7 @@ module.exports = {
 	},
 	//What to return on help
 	help: "`kill!` Kills the bot",
-	
+
 	//Power needed to execute the command
 	power: 4,
 

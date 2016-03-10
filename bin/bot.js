@@ -21,17 +21,7 @@ mybot.on("message", function(message){
 	var result;
 
 	if(command.substr(-1, 1) == "!"){
-		result = commands.get(command.toLowerCase(), message, splitted, mybot);
-		if(result == null) return 0;
-		if(message.channel.server != null){
-			console.log("Recieved command ["+message.content+"] by ["+message.author.username+" at "
-						+message.channel.server.name+" in #"+message.channel.name+"]");
-			mybot.sendMessage(message.channel, result);
-		} else {
-			console.log("Recieved PM ["+message.content+"] by ["+message.author.username+"]");
-			mybot.sendMessage(message.channel, result);
-		}
-
+		commands.exec(command.toLowerCase(), message, splitted, mybot);
 	}
 });
 

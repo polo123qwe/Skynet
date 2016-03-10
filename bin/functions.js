@@ -50,7 +50,7 @@ module.exports = {
 				res.on('end', function() {
 					var response = JSON.parse(output);
 					if( response.status == "OK" ) {
-						var location = response.results[0].geometry.location;
+						var location = response.results[0];
 						callback(null, location);
 					} else if( response.status == "ZERO_RESULTS" ) {
 						callback(null, null);
