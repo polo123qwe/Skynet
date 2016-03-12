@@ -9,15 +9,20 @@ module.exports = {
 			return "Not enough parameters.";
 		}
 
+		if(server == null) {
+			return "Cannot execute that in here";
+		}
+
 		var memberID = user.replace(/<|@|>/ig,"");
 
 		//Gets the member role from the server
 		var memberRole = server.roles;
+
 		memberRole = memberRole.get("name", role);
 
 		//Check if the server has a member role
 		if(memberRole == null){
-				return "There is no member role in this server";
+				return "There is no "+role+" role in this server";
 		}
 
 		var alreadyMember = mybot.memberHasRole(memberID, memberRole);
