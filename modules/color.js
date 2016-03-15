@@ -11,10 +11,10 @@ module.exports = {
 
 		if(splitted[1] == null) return "No user was mentioned.";
 
-		var user = splitted[1].replace(/<|@|>/ig,"");					// Grab the user from the message
-		var hexColor = splitted[2];											// Grab the color in Hex from the message
-		var rolesCache = currentServer.roles;						// Store the server roles in a cache
-		var userRoleList = currentServer.rolesOfUser(user)		// Store the roles of the user in a variable
+		var user = splitted[1].replace(/<|@|>/ig,"");
+		var hexColor = splitted[2];
+		var rolesCache = currentServer.roles;
+		var userRoleList = currentServer.rolesOfUser(user)
 
 		var mentions = message.mentions;
 		for(mention of mentions){

@@ -2,6 +2,7 @@ var Permissions = require('./permissions.js');
 
 var perm = new Permissions();
 
+var version = 2.01;
 module.exports = Imp;
 
 function Imp(){
@@ -18,7 +19,7 @@ Imp.prototype = {
 	constructor: Imp,
 
 	exec: function(command, message, splitted, mybot){
-		command = command.substr(0,command.length-1).toLowerCase();
+		command = command.substr(0,command.length-1);
 		//Check for the function
 		var currentServer = message.channel.server;
 		var currentCommand = this.commands[command];
@@ -45,7 +46,7 @@ Imp.prototype = {
 			var returned = currentCommand.run(message, splitted, mybot);
 			//if help was called
 			if(returned == "a42"){
-				var help = "**Skynet** was developed by three *gorgeous lads* known as *Sergi*, *Soso*, and *Amery*."+
+				var help = "**Skynet** v"+version+"."+
 							"\nCommands Available:\n\n";
 				for (var cmd in this.commands){
 					if(cmd != "template" && cmd != "help")

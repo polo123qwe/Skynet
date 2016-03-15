@@ -25,11 +25,13 @@ module.exports = {
 				return "There is no "+role+" role in this server";
 		}
 
-		var alreadyMember = mybot.memberHasRole(memberID, memberRole);
+		var alreadyMember;
+		if(user.roles != null)
+			alreadyMember = mybot.memberHasRole(memberID, memberRole);
 
 		//Check if the user is already a member
 		if(alreadyMember){
-				return "<@"+memberID+"> is already a "+role+" of "+server.name;
+				return "<@"+memberID+"> is already a "+role+".";
 		}
 
 		mybot.addMemberToRole(memberID, memberRole);
@@ -54,7 +56,8 @@ module.exports = {
 
 	// Get the users in a message
 	getUsersFromMessage(message, mybot){
-		
+		message.content.split(" ")
+
 	},
 
   	// Get Coordinates from a City
