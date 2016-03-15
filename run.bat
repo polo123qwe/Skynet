@@ -1,5 +1,5 @@
 @echo off
 
-node bin/bot.js
+nodemon bin/bot.js
 
 pause

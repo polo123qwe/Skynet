@@ -38,6 +38,26 @@ module.exports = {
 		return 0;
 	},
 
+	// Converts UNIX timestamps into real time.
+	unixToTime: function(UNIX_timestamp){
+	  var a = new Date(UNIX_timestamp);
+	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	  var year = a.getUTCFullYear();
+	  var month = months[a.getUTCMonth()];
+	  var date = a.getUTCDate();
+	  var hour = a.getUTCHours();
+	  var min = a.getUTCMinutes() < 10 ? '0' + a.getUTCMinutes() : a.getUTCMinutes();
+	  var sec = a.getUTCSeconds() < 10 ? '0' + a.getUTCSeconds() : a.getUTCSeconds();
+	  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+	  return time;
+  	},
+
+	// Get the users in a message
+	getUsersFromMessage(message, mybot){
+		
+	},
+
+  	// Get Coordinates from a City
 	geocode: function(address, callback) {
 
 		var url = "http://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(address) + "&sensor=false";

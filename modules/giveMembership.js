@@ -7,7 +7,7 @@ module.exports = {
 
 		var result = functions.addUserToRole(splitted[1], "Member", message.channel.server, mybot);
 		if(result == 0)
-			return splitted[1]+", you've been given membership for **Anime Discord** by "+message.author.mention()+".";
+			return splitted[1]+", you've been given membership for **"+message.channel.server+"** by "+message.author.mention()+".";
 		else return result;
 	},
 	//What to return on help

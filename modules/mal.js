@@ -10,9 +10,8 @@ module.exports = {
 		}
 	},
 	//What to return on help
-	help: function(){
-		return "`mal! user` Retrieves the URL of specified user at MAL";
-	},
+	help: "`mal! user` Retrieves the URL of specified user at MAL",
+	
 	//Power needed to execute the command
 	power: 0,
 

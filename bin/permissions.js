@@ -1,6 +1,5 @@
 module.exports = Permissions;
 
-
 function Permissions(){
 
 	this.clientLevels = ["Nub","Member","User","Trusted","Governors","Moderator","Chancellors","Operator"];
@@ -12,10 +11,9 @@ Permissions.prototype = {
 
 	checkUserPermissions: function(client, channel){
 
-
 		var power = 0;
 
-		if(channel.server == null) return 5;
+		if(channel.server == null) return this.clientLevels.length-1;
 		var roles = channel.server.rolesOfUser(client);
 		//FIX THIS
 		if(roles == null) return 0;

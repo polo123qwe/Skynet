@@ -6,7 +6,7 @@ module.exports = {
 		return "a42";
 	},
 	//What to return on help
-	help: "`id!` returns your id",
+	help: "`help!` sends a PM with the commands available",
 	//Power needed to execute the command
 	power: 0,
 

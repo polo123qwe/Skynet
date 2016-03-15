@@ -1,11 +1,17 @@
-var print = console.log
 var Discord = require('discord.js');
 var Imp = require('./imp.js');
 var readline = require('readline');
+var fs = require('fs');
+require('console-stamp')(console, '[HH:MM:ss]');
 var mybot = new Discord.Client();
 var commands = new Imp();
 
-login();
+try{
+	var pass = fs.readFileSync("../pass.txt", "utf8");
+} catch (err){
+	console.log("No password file found")
+}
+login(pass);
 
 // console.log(commands.f());
 // On Ready
@@ -30,8 +36,13 @@ mybot.on("serverNewMember", function(server, user){
 	mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+".");
 });
 
-function login(){
+
+function login(pass){
 	console.log('Initializing <Skynet>');
+	if(pass){
+		mybot.login("bernausergi@gmail.com", pass);
+
+	} else {
 	var rl = readline.createInterface(process.stdin, process.stdout);
 	rl.setPrompt('Enter password: ');
 	rl.prompt();
@@ -41,4 +52,5 @@ function login(){
 			else rl.prompt();
 		});
 	});
+	}
 }
