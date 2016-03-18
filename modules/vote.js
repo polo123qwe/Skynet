@@ -7,6 +7,7 @@ var v_sheet = new GoogleSpreadsheet('1Luab2bCJC723oKSobXVUenLkKTTIdDViga2PmIjqjQ
 module.exports = {
 	//here goes the name of the function
 	run: function(message, splitted, mybot){
+		return;
 		var creds = {
 		  "type": "service_account",
 		  "project_id": "alien-airfoil-125116",
@@ -22,26 +23,28 @@ module.exports = {
 
 		v_sheet.useServiceAccountAuth(creds, function(err){
 			// getInfo returns info about the sheet and an array or "worksheet" objects
+
+
 			v_sheet.getInfo( function( err, sheet_info ){
 				console.log( sheet_info.title + ' is loaded' );
 				// use worksheet object if you want to stop using the # in your calls
 
 				var sheet1 = sheet_info.worksheets[0];
 				console.log(sheet1);
-				v_sheet.getRows(sheet1, {
-					offset: 100,
-					limit: 100,
-					orderby: 'name'
-				}, function(err, rows){
-
-					console.log("Error: "+err);
-					console.log(rows);
-
-				});
+				// sheet1.addRow({options: "cyumus", votes: "0"}, function(err){
+				// 	console.log(err);
+				// });
 
 			});
 
-		})
+			// options = {
+			// 	offset: 0,
+			// 	limit: 100,
+			// }
+			// v_sheet.getRows(1, options, function(err, rows){
+			// 	console.log(rows[0]);
+			// });
+		});
 	},
 	//What to return on help
 	help: "This command has no help",

@@ -2,7 +2,7 @@ module.exports = Permissions;
 
 function Permissions(){
 
-	this.clientLevels = ["Nub","Member","User","Trusted","Governors","Moderator","Chancellors","Operator"];
+	this.clientLevels = ["@everyone","Member","User","Trusted","Governors","Moderator","Chancellors","Operator"];
 
 }
 

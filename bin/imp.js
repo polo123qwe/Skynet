@@ -26,22 +26,24 @@ Imp.prototype = {
 		if(currentCommand == null) return null;
 		try{
 			var power = perm.checkUserPermissions(message.author, message.channel);
-			if(currentCommand.power > power) {
+			
+			if(power > 0 && currentCommand.power >= power) {
 				mybot.sendMessage(message.channel, "You don't have permission to do that");
 				return 0;
 			}
-
-			if(currentServer != null){
-				//check if the bot has permissions to execute the command
-				var canOperate = false;
-				for(var role of currentServer.rolesOfUser(mybot.user)){
-					if(role.hasPermission(currentCommand.permissions)) canOperate = true;
+			if(currentCommand.power != 0){
+				if(currentServer != null){
+					//check if the bot has permissions to execute the command
+					var canOperate = false;
+					for(var role of currentServer.rolesOfUser(mybot.user)){
+						if(role.hasPermission(currentCommand.permissions)) canOperate = true;
+					}
+					if(!canOperate){
+						printLog(message, currentServer);
+						mybot.sendMessage(message.channel, "Skynet doesn't have enough permission to do that");
+						return 0;
+					 }
 				}
-				if(!canOperate){
-					printLog(message, currentServer);
-					mybot.sendMessage(message.channel, "Skynet doesn't have enough permission to do that");
-					return 0;
-				 }
 			}
 			var returned = currentCommand.run(message, splitted, mybot);
 			//if help was called
