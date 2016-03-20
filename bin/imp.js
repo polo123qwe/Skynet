@@ -47,13 +47,16 @@ Imp.prototype = {
 		try{
 			//Check the power the user has
 			var power = perm.checkUserPermissions(message.author, message.channel);
-			var disabledOnServer = disabled[currentServer.id];
+
 
 			//Check if the server has any disabled module
-			if(!disabledOnServer){
-				//Create the array of modules disabled
-				disabled[currentServer.id] = ["template"];
-				disabledOnServer = disabled[currentServer.id];
+			if(currentServer){
+				var disabledOnServer = disabled[currentServer.id];
+				if(!disabledOnServer){
+					//Create the array of modules disabled
+					disabled[currentServer.id] = ["template"];
+					disabledOnServer = disabled[currentServer.id];
+				}
 			}
 			//Check the required power the user needs to execute the command
 			if(power > 0 && currentCommand.power >= power) {
@@ -62,7 +65,7 @@ Imp.prototype = {
 			}
 
 			if(currentCommand.power != 0){
-				if(currentServer != null){
+				if(currentServer){
 					//check if the bot has permissions to execute the command
 					var canOperate = false;
 					for(var role of currentServer.rolesOfUser(mybot.user)){
@@ -105,9 +108,11 @@ Imp.prototype = {
 
 function printLog(message, server){
 	if(server){
-		console.log("Recieved command ["+message.cleanContent+"] by ["+message.author.username+" at "
-					+server.name+" in #"+message.channel.name+"]");
+		console.log(("["+message.cleanContent+"] ").yellow+"by "+
+					(message.author.username).green+" at "+
+					(server.name+" #"+message.channel.name).red);
 	} else {
-		console.log("Recieved PM ["+message.content+"] by ["+message.author.username+"]");
+		console.log("Recieved PM "+("["+message.content+"] ").yellow+"by "+
+					(message.author.username).green);
 	}
 }
