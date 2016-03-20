@@ -47,7 +47,7 @@ module.exports = {
 		});
 	},
 	//What to return on help
-	help: "This command has no help",
+	help: "`vote!` NOT OPERATIONAL",
 	//Power needed to execute the command
 	power: 0,
 

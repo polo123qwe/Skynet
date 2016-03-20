@@ -2,14 +2,31 @@ var Permissions = require('./permissions.js');
 
 var perm = new Permissions();
 
-var version = 2.01;
+var version = 2.02;
+var disabled = [];
 module.exports = Imp;
 
 function Imp(){
 	try{
-		this.commands = require('../modules/');
+		this.modules = require('../modules/');
+		this.commands = [];
+
+		//Move all the module commands into the commands dictionary
+		//Loop all the modules
+		for(var mod in this.modules){
+			if (this.modules.hasOwnProperty(mod)) {
+				mod = this.modules[mod];
+				//Loop all the commands in a module
+				for(var command in mod){
+					var commandFunction = mod[command];
+					//Add each command to the commands array
+					this.commands[command] = commandFunction;
+				}
+			}
+		}
 
 	} catch(err){
+		//Avoid crash on error
 		console.log(err);
 	}
 
@@ -18,19 +35,32 @@ function Imp(){
 Imp.prototype = {
 	constructor: Imp,
 
+	//Execute a command
 	exec: function(command, message, splitted, mybot){
+		//Remove the ! from the command
 		command = command.substr(0,command.length-1);
-		//Check for the function
+		//Save the server of the message in variable for easy access
 		var currentServer = message.channel.server;
+		//Fetch from the dictionary the function
 		var currentCommand = this.commands[command];
 		if(currentCommand == null) return null;
 		try{
+			//Check the power the user has
 			var power = perm.checkUserPermissions(message.author, message.channel);
-			
+			var disabledOnServer = disabled[currentServer.id];
+
+			//Check if the server has any disabled module
+			if(!disabledOnServer){
+				//Create the array of modules disabled
+				disabled[currentServer.id] = ["template"];
+				disabledOnServer = disabled[currentServer.id];
+			}
+			//Check the required power the user needs to execute the command
 			if(power > 0 && currentCommand.power >= power) {
 				mybot.sendMessage(message.channel, "You don't have permission to do that");
 				return 0;
 			}
+
 			if(currentCommand.power != 0){
 				if(currentServer != null){
 					//check if the bot has permissions to execute the command
@@ -51,7 +81,7 @@ Imp.prototype = {
 				var help = "**Skynet** v"+version+"."+
 							"\nCommands Available:\n\n";
 				for (var cmd in this.commands){
-					if(cmd != "template" && cmd != "help")
+					if(disabledOnServer.indexOf(cmd) == -1)
 						if(this.commands[cmd].power <= power)
 						 	help += "> "+this.commands[cmd].help+"\n";
 				}

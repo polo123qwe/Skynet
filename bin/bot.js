@@ -33,7 +33,7 @@ mybot.on("message", function(message){
 
 // On New Member
 mybot.on("serverNewMember", function(server, user){
-	mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+", remember to read rules ");
+	mybot.sendMessage(server.defaultChannel, "Welcome to "+server.name+", "+user.mention()+"! remember to read rules ");
 });
 
 
